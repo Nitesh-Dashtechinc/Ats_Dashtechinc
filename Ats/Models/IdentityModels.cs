@@ -22,7 +22,9 @@ namespace Ats.Models
     {
         public ApplicationDbContext(): base("AtsConnstring", throwIfV1Schema: false)
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
+            //Enable Migration
+            //Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>());
+            Database.SetInitializer<ApplicationDbContext>(null);
         }
 
         public static ApplicationDbContext Create()

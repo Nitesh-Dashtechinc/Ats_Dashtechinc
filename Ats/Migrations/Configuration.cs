@@ -9,7 +9,7 @@ namespace Ats.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(Ats.Models.ApplicationDbContext context)

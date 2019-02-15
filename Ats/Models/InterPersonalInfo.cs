@@ -124,7 +124,7 @@ namespace Ats.Models
         [StringLength(10)]
         public string Vehicle { get; set; }
 
-        [Required(ErrorMessage = "Please Select JobSource")]
+        [Required(ErrorMessage = "Please Check JobSource")]
         [Column(TypeName = "VARCHAR")]
         [StringLength(20)]
         public string JobSource { get; set; }
@@ -165,7 +165,7 @@ namespace Ats.Models
         [Required(ErrorMessage = "Please Enter EmailId")]
         [EmailAddress(ErrorMessage = "Please Enter Valid Email Address")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string EmailId { get; set; }
 
         [Column(TypeName = "VARCHAR")]

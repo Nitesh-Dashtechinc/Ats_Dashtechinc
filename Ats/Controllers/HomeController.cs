@@ -17,9 +17,10 @@ namespace Ats.Controllers
         {
             db = new ApplicationDbContext();
         }
-
+        [Authorize]
         public ActionResult Index()
         {
+
             List<AtsGridViewModel> list = (from e in db.InterPersonalInfo
                                            join p in db.InterPreEmpDetail on e.CandidateId equals p.CandidateId
                                            select new AtsGridViewModel()
@@ -29,6 +30,7 @@ namespace Ats.Controllers
                                                LastName = e.LastName,
                                                CompanyName = p.CompanyName,
                                                Designation = e.AppliedForDesignation,
+                                               Department = e.AppliedForDepartment,
                                                WorkFrom = p.WorkFrom,
                                                WorkTo = p.WorkTo,
                                                CtcMonth = p.CtcMonth,
@@ -36,7 +38,7 @@ namespace Ats.Controllers
                                            }).ToList();
             return View(list);
         }
-
+        [Authorize]
         public ActionResult ViewDetail(int id)
         {
 
@@ -212,10 +214,7 @@ namespace Ats.Controllers
             ViewBag.departmentList = getDepartmentList;
             return View();
         }
-        public ActionResult RegisterList()
-        {
-            return View();
-        }
+       
         //home/GetCity
         [HttpGet]
         [Route("GetCity")]
