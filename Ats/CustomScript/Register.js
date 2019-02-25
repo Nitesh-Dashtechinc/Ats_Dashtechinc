@@ -2,17 +2,21 @@
     var counter = 2;
     var counter1 = 2;
     var counter2 = 2;
-
-    document.getElementById("PersonalInfo_NoOfChildren").value = 0;
+    //document.getElementById("PersonalInfo_NoOfChildren").value = 0;
     $('.divrefernce').hide();
 
-    $('.only-number').keypress(function (event) {
-        debugger;
-        var keycode = event.which;
-        if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
-            event.preventDefault();
-        }
+    $('.only-number').bind('keyup paste', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
     });
+
+    $('.number-dot').bind('keyup paste', function () {
+        this.value = this.value.replace(/[^0-9.]/g, '');
+    });
+
+    $('.alpha-only').bind('keyup paste', function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+
     //$('#PersonalInfo_EmailId').on('keypress', function () {
     //    var re = /([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(this.value);
     //    if (!re) {
@@ -25,40 +29,61 @@
 
     //All DatePicker
     //ref:https://bootstrap-datepicker.readthedocs.io/en/latest/
-    $('#PersonalInfo_DateOfBirth').datepicker({
-        format: 'mm/dd/yyyy',
-        endDate: new Date(),
-        //todayHighlight: true,
-        clearBtn: true,
+    //Sel Default date today
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
         autoclose: true
-    }).on('change', function (e) {
-        var birthDate = $(this).val()
-        var age = calculate_age(new Date(birthDate));
-        if (age !== null) {
-            document.getElementById("Age").innerHTML = age;
-        }
+    }).on('change', function () {
+
     });
+
+    $('#PersonalInfo_DateOfBirth').datepicker('setDate', 'today');
+    $('#PersonalInfo_DateOfBirth').datepicker('setEndDate', 'today');
+    $('#PersonalInfo_EarliestJoinDate').datepicker('setDate', 'today');
+    $('#PersonalInfo_EarliestJoinDate').datepicker('setStartDate', 'today');
+    $('#WorkFrom').datepicker('setDate', 'today');
+    $('#WorkFrom').datepicker('setEndDate', 'today');
+    $('#WorkTo').datepicker('setDate', 'today');
+    $('#WorkTo').datepicker('setEndDate', 'today');
+    $('#PersonalInfo_DateOfBirth').datepicker({
+        format: 'dd/mm/yyyy',
+        //startDate: new Date(),
+        endDate: new Date(),
+        autoclose: true,
+        clearBtn: true,
+
+    }).on('change', function (e) {
+        var birthDate = $(this).val().toString();
+        var date = moment(birthDate, "DD/MM/YYYY")
+        var age = setAge(moment(date));
+        var age1 = Math.floor(age);
+        if (age1 !== null) {
+            document.getElementById("Age").innerHTML = age1;
+        }
+    }).inputmask('99/99/9999');
+
+
 
     $('#PersonalInfo_EarliestJoinDate').datepicker({
-        format: 'mm/dd/yyyy',
-        startDate: new Date(),
+        //format: 'mm/dd/yyyy',
+        //startDate: new Date(),
         clearBtn: true,
         autoclose: true
-    });
+    }).inputmask('99/99/9999');
 
     $('#WorkFrom').datepicker({
-        format: 'dd/mm/yyyy',
+        //format: 'dd/mm/yyyy',
         datesDisabled: new Date(),
-        endDate: new Date(),
+        startDate: new Date(),
         clearBtn: true,
         autoclose: true
     }).on('change', function () {
         $("#WorkFrom").valid();
     });
 
-
     $('#WorkTo').datepicker({
-        format: 'dd/mm/yyyy',
+        //format: 'dd/mm/yyyy',
+        endDate: new Date(),
         datesDisabled: new Date(),
         clearBtn: true,
         autoclose: true
@@ -72,7 +97,6 @@
         var tableId = $(this).parents('table').attr('id');
         var newRow = $("<tr>");
         var cols = "";
-        debugger;
         switch (tableId) {
             case "previousEmploymentDetails":
                 if ($('#frmpredetail').valid()) {
@@ -89,22 +113,6 @@
                     $('.datepicker').datepicker({
                         format: 'dd/mm/yyyy'
                     });
-                    var preEmpDetail = {
-                        CompanyName: $('#CompanyName').val(),
-                        City: $('#City').val(),
-                        Designation: $('#Designation').val(),
-                        WorkFrom: $('#WorkFrom').val(),
-                        WorkTo: $('#WorkTo').val(),
-                        CtcMonth: $('#CtcMonth').val(),
-                    }
-                    //var preEmpDetail = [];
-                    //    preEmpDetail[0] = $('#CompanyName').val(),
-                    //    preEmpDetail[1] = $('#City').val(),
-                    //    preEmpDetail[2] = $('#Designation').val(),
-                    //    preEmpDetail[3]=  $('#WorkFrom').val(),
-                    //    preEmpDetail[4]=  $('#WorkTo').val(),
-                    //    preEmpDetail[5]=  $('#CtcMonth').val(),
-                    //localStorage.setItem("previousEmpDetail", JSON.stringify(preEmpDetail));
                     counter++;
                     $(this).closest('tr').find('#CompanyName').val('');
                     $(this).closest('tr').find('#City').val('');
@@ -164,25 +172,126 @@
                 break;
             default:
         }
-    });    $("table.table-pre-employeement").on("click", ".ibtn-Del", function (event) {        $(this).closest("tr").remove();        counter -= 1;    });    $("table.table-refernce").on("click", ".ibtn-Del", function (event) {        $(this).closest("tr").remove();        counter -= 1;    });    $("table.table-educational-background").on("click", ".ibtn-Del", function (event) {        $(this).closest("tr").remove();        counter -= 1;    });
+    });
+
+
+    $("table.table-pre-employeement").on("click", ".ibtn-Del", function (event) {
+
+        $(this).closest("tr").remove();
+        counter -= 1;
+    });
+    $("table.table-refernce").on("click", ".ibtn-Del", function (event) {
+        $(this).closest("tr").remove();
+        counter -= 1;
+    });
+    $("table.table-educational-background").on("click", ".ibtn-Del", function (event) {
+        $(this).closest("tr").remove();
+        counter -= 1;
+    });
 
     $('input[type=radio][id=PersonalInfo_IsReference]').change(function () {
-        if (this.value == 'Yes') {
+        if (this.value == 'True') {
             $('.divrefernce').show();
         }
     });
 
     $('input[type=radio][id=PersonalInfo_IsReference1]').change(function () {
-        if (this.value == 'No') {
+        if (this.value == 'False') {
             $('.divrefernce').hide();
+            $('#PersonalInfo_ReferenceName').val('');
+            $('#PersonalInfo_ReferenceDesignation').val('');
+            $('#PersonalInfo_ReferenceMobileNo').val('');
         }
     });
 
+    $('#asAboveCheck').change(function () {        
+        var Address = $('#PersonalInfo_AddressPresent').val();
+        var pincode = $('#PersonalInfo_PincodePresent').val();
+        var state = $("select#PersonalInfo_StatePresent").val();
+        var selectedStateText = $("#PersonalInfo_StatePresent option:selected").html();
+        var city = $('select#PersonalInfo_CityPresent').val();
+        var selectedCityText = $("#PersonalInfo_CityPresent option:selected").html();
+        if (this.checked) {
+            $('#PersonalInfo_AddressPast').val(Address);
+            $('#PersonalInfo_PinCodePast').val(pincode);
+            $('#PersonalInfo_StatePast').empty();
+            $("#PersonalInfo_StatePast").append('<option value="' + state + '">' +
+                selectedStateText + '</option>');    
 
-    $("#PersonalInfo_StatePresent").change(function () {        $("#PersonalInfo_CityPresent").empty();        $("#PersonalInfo_CityPresent").append('<option value="">--Select City--</option>');        var sId = $("select#PersonalInfo_StatePresent").val();        if (sId !== "") {            $.ajax({                type: 'GET',                url: '/Home/GetCity',                dataType: 'json',                data: { id: $("select#PersonalInfo_StatePresent").val() },                success: function (result) {                    //$('select option[value="1"]').attr("selected", true);                    $.each(result, function (i, city) {                        $("#PersonalInfo_CityPresent").append('<option value="' + city.CityId + '">' +                            city.CityName + '</option>');                    });                },                error: function (ex) {                    alert('Failed to retrieve states city.' + ex);                }            });        }    });    $("#PersonalInfo_StatePast").change(function () {        $("#CityListPast").empty();        $("#CityListPast").append('<option value="">--Select City--</option>');        var sId = $("select#PersonalInfo_StatePast").val();        if (sId !== "") {            $.ajax({                type: 'GET',                url: '/Home/GetCity',                dataType: 'json',                data: { id: $("select#PersonalInfo_StatePast").val() },                success: function (result) {                    //$('select option[value="1"]').attr("selected", true);                    $.each(result, function (i, city) {                        $("#CityListPast").append('<option value="' + city.CityId + '">' +                            city.CityName + '</option>');                    });                },                error: function (ex) {                    alert('Failed to retrieve states city.' + ex);                }            });        }        else { }    });
+            $("#CityListPast").empty();
+            $("#CityListPast").append('<option value="' + city + '">' +
+                selectedCityText + '</option>');       
+        }
+        else {
+            $('#PersonalInfo_AddressPast').val('');
+            $('#PersonalInfo_PinCodePast').val('');
+            $('#PersonalInfo_StatePast').empty();
+            $("#PersonalInfo_StatePast").append('<option value="">--Select State--</option>');
+            $("#CityListPast").empty();
+            $("#CityListPast").append('<option value="">--Select City--</option>');
+        }
+        $('#asAboveCheck').val(this.checked);
+    });
+
+
+    $("#PersonalInfo_StatePresent").change(function () {
+        $('#pre-loader').show();    
+        $("#PersonalInfo_CityPresent").empty();
+        $("#PersonalInfo_CityPresent").append('<option value="">--Select City--</option>');
+        var sId = $("select#PersonalInfo_StatePresent").val();
+        if (sId !== "") {
+            $.ajax({
+                type: 'GET',
+                url: '/Home/GetCity',
+                dataType: 'json',
+                data: { id: $("select#PersonalInfo_StatePresent").val() },
+                success: function (result) {
+                    //$('select option[value="1"]').attr("selected", true);
+                    $.each(result, function (i, city) {
+                        $("#PersonalInfo_CityPresent").append('<option value="' + city.CityId + '">' +
+                            city.CityName + '</option>');
+                    });
+                    $('#pre-loader').hide();
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states city.' + ex);
+                    $('#pre-loader').hide();
+                }
+            });
+        }
+
+    });
+
+    $("#PersonalInfo_StatePast").change(function () {
+        $('#pre-loader').show();
+        $("#CityListPast").empty();
+        $("#CityListPast").append('<option value="">--Select City--</option>');
+        var sId = $("select#PersonalInfo_StatePast").val();
+        if (sId !== "") {
+            $.ajax({
+                type: 'GET',
+                url: '/Home/GetCity',
+                dataType: 'json',
+                data: { id: $("select#PersonalInfo_StatePast").val() },
+                success: function (result) {
+                    $.each(result, function (i, city) {
+                        $("#CityListPast").append('<option value="' + city.CityId + '">' +
+                            city.CityName + '</option>');
+                    });
+                    $('#pre-loader').hide();
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states city.' + ex);
+                    $('#pre-loader').hide();
+                }
+            });
+        }
+        else { }
+    });
 
     //GetDesignation	
     $("#PersonalInfo_AppliedForDepartment").change(function () {
+        $('#pre-loader').show();
         $("#PersonalInfo_AppliedForDesignation").empty();
         $("#PersonalInfo_AppliedForDesignation").append('<option value="">--Select Designation--</option>');
         if ($("select#PersonalInfo_AppliedForDepartment").val() !== "") {
@@ -196,22 +305,25 @@
                         $("#PersonalInfo_AppliedForDesignation").append('<option value="' + designation.DesignationId + '">' +
                             designation.DesignationName + '</option>');
                     });
+                    $('#pre-loader').hide();
                 },
                 error: function (ex) {
                     alert('Failed to retrieve designationsList.' + ex);
+                    $('#pre-loader').hide();
                 }
             });
         }
 
     });
 
-
-    function calculate_age(dob) {
-        var diff_ms = Date.now() - dob.getTime();
-        var age_dt = new Date(diff_ms);
-
-        return Math.abs(age_dt.getUTCFullYear() - 1970);
+    function setAge(d) {
+        return moment().diff(d, 'years', true);
     }
+    //function calculate_age(dob) {
+    //    var diff_ms = Date.now() - moment.getTime(dob); // dob.getTime();
+    //    var age_dt = new Date(diff_ms);
+    //    return Math.abs(age_dt.getUTCFullYear() - 1970);
+    //}
 
 });
 var addSerialNumber = function () {
@@ -219,25 +331,50 @@ var addSerialNumber = function () {
         $(this).find('td:nth-child(1)').html(index + 1);
     });
 };
-
-
-function calculateRow(row) {
-    var price = +row.find('input[name^="price"]').val();
-
-}
-
-function calculateGrandTotal() {
-    var grandTotal = 0;
-    $("table.order-list").find('input[name^="price"]').each(function () {
-        grandTotal += +$(this).val();
-    });
-    $("#grandtotal").text(grandTotal.toFixed(2));
-}
+$('#PersonalInfo_ReferenceName').blur(function () {
+    if ($("input[name='PersonalInfo.IsReference']:checked").val() == 'True') {
+        if ($('#PersonalInfo_ReferenceName').val() == "") {
+            document.getElementById("errRefName").innerHTML = "Please Enter Reference Name";
+        }
+        else { document.getElementById("errRefName").innerHTML = ""; }
+    }
+});
+$('#PersonalInfo_ReferenceDesignation').blur(function () {
+    if ($("input[name='PersonalInfo.IsReference']:checked").val() == 'True') {
+        if ($('#PersonalInfo_ReferenceDesignation').val() == "") {
+            document.getElementById("errRefDesignation").innerHTML = "Please Enter Reference Designation";
+        }
+        else { document.getElementById("errRefDesignation").innerHTML = ""; }
+    }
+});
+$('#PersonalInfo_ReferenceMobileNo').blur(function () {
+    if ($("input[name='PersonalInfo.IsReference']:checked").val() == 'True') {
+        if ($('#PersonalInfo_ReferenceName').val() == "") {
+            document.getElementById("errRefMobileNo").innerHTML = "Please Enter Reference Mobile No";
+        }
+        else { document.getElementById("errRefMobileNo").innerHTML = ""; }
+    }
+});
 
 function SaveAll() {
-    debugger;
     if ($('#frmdetail').valid()) {
-        var valuesEng = [];        $("input[name='English']:checked").each(function () {            valuesEng.push($(this).val());        });        var valuesHindi = [];        $("input[name='Hindi']:checked").each(function () {            valuesHindi.push($(this).val());        });        //AddPersonalInformationItems.Hindi = valuesHindi.join(",");        var valuesGuj = [];        $("input[name='Gujarati']:checked").each(function () {            valuesGuj.push($(this).val());        });        //    AddPersonalInformationItems.Gujarati = valuesGuj.join(",");
+        $('#pre-loader').show();
+        //var valuesEng = [];
+        //$("input[name='English']:checked").each(function () {
+        //    valuesEng.push($(this).val());
+        //});
+        //var valuesHindi = [];
+        //$("input[name='Hindi']:checked").each(function () {
+        //    valuesHindi.push($(this).val());
+        //});
+        ////AddPersonalInformationItems.Hindi = valuesHindi.join(",");
+
+        //var valuesGuj = [];
+        //$("input[name='Gujarati']:checked").each(function () {
+        //    valuesGuj.push($(this).val());
+        //});
+        //    AddPersonalInformationItems.Gujarati = valuesGuj.join(",");
+
 
         var objj = {
             PersonalInfo: {},
@@ -280,48 +417,66 @@ function SaveAll() {
                 ReferenceMobileNo: $("#PersonalInfo_ReferenceMobileNo").val(),
                 ReferenceDesignation: $("#PersonalInfo_ReferenceDesignation").val(),
                 OtherCertification: $("#PersonalInfo_OtherCertification").val(),
-                English: valuesEng.join(","),
-                Hindi: valuesHindi.join(","),
-                Gujarati: valuesGuj.join(",")
+                IsEnglishRead: $('#PersonalInfo_IsEnglishRead').is(":checked"),
+                IsEnglishSpeak: $('#PersonalInfo_IsEnglishSpeak').is(":checked"),
+                IsEnglishWrite: $('#PersonalInfo_IsEnglishWrite').is(":checked"),
+
+                IsHindiRead: $('#PersonalInfo_IsHindiRead').is(":checked"),
+                IsHindiSpeak: $('#PersonalInfo_IsHindiSpeak').is(":checked"),
+                IsHindiWrite: $('#PersonalInfo_IsHindiWrite').is(":checked"),
+
+                IsGujaratiRead: $('#PersonalInfo_IsGujaratiRead').is(":checked"),
+                IsGujaratiSpeak: $('#PersonalInfo_IsGujaratiSpeak').is(":checked"),
+                IsGujaratiWrite: $('#PersonalInfo_IsGujaratiWrite').is(":checked")
+                //English: valuesEng.join(","),
+                //Hindi: valuesHindi.join(","),
+                //Gujarati: valuesGuj.join(",")
             };
 
         $("#previousEmploymentDetails TBODY TR").each(function () {
             var row = $(this);
-            objj.PreviousEmploymentDetail.push({
-                EmploymentId: row.find("#EmploymentId").text(),
-                CandidateId: row.find("#CandidateId").val(),
-                CompanyName: row.find("#CompanyName").val(),
-                City: row.find("#City").val(),
-                Designation: row.find("#Designation").val(),
-                WorkFrom: row.find("#WorkFrom").val(),
-                WorkTo: row.find("#WorkTo").val(),
-                CtcMonth: row.find("#CtcMonth").val()
-            });
+            if (row.find("#CompanyName").val() != "" && row.find("#City").val() != "" && row.find("#Designation").val() != "" && row.find("#CtcMonth").val() != "") {
+                objj.PreviousEmploymentDetail.push({
+                    EmploymentId: row.find("#EmploymentId").text(),
+                    CandidateId: row.find("#CandidateId").val(),
+                    CompanyName: row.find("#CompanyName").val(),
+                    City: row.find("#City").val(),
+                    Designation: row.find("#Designation").val(),
+                    WorkFrom: row.find("#WorkFrom").val(),
+                    WorkTo: row.find("#WorkTo").val(),
+                    CtcMonth: row.find("#CtcMonth").val()
+                });
+            }
         });
 
         $("#reference TBODY TR").each(function () {
             var row = $(this);
-            objj.Reference.push({
-                CandidateId: row.find("#CandidateId").val(),
-                ReferenceId: row.find("#ReferenceId").text(),
-                PersonName: row.find("#PersonName").val(),
-                CompanyName: row.find("#CompanyName").val(),
-                Designation: row.find("#Designation").val(),
-                ContactNo: row.find("#ContactNo").val(),
-            });
+            if (row.find("#PersonName").val() != "" && row.find("#CompanyName").val() != "" && row.find("#ContactNo").val() != "" && row.find("#Designation").val() != "") {
+                objj.Reference.push({
+                    CandidateId: row.find("#CandidateId").val(),
+                    ReferenceId: row.find("#ReferenceId").text(),
+                    PersonName: row.find("#PersonName").val(),
+                    CompanyName: row.find("#CompanyName").val(),
+                    Designation: row.find("#Designation").val(),
+                    ContactNo: row.find("#ContactNo").val(),
+                });
+            }
         });
 
         $("#educationalBackground TBODY TR").each(function () {
             var row = $(this);
-            objj.EducationBackground.push({
-                EducationalId: row.find("#EducationalId").text(),
-                CandidateId: row.find("#CandidateId").val(),
-                BoardUniversityName: row.find("#BoardUniversityName").val(),
-                CourseDegreeName: row.find("#CourseDegreeName").val(),
-                PassingYear: row.find("#PassingYear").val(),
-                GradePercentage: row.find("#GradePercentage").val(),
-            });
+            if (row.find("#BoardUniversityName").val() != "" && row.find("#CourseDegreeName").val() != "" && row.find("#PassingYear").val() != "" && row.find("#GradePercentage").val() != "") {
+                objj.EducationBackground.push({
+                    EducationalId: row.find("#EducationalId").text(),
+                    CandidateId: row.find("#CandidateId").val(),
+                    BoardUniversityName: row.find("#BoardUniversityName").val(),
+                    CourseDegreeName: row.find("#CourseDegreeName").val(),
+                    PassingYear: row.find("#PassingYear").val(),
+                    GradePercentage: row.find("#GradePercentage").val(),
+                });
+            }
         });
+
         $.ajax({
             type: "POST",
             url: "/Home/SavePreInterView",
@@ -329,17 +484,24 @@ function SaveAll() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (responce) {
-
-                toastr[responce.ContentType](responce.Data);
-                $("#frmdetail").each(function () { this.reset() });
-                $("#frmpredetail").each(function () { this.reset() });
-                $("#frmReference").each(function () { this.reset() });
-                $("#frmEducationalBackground").each(function () { this.reset() });
-
-                //alert("Your Records Saved");
+                if (responce.ContentType == "success") {
+                    $("#myModal").modal('show');
+                    $("#frmdetail").each(function () { this.reset() });
+                    $("#frmpredetail").each(function () { this.reset() });
+                    $("#frmReference").each(function () { this.reset() });
+                    $("#frmEducationalBackground").each(function () { this.reset() });
+                    $("#PersonalInfo_OtherCertification").val('');
+                    $('#pre-loader').hide();
+                } else {
+                    toastr.warning(responce.Data);
+                    $('#pre-loader').hide();
+                }
+            },
+            error: function () {
+                toastr.warning(responce.Data);
+                $('#pre-loader').hide();
             }
         });
-
     }
     else {
         $('#frmdetail').find("input.input-validation-error")[0].focus();

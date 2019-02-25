@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Ats.Models.ViewModel
@@ -51,9 +52,16 @@ namespace Ats.Models.ViewModel
                                 obj11.EmailId = list1[i].EmailId;
                                 obj11.OtherCertification = list1[i].OtherCertification;
                                 obj11.Gender = list1[i].Gender;
-                                obj11.English = list1[i].English;
-                                obj11.Hindi = list1[i].Hindi;
-                                obj11.Gujarati = list1[i].Gujarati;
+                                obj11.IsEnglishRead = list1[i].IsEnglishRead;
+                                obj11.IsEnglishSpeak = list1[i].IsEnglishSpeak;
+                                obj11.IsEnglishWrite = list1[i].IsEnglishWrite;
+                                obj11.IsHindiRead = list1[i].IsHindiRead;
+                                obj11.IsHindiSpeak = list1[i].IsHindiSpeak;
+                                obj11.IsHindiWrite = list1[i].IsHindiWrite;
+                                //obj11.Hindi = list1[i].Hindi;
+                                obj11.IsGujaratiRead = list1[i].IsGujaratiRead;
+                                obj11.IsGujaratiSpeak = list1[i].IsGujaratiSpeak;
+                                obj11.IsGujaratiWrite = list1[i].IsGujaratiWrite;
                                 obj11.AppliedForDepartment = list1[i].AppliedForDepartment;
                                 obj11.AppliedForDesignation = list1[i].AppliedForDesignation;
                                 obj11.AddressPast = list1[i].AddressPast;
@@ -307,5 +315,15 @@ namespace Ats.Models.ViewModel
                 throw;
             }
         }
+
+        //public  AtsGridViewModel GetCandiateDetail()
+        //{
+        //    using (ApplicationDbContext db = new ApplicationDbContext())
+        //    {
+        //        AtsGridViewModel list =  db.InterPersonalInfo.SqlQueryList<AtsGridViewModel>("Get_CandedateDetail").ToList();
+        //        return list;
+        //    }
+
+        //}
     }
 }

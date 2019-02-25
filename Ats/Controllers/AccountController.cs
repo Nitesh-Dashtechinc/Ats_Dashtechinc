@@ -139,6 +139,7 @@ namespace Ats.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            return RedirectToAction("Login");
             return View();
         }
 

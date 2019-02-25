@@ -22,3 +22,41 @@ select,
 textarea {
     max-width: 280px;
 }
+.responsive-pt-5 {
+    padding-top: 48px;
+}
+.responsive-table {
+ width:auto;
+}
+@media (min-width: 1200px) {
+    .responsive-table {
+        width: 100%;
+    }
+}
+
+@media (min-width: 425px) {
+    .responsive-pt-5 {
+        padding-top: 48px;
+    }
+}
+@media (min-width: 576px) {
+    .responsive-pt-5 {
+       padding-top:10px;
+    }
+}
+
+@media (min-width: 768px) {
+    .responsive-pt-5 {
+        padding-top: 35px;
+    }
+}
+@media (min-width: 992px) {
+    .responsive-pt-5 {
+        padding-top: 15px;
+    }
+}
+@media (min-width: 1200px) {
+    .responsive-pt-5 {
+        padding-top: 10px;
+    }
+}

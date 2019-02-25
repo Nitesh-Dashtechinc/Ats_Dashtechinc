@@ -25,6 +25,7 @@ namespace Ats.Models
         [Required(ErrorMessage = "Please Enter Mobile NO1")]
         [Column(TypeName = "VARCHAR")]
         [StringLength(15)]
+        [DataType(DataType.PhoneNumber)]
         public string MobileNo1 { get; set; }
 
 
@@ -44,15 +45,14 @@ namespace Ats.Models
 
         [Required(ErrorMessage = "Please Enter Gender")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(5)]
+        [StringLength(6)]
         public string Gender { get; set; }
 
         [Required(ErrorMessage = "Please Select MaritalStaus")]
         [Column(TypeName = "VARCHAR")]
         [StringLength(10)]
         public string MaritalStaus { get; set; }
-
-        [Required(ErrorMessage = "Please Enter No Of Children")]
+        
         public int NoOfChildren { get; set; }
 
         [Required(ErrorMessage = "Please Enter Present Address")]
@@ -145,19 +145,33 @@ namespace Ats.Models
         public string ReferenceMobileNo { get; set; }
 
         [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
+        [StringLength(50)]
         public string ReferenceDesignation { get; set; }
 
-        [Required(ErrorMessage = "Please Select Night Shift")]
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string English { get; set; }
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string Hindi { get; set; }
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
-        public string Gujarati { get; set; }
+
+        //[Column(TypeName = "VARCHAR")]
+        //[StringLength(50)]
+        //public string English { get; set; }
+        //[Column(TypeName = "VARCHAR")]
+        //[StringLength(50)]
+        //public string Hindi { get; set; }
+        //[Column(TypeName = "VARCHAR")]
+        //[StringLength(50)]
+        //public string Gujarati { get; set; }
+
+        //Enter Language English
+        public bool IsEnglishRead { get; set; }
+        public bool IsEnglishSpeak { get; set; }
+        public bool IsEnglishWrite { get; set; }
+        //Enter Language Hindi
+        public bool IsHindiRead { get; set; }
+        public bool IsHindiSpeak { get; set; }
+        public bool IsHindiWrite { get; set; }
+        //Enter Language Gujarati
+        public bool IsGujaratiRead { get; set; }
+        public bool IsGujaratiSpeak { get; set; }
+        public bool IsGujaratiWrite { get; set; }
+
 
         [Column(TypeName = "DATETIME")]
         public DateTime CreatedDate { get; set; }
@@ -169,7 +183,7 @@ namespace Ats.Models
         public string EmailId { get; set; }
 
         [Column(TypeName = "VARCHAR")]
-        [StringLength(250)]
+        //[StringLength(250)]
         public string OtherCertification { get; set; }
     }
 }

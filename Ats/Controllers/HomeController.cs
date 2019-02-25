@@ -3,6 +3,7 @@ using Ats.Models.ViewModel;
 using Ats.Models.ViewModels;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,37 +21,35 @@ namespace Ats.Controllers
         [Authorize]
         public ActionResult Index()
         {
-
             List<AtsGridViewModel> list = (from e in db.InterPersonalInfo
-                                           join p in db.InterPreEmpDetail on e.CandidateId equals p.CandidateId
+                                           join p in db.InterPreEmpDetail on e.CandidateId equals p.CandidateId into ps
+                                           from p in ps.DefaultIfEmpty()
                                            select new AtsGridViewModel()
                                            {
                                                CandidateId = e.CandidateId,
                                                FirstName = e.FirstName,
-                                               LastName = e.LastName,
-                                               CompanyName = p.CompanyName,
+                                               //LastName = e.LastName,
+                                               EmailId = e.EmailId,
+                                               CompanyName = p == null ? "-" : p.CompanyName,
                                                Designation = e.AppliedForDesignation,
                                                Department = e.AppliedForDepartment,
-                                               WorkFrom = p.WorkFrom,
-                                               WorkTo = p.WorkTo,
-                                               CtcMonth = p.CtcMonth,
+                                               WorkFrom = p == null ? "-" : p.WorkFrom,
+                                               WorkTo = string.IsNullOrEmpty(p.WorkTo) ? "-" : p.WorkTo,
+                                               CtcMonth = string.IsNullOrEmpty(p.CtcMonth) ? "-" : p.CtcMonth,
                                                City = e.CityPresent,
-                                           }).ToList();
+                                           }).GroupBy(x => x.CandidateId).Select(x => x.FirstOrDefault()).ToList();
+
             return View(list);
         }
         [Authorize]
         public ActionResult ViewDetail(int id)
         {
-
             GridPreInterRegisterViewModel Candidate = new GridPreInterRegisterViewModel();
             InterPersonalInfoViewModel perSonalInfo = new InterPersonalInfoViewModel();
             List<InterPreEmpDetailViewModel> preEmployementDetail = new List<InterPreEmpDetailViewModel>();
             List<InterEducBackgroundViewModel> eduBackGround = new List<InterEducBackgroundViewModel>();
             List<InterReferenceViewModel> reference = new List<InterReferenceViewModel>();
-            //List<CityViewModel> cities = new List<CityViewModel>();
             CityViewModel cities = new CityViewModel();
-
-            //List<StateViewModel> states = new List<StateViewModel>();
             StateViewModel states = new StateViewModel();
             DepartmentViewModel departments = new DepartmentViewModel();
             DesignationViewModel designations = new DesignationViewModel();
@@ -61,13 +60,16 @@ namespace Ats.Controllers
                 where (p.CandidateId == id)
                 select p
             ).FirstOrDefault();
+
+
             Candidate.PersonalInfo = perSonalInfo;
+
             preEmployementDetail = (
                 from p in getData.GetAllPreviousEmplpoyementDetails()
                 where (p.CandidateId == id)
                 select p
                 ).ToList();
-            Candidate.PreviousEmploymentDetail = preEmployementDetail;
+            Candidate.PreviousEmploymentDetail = preEmployementDetail == null ? null : preEmployementDetail;
 
             eduBackGround = (
                  from p in getData.GetAllEducationBackground()
@@ -95,71 +97,71 @@ namespace Ats.Controllers
             //        select p
             //        ).ToList();
             //Candidate.States = states;
-            
+
             //Get StateName Past
             var StateNamePast = (from m in db.InterPersonalInfo
-                        //join c in db.State on m.StatePast equals c.StateId
-                        where m.CandidateId == id
-                        select new
-                        {
-                           // StateName = c.StateName
-                        }).FirstOrDefault();
-            Candidate.States = new StateViewModel();
-            //Candidate.States.StateNamePast = string.IsNullOrEmpty(StateNamePast.StateName.ToString()) ? "" : StateNamePast.StateName.ToString();
-            
-            
-            //Get StateName Presant
-            var StatePresent = (from m in db.InterPersonalInfo
-                                 //join c in db.State on m.StatePresent equals c.StateId
+                                     //join c in db.State on m.StatePast equals c.StateId
                                  where m.CandidateId == id
                                  select new
                                  {
-                                    // StateName = c.StateName
+                                     // StateName = c.StateName
                                  }).FirstOrDefault();
+            Candidate.States = new StateViewModel();
+            //Candidate.States.StateNamePast = string.IsNullOrEmpty(StateNamePast.StateName.ToString()) ? "" : StateNamePast.StateName.ToString();
+
+
+            //Get StateName Presant
+            var StatePresent = (from m in db.InterPersonalInfo
+                                    //join c in db.State on m.StatePresent equals c.StateId
+                                where m.CandidateId == id
+                                select new
+                                {
+                                    // StateName = c.StateName
+                                }).FirstOrDefault();
 
             //Candidate.States.StateNamePresant = string.IsNullOrEmpty(StatePresent.StateName.ToString()) ? "" : StatePresent.StateName.ToString();
 
             //Get CityName Presant
             var CityNamePresant = (from m in db.InterPersonalInfo
-                                //join c in db.City on m.CityPresent equals c.CityId 
+                                       //join c in db.City on m.CityPresent equals c.CityId 
+                                   where m.CandidateId == id
+                                   select new
+                                   {
+                                       //CityName = c.CityName
+                                   }).FirstOrDefault();
+            Candidate.Cities = new CityViewModel();
+            //Candidate.Cities.CityNamePresant = string.IsNullOrEmpty(CityNamePresant.CityName.ToString()) ? "" : CityNamePresant.CityName.ToString();
+
+            //Get CityName Past
+            var CityNamePast = (from m in db.InterPersonalInfo
+                                    //join c in db.City on m.CityPast equals c.CityId
                                 where m.CandidateId == id
                                 select new
                                 {
                                     //CityName = c.CityName
                                 }).FirstOrDefault();
             Candidate.Cities = new CityViewModel();
-            //Candidate.Cities.CityNamePresant = string.IsNullOrEmpty(CityNamePresant.CityName.ToString()) ? "" : CityNamePresant.CityName.ToString();
-
-            //Get CityName Past
-            var CityNamePast = (from m in db.InterPersonalInfo
-                                 //join c in db.City on m.CityPast equals c.CityId
-                                 where m.CandidateId == id
-                                 select new
-                                 {
-                                     //CityName = c.CityName
-                                 }).FirstOrDefault();
-            Candidate.Cities = new CityViewModel();
             //Candidate.Cities.CityNamePast = string.IsNullOrEmpty(CityNamePast.CityName.ToString()) ? "" : CityNamePast.CityName.ToString();
 
             //Get DepartmentName
             var DepartmentName = (from m in db.InterPersonalInfo
-                                //join c in db.Department on m.AppliedForDepartment equals c.DepartmentId
-                                where m.CandidateId == id
-                                select new
-                                {
-                                    //Department = c.DepartmentName
-                                }).FirstOrDefault();
-            Candidate.Departments = new DepartmentViewModel();
-           // Candidate.Departments.DepartmentName = string.IsNullOrEmpty(DepartmentName.Department.ToString()) ? "" : DepartmentName.Department.ToString();
-
-            //Get DesignationName
-            var DesignationName = (from m in db.InterPersonalInfo
-                                  //join c in db.Designation on m.AppliedForDesignation equals c.DesignationId
+                                      //join c in db.Department on m.AppliedForDepartment equals c.DepartmentId
                                   where m.CandidateId == id
                                   select new
                                   {
-                                      //Designation = c.DesignationName
+                                      //Department = c.DepartmentName
                                   }).FirstOrDefault();
+            Candidate.Departments = new DepartmentViewModel();
+            // Candidate.Departments.DepartmentName = string.IsNullOrEmpty(DepartmentName.Department.ToString()) ? "" : DepartmentName.Department.ToString();
+
+            //Get DesignationName
+            var DesignationName = (from m in db.InterPersonalInfo
+                                       //join c in db.Designation on m.AppliedForDesignation equals c.DesignationId
+                                   where m.CandidateId == id
+                                   select new
+                                   {
+                                       //Designation = c.DesignationName
+                                   }).FirstOrDefault();
             //Candidate.Designation = new DesignationViewModel();
             //Candidate.Designation.DesignationName = string.IsNullOrEmpty(DesignationName.Designation.ToString()) ? "" : DesignationName.Designation.ToString();
 
@@ -196,6 +198,8 @@ namespace Ats.Controllers
         }
         public ActionResult Register()
         {
+            TempData.Remove("candidateId"); // Remove Particular TempData i.e. candidateId.
+            TempData.Clear();
             List<SelectListItem> getStateList = (from p in db.State.AsEnumerable()
                                                  select new SelectListItem
                                                  {
@@ -204,6 +208,14 @@ namespace Ats.Controllers
                                                  }).ToList();
             getStateList.Insert(0, new SelectListItem { Text = "--Select State--", Value = "" });
             ViewBag.stateList = getStateList;
+            List<SelectListItem> getPermanentStateList = (from p in db.State.AsEnumerable()
+                                                          select new SelectListItem
+                                                          {
+                                                              Text = p.StateName,
+                                                              Value = p.StateId.ToString()
+                                                          }).ToList();
+            getPermanentStateList.Insert(0, new SelectListItem { Text = "--Select State--", Value = "" });
+            ViewBag.PermanentStateList = getPermanentStateList;
             List<SelectListItem> getDepartmentList = (from p in db.Department.AsEnumerable()
                                                       select new SelectListItem
                                                       {
@@ -212,9 +224,10 @@ namespace Ats.Controllers
                                                       }).ToList();
             getDepartmentList.Insert(0, new SelectListItem { Text = "--Select Department--", Value = "" });
             ViewBag.departmentList = getDepartmentList;
+            //ViewBag.NoOfChildren = 0;
             return View();
         }
-       
+
         //home/GetCity
         [HttpGet]
         [Route("GetCity")]
@@ -247,9 +260,8 @@ namespace Ats.Controllers
         public JsonResult SavePreInterView(PreInterRegisterViewModel obj)
         {
             JsonResult res = new JsonResult();
-
             try
-            {
+            {                
                 DateTime now = DateTime.Now;
                 obj.PersonalInfo.CreatedDate = now;
                 db.InterPersonalInfo.Add(obj.PersonalInfo);
@@ -257,37 +269,154 @@ namespace Ats.Controllers
                 var id = obj.PersonalInfo.CandidateId;
                 if (id != 0)
                 {
-                    foreach (InterPreEmpDetail a in obj.PreviousEmploymentDetail)
+                    if (obj.PreviousEmploymentDetail != null)
                     {
-                        a.CandidateId = id;
-                        db.InterPreEmpDetail.Add(a);
-                        db.SaveChanges();
+                        foreach (InterPreEmpDetail a in obj.PreviousEmploymentDetail)
+                        {
+                            a.CandidateId = id;
+                            db.InterPreEmpDetail.Add(a);
+                            db.SaveChanges();
+                        }
                     }
-                    foreach (InterReference b in obj.Reference)
+                    if (obj.Reference != null)
                     {
-                        b.CandidateId = id;
-                        db.InterReference.Add(b);
-                        db.SaveChanges();
+                        foreach (InterReference b in obj.Reference)
+                        {
+                            b.CandidateId = id;
+                            db.InterReference.Add(b);
+                            db.SaveChanges();
+                        }
                     }
-                    foreach (InterEducBackground c in obj.EducationBackground)
+                    if (obj.EducationBackground != null)
                     {
-                        c.CandidateId = id;
-                        db.InterEducBackground.Add(c);
-                        db.SaveChanges();
+                        foreach (InterEducBackground c in obj.EducationBackground)
+                        {
+                            c.CandidateId = id;
+                            db.InterEducBackground.Add(c);
+                            db.SaveChanges();
+                        }
+
                     }
+                    res.ContentType = "success";
+                    res.Data = "Your Form Submited Successfully";
+                    TempData["candidateId"] = id;
                 }
-                res.ContentType = "success";
-                res.Data = "Your Form Submited Successfully";
+
             }
             catch (Exception ex)
             {
-
                 res.ContentType = "error";
-                res.Data = string.IsNullOrEmpty(ex.InnerException.ToString()) ? ex.Message.ToString() : ex.InnerException.ToString();
+                res.Data = "Some thing went rong please try agnain";
+                return Json(res);
             }
 
             return Json(res);
         }
+        public ActionResult PreviewDetail()
+        {
+            if (TempData.ContainsKey("candidateId"))
+            {
+                int id = int.Parse(TempData["candidateId"].ToString());
+                GridPreInterRegisterViewModel Candidate = new GridPreInterRegisterViewModel();
+                InterPersonalInfoViewModel perSonalInfo = new InterPersonalInfoViewModel();
+                List<InterPreEmpDetailViewModel> preEmployementDetail = new List<InterPreEmpDetailViewModel>();
+                List<InterEducBackgroundViewModel> eduBackGround = new List<InterEducBackgroundViewModel>();
+                List<InterReferenceViewModel> reference = new List<InterReferenceViewModel>();
+                CityViewModel cities = new CityViewModel();
+                StateViewModel states = new StateViewModel();
+                DepartmentViewModel departments = new DepartmentViewModel();
+                DesignationViewModel designations = new DesignationViewModel();
+                GetData getData = new GetData();
+                perSonalInfo =
+                (
+                    from p in getData.GetAllPersonalInfo()
+                    where (p.CandidateId == id)
+                    select p
+                ).FirstOrDefault();
+
+
+                Candidate.PersonalInfo = perSonalInfo;
+
+                preEmployementDetail = (
+                    from p in getData.GetAllPreviousEmplpoyementDetails()
+                    where (p.CandidateId == id)
+                    select p
+                    ).ToList();
+                Candidate.PreviousEmploymentDetail = preEmployementDetail == null ? null : preEmployementDetail;
+
+                eduBackGround = (
+                     from p in getData.GetAllEducationBackground()
+                     where (p.CandidateId == id)
+                     select p
+                    ).ToList();
+                Candidate.EducationBackground = eduBackGround;
+
+                reference = (
+                     from p in getData.GetReferenceInfo()
+                     where (p.CandidateId == id)
+                     select p
+                    ).ToList();
+                Candidate.Reference = reference;
+
+                var StateNamePast = (from m in db.InterPersonalInfo
+                                         //join c in db.State on m.StatePast equals c.StateId
+                                     where m.CandidateId == id
+                                     select new
+                                     {
+                                         // StateName = c.StateName
+                                     }).FirstOrDefault();
+                Candidate.States = new StateViewModel();
+
+
+                //Get StateName Presant
+                var StatePresent = (from m in db.InterPersonalInfo
+                                        //join c in db.State on m.StatePresent equals c.StateId
+                                    where m.CandidateId == id
+                                    select new
+                                    {
+                                        // StateName = c.StateName
+                                    }).FirstOrDefault();
+
+
+                //Get CityName Presant
+                var CityNamePresant = (from m in db.InterPersonalInfo
+                                           //join c in db.City on m.CityPresent equals c.CityId 
+                                       where m.CandidateId == id
+                                       select new
+                                       {
+                                           //CityName = c.CityName
+                                       }).FirstOrDefault();
+                Candidate.Cities = new CityViewModel();
+
+                //Get CityName Past
+                var CityNamePast = (from m in db.InterPersonalInfo
+                                        //join c in db.City on m.CityPast equals c.CityId
+                                    where m.CandidateId == id
+                                    select new
+                                    {
+                                        //CityName = c.CityName
+                                    }).FirstOrDefault();
+                Candidate.Cities = new CityViewModel();
+
+                var DepartmentName = (from m in db.InterPersonalInfo
+                                          //join c in db.Department on m.AppliedForDepartment equals c.DepartmentId
+                                      where m.CandidateId == id
+                                      select new
+                                      {
+                                          //Department = c.DepartmentName
+                                      }).FirstOrDefault();
+                Candidate.Departments = new DepartmentViewModel();
+
+                return View(Candidate);
+
+            }
+            else
+            {
+                return RedirectToAction("Register");
+            }
+
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -3,7 +3,8 @@
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+
+<script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 <style>
     label.error {
         color: red;
@@ -20,786 +21,809 @@
     .minwidth {
         min-width: 100px;
     }
+
+    .success-popup {
+        transition: .3s ease all;
+        font-family: 'Roboto', sans-serif;
+    }
 </style>
-<div style="text-align:center">
+<div class="responsive-pt-5 text-center">
     <h2>
         <b>PRE-INTERVIEW FORM</b>
     </h2>
 </div>
+@using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @id = "frmdetail" }))
+{
+    <div class="card shadow">
+        <div class="card-header">
+            <h5 class="text-primary">Personal Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">First Name</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.FirstName, new { @class = "form-control alpha-only" })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.FirstName)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Last Name</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.LastName, new { @class = "form-control alpha-only", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.LastName)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Mobile No 1</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "form-control only-number", @maxlength = "10", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.MobileNo1)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Mobile No 2</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12">                
+                             @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo2, new { @class = "form-control only-number", @maxlength = "10" })                
 
-    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @id = "frmdetail" }))
-    {
-<div class="card shadow">
-    <div class="card-header">
-        <h5 class="text-primary">Personal Information</h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">First Name</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.FirstName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.FirstName)
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Last Name</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.LastName, new { @class = "form-control", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.LastName)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Mobile No 1</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "form-control only-number", @maxlength = "10", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.MobileNo1)
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Email</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.EmailId, new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.EmailId)
+                            <span id="errorEmail" style="display:none;color:red;">Wrong email</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Mobile No 2</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo2, new { @class = "form-control only-number", @maxlength = "10" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Email</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.EmailId, new { @class = "form-control", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.EmailId)
-                        <span id="errorEmail" style="display:none;color:red;">Wrong email</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Date of Birth</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="form-group input-group">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "form-control  col-8", @required = true })
-                            <div class="input-group-append">
-                                <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
-                            </div>
-                            <div class="col-4"><label class="control-label" id="Age"></label>Years</div>
-                            @*<p id="Age"></p> Years
-                            <div class="input-group">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Date of Birth</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "form-control datepicker  col-8", @required = true })
+                                <div class="input-group-append">
+                                    <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
+                                </div>
                                 @Html.ValidationMessageFor(Model => Model.PersonalInfo.DateOfBirth)
-                            </div>*@
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Marital Status</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <!-- Default inline 1-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.MaritalStaus, "Married", new { @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_MaritalStaus">Married</label>
-                        </div>
-
-                        <!-- Default inline 2-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.MaritalStaus, "UnMarried", new { @id = "PersonalInfo_MaritalStaus1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_MaritalStaus1">Unmarried</label>
-                        </div>
-                        <!-- Default inline 3-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.MaritalStaus, "Other", new { @id = "PersonalInfo_MaritalStaus2", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_MaritalStaus2">Other</label>
-                        </div>
-                        <div>
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.MaritalStaus)
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">No Of Children</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "form-control only-number", @maxlength = "1", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.NoOfChildren)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Gender</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <!-- Default inline 1-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.Gender, "Male", new { @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_Gender">Male</label>
-                        </div>
-                        <!-- Default inline 2-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.Gender, "Female", new { @id = "PersonalInfo_Gender1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_Gender1">Female</label>
-                        </div>
-                        <!-- Default inline 3-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.Gender, "Other", new { @id = "PersonalInfo_Gender2", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_Gender2">Other</label>
-                        </div>
-                        <div>
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.Gender)
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Vehicle</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <!-- Default inline 1-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.Vehicle, "2 wheeler", new { @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_Vehicle">2 wheeler</label>
-                        </div>
-                        <!-- Default inline 2-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.Vehicle, "Car", new { @id = "PersonalInfo_Vehicle1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_Vehicle1">Car</label>
-                        </div>
-                        <!-- Default inline 3-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.Vehicle, "Other", new { @id = "PersonalInfo_Vehicle2", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_Vehicle2">Other</label>
-                        </div>
-                        <div>
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.Vehicle)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Language Known</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <table>
-                            <tr>
-                                <td>English</td>
-                                <td>
-                                    <input class="mr-2" type="checkbox" id="English" name="English" value="EnglishRead" />Read
-                                    <input class="mr-2" type="checkbox" id="English" name="English" value="EnglishSpeak" />Speak
-                                    <input class="mr-2" type="checkbox" id="English" name="English" value="EnglishWrite" />Write
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Hindi</td>
-                                <td>
-                                    <input class="mr-2" type="checkbox" id="Hindi" name="Hindi" value="HindiRead" />Read
-                                    <input class="mr-2" type="checkbox" id="Hindi" name="Hindi" value="HindiSpeak" />Speak
-                                    <input class="mr-2" type="checkbox" id="Hindi" name="Hindi" value="HindiWrite" />Write
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Gujarati</td>
-                                <td>
-                                    <input class="mr-2" type="checkbox" id="Gujarati" name="Gujarati" value="GujaratiRead" />Read
-                                    <input class="mr-2" type="checkbox" id="Gujarati" name="Gujarati" value="GujaratiSpeak" />Speak
-                                    <input class="mr-2" type="checkbox" id="Gujarati" name="Gujarati" value="GujaratiWrite" />Write
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">Present Address Information</h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Address</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextAreaFor(Model => Model.PersonalInfo.AddressPresent, new { @class = "form-control", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.AddressPresent)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">PinCode</label><span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "form-control only-number", @maxlength = "6", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.PincodePresent)
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">State</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DropDownListFor(Model => Model.PersonalInfo.StatePresent, new SelectList(ViewBag.stateList, "Value", "Text"), new { @class = "form-control", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.StatePresent)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">City</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DropDownListFor(Model => Model.PersonalInfo.CityPresent, new List<SelectListItem>
-                            { new SelectListItem { Text = "--Select City--", Value = "" } }, htmlAttributes: new { @class = "form-control", @required = true })
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.CityPresent)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">
-            Permanent Address Information
-        </h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">
-                            Address
-                        </label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextAreaFor(Model => Model.PersonalInfo.AddressPast, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.AddressPast)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">PinCode</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.PinCodePast, new { @class = "form-control only-number", @maxlength = "6", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.PinCodePast)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">State</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DropDownListFor(Model => Model.PersonalInfo.StatePast, new SelectList(ViewBag.stateList, "Value", "Text"), new { @class = "form-control", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.StatePast)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">City</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DropDownList("CityListPast", new List<SelectListItem>
-                            { new SelectListItem { Text = "--Select City--", Value = "" } }, htmlAttributes: new { @class = "form-control", @required = true })
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.CityPast)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">Applied for Position</h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Select Department</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DropDownListFor(Model => Model.PersonalInfo.AppliedForDepartment, new SelectList(ViewBag.departmentList, "Value", "Text"), new { @class = "form-control", @required = true })
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.AppliedForDepartment)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Select Designation</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DropDownListFor(Model => Model.PersonalInfo.AppliedForDesignation, new List<SelectListItem>
-                            { new SelectListItem { Text = "--Select Designation--", Value = "" } }, htmlAttributes: new { @class = "form-control", @required = true })
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.AppliedForDesignation)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Total Experience</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="form-group input-group">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.TotalExperienceInYear, new { @class = "form-control only-number", @maxlength = "5", @required = true, placeholder = "Ex. 5.2 (In Years)" })
-                        </div>
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.TotalExperienceInYear)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Salary Expectation</label> <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="form-group input-group">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.SalaryExpectation, new { @class = "form-control only-number col-8", @maxlength = "7", @required = true })
-                            <div class="col-4 mr-3">/Month</div>
-                        </div>
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.SalaryExpectation)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Early Joining Date</label><span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="input-group" style="display:inline-flex">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.EarliestJoinDate, new { @class = "form-control datepicker col-lg-8 col-md-12", @required = true })
-                            <div class="input-group-append">
-                                <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
+                                <div class="col-4"><label class="control-label" id="Age"></label>Years</div>
+                                @*<p id="Age"></p> Years
+                                    <div class="input-group">
+                                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.DateOfBirth)
+                                    </div>*@
                             </div>
                         </div>
-                        @*<div class="input-group date" data-provider="datepicker">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.EarliestJoinDate, new { @class = "form-control datepicker col-lg-8 col-md-12", @required = true })
-                            <span class="input-group-text input-group-addon"><i class="fas fa-calendar-week"></i></span>
-                        </div>*@
-                        @Html.ValidationMessageFor(Model => Model.PersonalInfo.EarliestJoinDate)
                     </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Marital Status</label><span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.MaritalStaus, "Married", new { @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_MaritalStaus">Married</label>
+                            </div>
 
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.MaritalStaus, "UnMarried", new { @id = "PersonalInfo_MaritalStaus1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_MaritalStaus1">Unmarried</label>
+                            </div>
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.MaritalStaus, "Other", new { @id = "PersonalInfo_MaritalStaus2", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_MaritalStaus2">Other</label>
+                            </div>
+                            <div>
+                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.MaritalStaus)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">No Of Children</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "form-control only-number", @maxlength = "1" })
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12 text-nowrap">
-                        <label class="control-label">Comfortable Night Shift</label> <span class="text-danger">*</span>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Gender</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.Gender, "Male", new { @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_Gender">Male</label>
+                            </div>
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.Gender, "Female", new { @id = "PersonalInfo_Gender1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_Gender1">Female</label>
+                            </div>
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.Gender, "Other", new { @id = "PersonalInfo_Gender2", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_Gender2">Other</label>
+                            </div>
+                            <div>
+                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.Gender)
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-8 col-md-12">
-                        <!-- Default inline 1-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "Yes", new { @required = true, @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_NightShift">Yes</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Vehicle</label>
                         </div>
-                        <!-- Default inline 2-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "No", new { @required = true, @id = "PersonalInfo_NightShift1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_NightShift1">No</label>
+                        <div class="col-lg-8 col-md-12">
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.Vehicle, "2 wheeler", new { @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_Vehicle">2 wheeler</label>
+                            </div>
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.Vehicle, "Car", new { @id = "PersonalInfo_Vehicle1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_Vehicle1">Car</label>
+                            </div>
+                            <!-- Default inline 3-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.Vehicle, "Other", new { @id = "PersonalInfo_Vehicle2", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_Vehicle2">Other</label>
+                            </div>
+                            <div>
+                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.Vehicle)
+                            </div>
                         </div>
-                        <div>
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.NightShift)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Language Known</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <table>
+                                <tr>
+                                    <td>English</td>
+                                    <td>
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsEnglishRead, new { @class = "control-label" }) Read
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsEnglishSpeak, new { @class = "control-label" }) Speak
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsEnglishWrite, new { @class = "control-label" }) Write
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Hindi</td>
+                                    <td>
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsHindiRead, new { @class = "control-label" }) Read
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsHindiSpeak, new { @class = "control-label" }) Speak
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsHindiWrite, new { @class = "control-label" }) Write
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gujarati</td>
+                                    <td>
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsGujaratiRead, new { @class = "control-label" }) Read
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsGujaratiSpeak, new { @class = "control-label" }) Speak
+                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsGujaratiWrite, new { @class = "control-label" }) Write
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Job Source</label> <span class="text-danger">*</span>
+    </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">Present Address Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Address</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextAreaFor(Model => Model.PersonalInfo.AddressPresent, new { @class = "form-control alpha-only", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.AddressPresent)
+                        </div>
                     </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "News", new { @required = true, @id = "PersonalInfo_JobSource3", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_JobSource3">News</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Pin code</label><span class="text-danger">*</span>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "Paper Ad", new { @required = true, @id = "PersonalInfo_JobSource4", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_JobSource4">Paper Ad</label>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "form-control only-number", @maxlength = "6", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.PincodePresent)
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "Other", new { @required = true, @id = "PersonalInfo_JobSource5", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_JobSource5">Other</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">State</label> <span class="text-danger">*</span>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "HRCall", new { @required = true, @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_JobSource">HRCall</label>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.DropDownListFor(Model => Model.PersonalInfo.StatePresent, new SelectList(ViewBag.stateList, "Value", "Text"), new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.StatePresent)
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "Consultancy", new { @required = true, @id = "PersonalInfo_JobSource1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_JobSource1">Consultancy</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">City</label> <span class="text-danger">*</span>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "JobPortal", new { @required = true, @id = "PersonalInfo_JobSource2", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_JobSource2">JobPortal</label>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.DropDownListFor(Model => Model.PersonalInfo.CityPresent, new List<SelectListItem> { new SelectListItem { Text = "--Select City--", Value = "" } }, htmlAttributes: new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.CityPresent)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <div class="form-row">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-primary">
+                        Permanent Address Information
+                    </h5>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-check pt-1">
+                        <input class="form-check-input" type="checkbox" value="" id="asAboveCheck">
+                        <label class="form-check-label font-weight-bold" for="asAboveCheck">
+                            Same As Above
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">
+                                Address
+                            </label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextAreaFor(Model => Model.PersonalInfo.AddressPast, new { @class = "form-control alpha-only" })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.AddressPast)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Pin code</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.PinCodePast, new { @class = "form-control only-number", @maxlength = "6", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.PinCodePast)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">State</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.DropDownListFor(Model => Model.PersonalInfo.StatePast, new SelectList(ViewBag.PermanentStateList, "Value", "Text"), new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.StatePast)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">City</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.DropDownList("CityListPast", new List<SelectListItem> { new SelectListItem { Text = "--Select City--", Value = "" } }, htmlAttributes: new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.CityPast)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">Applied for Position</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Select Department</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.DropDownListFor(Model => Model.PersonalInfo.AppliedForDepartment, new SelectList(ViewBag.departmentList, "Value", "Text"), new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.AppliedForDepartment)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Select Designation</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.DropDownListFor(Model => Model.PersonalInfo.AppliedForDesignation, new List<SelectListItem> { new SelectListItem { Text = "--Select Designation--", Value = "" } }, htmlAttributes: new { @class = "form-control", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.AppliedForDesignation)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Total Experience</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.TotalExperienceInYear, new { @class = "form-control number-dot", @maxlength = "5", @required = true, placeholder = "Ex. 11.11 (In Years)" })
+                            </div>
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.TotalExperienceInYear)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Salary Expectation</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.SalaryExpectation, new { @class = "form-control only-number col-8", @maxlength = "7", @required = true })
+                                <div class="col-4 mr-3"><label>/Month</label></div>
+                            </div>
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.SalaryExpectation)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Early Joining Date</label><span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="input-group" style="display:inline-flex">
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.EarliestJoinDate, new { @class = "form-control datepicker col-lg-8 col-md-12", @required = true })
+                                <div class="input-group-append">
+                                    <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
+                                </div>
+                            </div>
+                            @*<div class="input-group date" data-provider="datepicker">
+                                    @Html.TextBoxFor(Model => Model.PersonalInfo.EarliestJoinDate, new { @class = "form-control datepicker col-lg-8 col-md-12", @required = true })
+                                    <span class="input-group-text input-group-addon"><i class="fas fa-calendar-week"></i></span>
+                                </div>*@
+                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.EarliestJoinDate)
                         </div>
 
-                        <div>
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.JobSource)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12 text-nowrap">
+                            <label class="control-label">Comfortable Night Shift</label> <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "true", new { @required = true, @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_NightShift">Yes</label>
+                            </div>
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "false", new { @required = true, @id = "PersonalInfo_NightShift1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_NightShift1">No</label>
+                            </div>
+                            <div>
+                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.NightShift)
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12 text-nowrap">
-                        <label class="control-label">Reference In DashTech?</label><span class="text-danger">*</span>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <!-- Default inline 1-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.IsReference, "Yes", new { @required = true, @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_IsReference">Yes</label>
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Job Source</label> <span class="text-danger">*</span>
                         </div>
-                        <!-- Default inline 2-->
-                        <div class="custom-control custom-radio custom-control-inline">
-                            @Html.RadioButtonFor(Model => Model.PersonalInfo.IsReference, "No", new { @required = true, @id = "PersonalInfo_IsReference1", @class = "custom-control-input" })
-                            <label class="custom-control-label" for="PersonalInfo_IsReference1">No</label>
-                        </div>
-                        <div>
-                            @Html.ValidationMessageFor(Model => Model.PersonalInfo.IsReference)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row divrefernce">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Reference Name</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceName, new { @class = "form-control", @required = true })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12 text-nowrap">
-                        <label class="control-label">Reference Designation</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "form-control", @maxlength = "10", @required = true })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row divrefernce">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Reference Mobile No</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "form-control", @maxlength = "10", @required = true })
-                    </div>
-                </div>
-            </div>
-            @*<div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Reference Mobile No</label>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                        @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "form-control", @maxlength = "10", @required = true })
-                    </div>
-                </div>
-            </div>*@
-        </div>
-    </div>
-</div>
-        @Html.ValidationSummary(true)
-    }
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmpredetail" }))
-    {
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">
-            Previous Employment Details
-        </h5>
-    </div>
-    <div class="card-body">
-        <table id="previousEmploymentDetails" class="table table-striped table-responsive table-pre-employeement">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Company Name</th>
-                    <th>City</th>
-                    <th>Designation</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>CTC/Month</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <label name="EmploymentId" id="EmploymentId" value="1">1</label>
-                        @*<input type="text" name="EmploymentId" class="form-control" id="EmploymentId" />*@
-                        <input type="hidden" name="CandidateId" id="CandidateId" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="City" id="City" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="Designation" id="Designation" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <div style="display:inline-flex">
-                            <input type="text" name="WorkFrom" id="WorkFrom" class="form-control minwidth" readonly required /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
-                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "News", new { @required = true, @id = "PersonalInfo_JobSource3", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_JobSource3">News</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "Paper Ad", new { @required = true, @id = "PersonalInfo_JobSource4", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_JobSource4">Paper Ad</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "Other", new { @required = true, @id = "PersonalInfo_JobSource5", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_JobSource5">Other</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "HRCall", new { @required = true, @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_JobSource">HRCall</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "Consultancy", new { @required = true, @id = "PersonalInfo_JobSource1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_JobSource1">Consultancy</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.JobSource, "JobPortal", new { @required = true, @id = "PersonalInfo_JobSource2", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_JobSource2">JobPortal</label>
+                            </div>
 
-                        @*<div class="input-group date" data-provide="datepicker" style="display:inline-flex">
-                            <input type="text" name="WorkFrom" id="WorkFrom" class="form-control date minwidth" readonly required />
-                            <span class="input-group-text input-group-addon"><i class="fas fa-calendar-week"></i></span>
-                        </div>*@
-                    </td>
-                    <td>
-                        <div style="display:inline-flex">
-                            <input type="text" name="WorkTo" id="WorkTo" class="form-control  minwidth" readonly required /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
+                            <div>
+                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.JobSource)
+                            </div>
                         </div>
-                        @*<div class="input-group date" data-provide="datepicker" style="display:inline-flex">
-                            <input type="text" name="WorkTo" id="WorkTo" class="form-control datepicker minwidth" readonly required />
-                            <span class="input-group-text input-group-addon"><i class="fas fa-calendar-week"></i></span>
-                        </div>*@
-                    </td>
-                    <td>
-                        <input type="text" name="CtcMonth" id="CtcMonth" class="form-control only-number minwidth" maxlength="7" required />
-                    </td>
-                    <td colspan="7" style="text-align:left"><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row"></button></td>
-                    <td>
-                        <a class="deleteRow"></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12 text-nowrap">
+                            <label class="control-label">Reference In DashTech?</label><span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.IsReference, true, new { @required = true, @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_IsReference">Yes</label>
+                            </div>
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.IsReference, false, new { @required = true, @id = "PersonalInfo_IsReference1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_IsReference1">No</label>
+                            </div>
+                            <div>
+                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.IsReference)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row divrefernce">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Reference Name</label><span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceName, new { @class = "form-control alpha-only", @required = true })
+                            <span style="color:red" id="errRefName"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12 text-nowrap">
+                            <label class="control-label">Reference Designation</label><span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceDesignation, new { @class = "form-control alpha-only", @required = true })
+                            <span style="color:red" id="errRefDesignation"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row divrefernce">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12">
+                            <label class="control-label">Reference Mobile No</label><span class="text-danger">*</span>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "form-control only-number", @maxlength = "10", @required = true })
+                            <span style="color:red" id="errRefMobileNo"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-        @Html.ValidationSummary(true)
-    }
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmReference" }))
-    {
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">
-            Reference
-        </h5>
+    @Html.ValidationSummary(true)
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmpredetail" }))
+{
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">
+                Previous Employment Details
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive table-striped">
+                <table id="previousEmploymentDetails" class="table table-striped table-responsive table-pre-employeement" cellpadding="20%">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Company Name</th>
+                            <th>City</th>
+                            <th>Designation</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>CTC/Month</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label name="EmploymentId" id="EmploymentId" value="1">1</label>
+                                <input type="hidden" name="CandidateId" id="CandidateId" class="form-control minwidth" required />
+                            </td>
+                            <td>
+                                <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="City" id="City" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="Designation" id="Designation" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <div style="display:inline-flex">
+                                    <input type="text" name="WorkFrom" id="WorkFrom" class="form-control minwidth datepicker" readonly required /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display:inline-flex">
+                                    <input type="text" name="WorkTo" id="WorkTo" class="form-control  minwidth datepicker" readonly required /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="text" name="CtcMonth" id="CtcMonth" class="form-control only-number minwidth" maxlength="7" required />
+                            </td>
+                            <td colspan="7" style="text-align:left"><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row"></button></td>
+                            <td>
+                                <a class="deleteRow"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <table id="reference" class="table table-striped table-responsive table-refernce">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Person Name</th>
-                    <th>Company Name</th>
-                    <th>Designation</th>
-                    <th>Contact Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <label name="ReferenceId" id="ReferenceId" value="1">1 </label>
-                        @*<input type="text" name="ReferenceId" class="form-control" id="ReferenceId" />*@
-                        <input type="hidden" name="CandidateId" class="form-control" id="CandidateId" />
-                    </td>
-                    <td>
-                        <input type="text" name="PersonName" id="PersonName" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="Designation" id="Designation" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="ContactNo" id="ContactNo" class="form-control only-number minwidth" maxlength="10" required />
-                    </td>
-                    <td colspan="4" style="text-align:left;">
-                        <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow"></button>
-                    </td>
-                    <td>
-                        <a class="deleteRow"></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    @Html.ValidationSummary(true)
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmReference" }))
+{
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">
+                Reference
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive table-striped">
+
+                <table id="reference" class="table table-striped table-responsive table-refernce">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Person Name</th>
+                            <th>Company Name</th>
+                            <th>Designation</th>
+                            <th>Contact Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label name="ReferenceId" id="ReferenceId" value="1">1 </label>
+                                @*<input type="text" name="ReferenceId" class="form-control" id="ReferenceId" />*@
+                                <input type="hidden" name="CandidateId" class="form-control" id="CandidateId" />
+                            </td>
+                            <td>
+                                <input type="text" name="PersonName" id="PersonName" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="Designation" id="Designation" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="ContactNo" id="ContactNo" class="form-control only-number minwidth" maxlength="10" required />
+                            </td>
+                            <td colspan="4" style="text-align:left;">
+                                <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow"></button>
+                            </td>
+                            <td>
+                                <a class="deleteRow"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
-        @Html.ValidationSummary(true)
-    }
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmEducationalBackground" }))
-    {
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">
-            Educational Background
-        </h5>
+    @Html.ValidationSummary(true)
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "frmEducationalBackground" }))
+{
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">
+                Educational Background
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive table-striped">
+                <table id="educationalBackground" class="table table-striped table-responsive table-educational-background">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Board/University</th>
+                            <th>Course/Degree</th>
+                            <th>Passing Year</th>
+                            <th>Grade/Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label name="EducationalId" id="EducationalId" value="1">1</label>
+                                <input type="hidden" name="CandidateId" class="form-control" id="CandidateId" />
+                            </td>
+                            <td>
+                                <input type="text" name="BoardUniversityName" id="BoardUniversityName" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="CourseDegreeName" id="CourseDegreeName" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td>
+                                <input type="text" name="PassingYear" id="PassingYear" class="form-control only-number minwidth alpha-only" maxlength="4" required />
+                            </td>
+                            <td>
+                                <input type="text" name="GradePercentage" id="GradePercentage" class="form-control minwidth alpha-only" required />
+                            </td>
+                            <td colspan="5" style="text-align:left;">
+                                <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow"></button>
+                            </td>
+                            <td>
+                                <a class="deleteRow"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <table id="educationalBackground" class="table table-striped table-responsive table-educational-background">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Board/University</th>
-                    <th>Course/Degree</th>
-                    <th>PassingYear</th>
-                    <th>Grade/Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <label name="EducationalId" id="EducationalId" value="1">1</label>
-                        <input type="hidden" name="CandidateId" class="form-control" id="CandidateId" />
-                    </td>
-                    <td>
-                        <input type="text" name="BoardUniversityName" id="BoardUniversityName" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="CourseDegreeName" id="CourseDegreeName" class="form-control minwidth" required />
-                    </td>
-                    <td>
-                        <input type="text" name="PassingYear" id="PassingYear" class="form-control only-number minwidth" maxlength="4" required />
-                    </td>
-                    <td>
-                        <input type="text" name="GradePercentage" id="GradePercentage" class="form-control minwidth" required />
-                    </td>
-                    <td colspan="5" style="text-align:left;">
-                        <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow"></button>
-                    </td>
-                    <td>
-                        <a class="deleteRow"></a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-        @Html.ValidationSummary(true)
-    }
+    @Html.ValidationSummary(true)
+}
 <div class="card shadow mt-2">
     <div class="card-header">
         <h5 class="text-primary">Other Information</h5>
     </div>
     <div class="card-body d-flex justify-content-center">
         <div class="form-row">
-
             <div class="col-lg-4 col-md-12 text-nowrap">
                 <label class="control-label">Other Certification And Achievement</label>
             </div>
             <div class="col-lg-8 col-md-12">
-                @Html.TextAreaFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "form-control col-lg-12 col-md-12", rows = "2", cols = "100" })
+                @Html.TextAreaFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "form-control alpha-only col-lg-12 col-md-12", rows = "2", cols = "100" })
             </div>
         </div>
-
-        @*<div class="form-group row">
-            <div class="col-md-4">
-                <label class="control-label">Other Certification And Achievement</label>
-            </div>
-            <div class="col-md-8">
-                @Html.TextAreaFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "form-control", rows = "2", cols = "100" })
-            </div>
-        </div>*@
     </div>
 </div>
 <div style="text-align:center;margin-top:10px;">
     <input type="button" class="btn btn-primary" name="submit" onclick="SaveAll()" value="Submit" />
 </div>
-
-
-
+<div class="modal fade success-popup" id="myModal" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Thank You !</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-check" style="font-size:60px; color:green" aria-hidden="true"></i>
+                <p class="lead">Your detail successfully submitted.We will get back to you soon!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Go Back</button>
+                <a href="@Url.Action("PreviewDetail")" class="btn btn-default">Preview</a>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="~/CustomScript/Register.js"></script>
-
+<script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <script src="~/Content/toastr/js/toastr.min.js"></script>
 <script type="text/javascript">
     $(function () {
-
-        $('.only-number').keypress(function (event) {
-            var keycode = event.which;
-            if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
-                event.preventDefault();
-            }
-        });
-
+        //document.getElementById("PersonalInfo_NoOfChildren").value = 0;
+        //debugger;
+        //if ($("input[name='PersonalInfo.IsReference']:checked").val() == "Yes")
+        //{
+        //    $('#frmdetail').validate({
+        //        onfocusout: false,
+        //        invalidHandler: function (form, validator) {
+        //            var errors = validator.numberOfInvalids();
+        //            if (errors) {
+        //                validator.errorList[0].element.focus();
+        //            }
+        //        },
+        //        rules: {
+        //            PersonalInfo_ReferenceName: 'required',
+        //            PersonalInfo_ReferenceDesignation: 'required',
+        //            PersonalInfo_ReferenceMobileNo: 'required',
+        //        },
+        //        messages: {
+        //            PersonalInfo_ReferenceName: 'Please Enter Reference Name',
+        //            PersonalInfo_ReferenceDesignation: 'Please Enter Reference Mobile No',
+        //            PersonalInfo_ReferenceMobileNo: 'Please Enter Reference Designation',
+        //        },
+        //    });
+        //}
         $('#frmpredetail').validate({
             onfocusout: false,
             invalidHandler: function (form, validator) {
@@ -844,8 +868,6 @@
                 return isNaN(value) && isNaN($(params).val())
                     || (Number(value) < Number($(params).val()));
             }, 'Must be greater than {0}.');
-
-
         $('#frmReference').validate({
             onfocusout: false,
             invalidHandler: function (form, validator) {
@@ -861,16 +883,11 @@
                 ContactNo: 'required'
             },
             messages: {
-                PersonName: 'Enter PersonName',
-                CompanyName: 'Enter CompanyName',
+                PersonName: 'Enter Person Name',
+                CompanyName: 'Enter Company Name',
                 Designation: 'Enter Designation',
-                ContactNo: 'Enter ContactNo'
+                ContactNo: 'Enter Contact Number'
             },
-            //submitHandler: function (form) {
-            //    // form.submit();
-            //    SaveAll();
-
-            //}
         });
         $('#frmEducationalBackground').validate({
             onfocusout: false,
@@ -887,10 +904,10 @@
                 GradePercentage: 'required'
             },
             messages: {
-                BoardUniversityName: 'Enter BoardUniversityName',
-                CourseDegreeName: 'Enter CourseDegreeName',
-                PassingYear: 'Enter PassingYear',
-                GradePercentage: 'Enter GradePercentage'
+                BoardUniversityName: 'Enter Board/University',
+                CourseDegreeName: 'Enter Course/Degree',
+                PassingYear: 'Enter Passing Year',
+                GradePercentage: 'Enter Grade/Percentage'
             },
             //submitHandler: function (form) {
             //    // form.submit();

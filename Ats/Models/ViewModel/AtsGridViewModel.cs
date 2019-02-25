@@ -17,5 +17,6 @@ namespace Ats.Models.ViewModel
         public string WorkFrom { get; set; }
         public string WorkTo { get; set; }
         public string CtcMonth { get; set; }
+        public string EmailId { get; set; }
     }
 }
