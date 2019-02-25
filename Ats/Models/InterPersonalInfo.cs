@@ -53,7 +53,7 @@ namespace Ats.Models
         [StringLength(10)]
         public string MaritalStaus { get; set; }
         
-        public int NoOfChildren { get; set; }
+        public int? NoOfChildren { get; set; }
 
         [Required(ErrorMessage = "Please Enter Present Address")]
         [Column(TypeName = "VARCHAR")]
