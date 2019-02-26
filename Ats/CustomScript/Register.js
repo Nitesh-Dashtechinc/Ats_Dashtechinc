@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip()
     var counter = 2;
     var counter1 = 2;
     var counter2 = 2;
+    var counter3 = 2;
     //document.getElementById("PersonalInfo_NoOfChildren").value = 0;
     $('.divrefernce').hide();
 
@@ -12,20 +14,6 @@
     $('.number-dot').bind('keyup paste', function () {
         this.value = this.value.replace(/[^0-9.]/g, '');
     });
-
-    $('.alpha-only').bind('keyup paste', function () {
-        $(this).val($(this).val().toUpperCase());
-    });
-
-    //$('#PersonalInfo_EmailId').on('keypress', function () {
-    //    var re = /([A-Z0-9a-z_-][^@])+?@[^$#<>?]+?\.[\w]{2,4}/.test(this.value);
-    //    if (!re) {
-    //        $('#errorEmail').show();
-    //    } else {
-    //        $('#errorEmail').hide();
-    //    }
-    //});
-
 
     //All DatePicker
     //ref:https://bootstrap-datepicker.readthedocs.io/en/latest/
@@ -99,76 +87,80 @@
         var cols = "";
         switch (tableId) {
             case "previousEmploymentDetails":
+                var te1 = $('#frmpredetail').valid();
                 if ($('#frmpredetail').valid()) {
-                    cols += '<td><label name="EmploymentId" id="EmploymentId" value=' + counter + '>' + counter + '</label><input type="hidden" class="form-control" id="CandidateId" name="CandidateId' + counter + '"/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" id="CompanyName" value=' + $('#CompanyName').val() + '  name="CompanyName' + counter + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" id="City" value=' + $('#City').val() + ' name="City' + counter + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" id="Designation" value=' + $('#Designation').val() + '  name="Designation' + counter + '" required/></td>';
-                    cols += '<td><div style="display:inline-flex"><input type="text" value=' + $('#WorkFrom').val() + ' class="form-control datepicker minwidth" id="WorkFrom" name="WorkFrom' + counter + '"readonly required/><span class="input-group-text"><i class="fas fa-calendar-week"></i></span></div></td>';
-                    cols += '<td><div style="display:inline-flex"><input type="text" value=' + $('#WorkTo').val() + ' class="form-control datepicker minwidth" id="WorkTo" name="WorkTo' + counter + '" readonly required/><span class="input-group-text"><i class="fas fa-calendar-week"></i></span></div></td>';
-                    cols += '<td><input type="text"  class="form-control only-number minwidth" value=' + $('#CtcMonth').val() + '  id="CtcMonth" name="CtcMonth' + counter + '" required/></td>';
-                    cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
-                    newRow.append(cols);
-                    $("table.table-pre-employeement").append(newRow);
-                    $('.datepicker').datepicker({
-                        format: 'dd/mm/yyyy'
-                    });
+                    debugger
+                    $('#previousEmploymentDetails tbody').append('<tr><td>' + counter + '</td><td>' + $('#CompanyName').val() + '</td><td>' + $('#City').val() + '</td><td>' + $('#Designation').val() + '</td><td>' + $('#WorkFrom').val() + '</td><td>' + $('#WorkTo').val() + '</td><td>' + $('#CtcMonth').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter++;
-                    $(this).closest('tr').find('#CompanyName').val('');
-                    $(this).closest('tr').find('#City').val('');
-                    $(this).closest('tr').find('#Designation').val('');
-                    $(this).closest('tr').find('#WorkFrom').val('');
-                    $(this).closest('tr').find('#WorkTo').val('');
-                    $(this).closest('tr').find('#CtcMonth').val('');
+                    //$(this).closest('tr').find('#CompanyName').val('');
+                    //$(this).closest('tr').find('#City').val('');
+                    //$(this).closest('tr').find('#Designation').val('');
+                    //$(this).closest('tr').find('#WorkFrom').val('');
+                    //$(this).closest('tr').find('#WorkTo').val('');
+                    //$(this).closest('tr').find('#CtcMonth').val('');
+                    $('#frmpredetail')[0].reset();
+                    $("form#frmpredetail :input").each(function () {
+                        $(this).removeClass('is-valid').addClass('is-invalid');
+                    });
                 }
-
                 break;
             case "reference":
+                var reg = $('#frmReference').valid();
                 if ($('#frmReference').valid()) {
-                    cols += '<td><label name="ReferenceId" id="ReferenceId" value=' + counter1 + '>' + counter1 + '</label><input type="hidden" class="form-control" id="CandidateId" name="CandidateId' + counter1 + '"/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" value=' + $('#PersonName').val() + ' id="PersonName" name="PersonName' + counter1 + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" value=' + $(this).closest('tr').find('#Designation').val() + '  id="Designation" name="Designation' + counter1 + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" value=' + $(this).closest('tr').find('#CompanyName').val() + ' id="CompanyName"  name="CompanyName' + counter1 + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control only-number minwidth" value=' + $('#ContactNo').val() + '  maxlength="10"  id="ContactNo" name="ContactNo' + counter1 + '" required/></td>';
-                    cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
-                    newRow.append(cols);
-                    //addSerialNumber(counter);
-                    $("table.table-refernce").append(newRow);
+                    $('#reference tbody').append('<tr><td>' + counter1 + '</td><td>' + $('#PersonName').val() + '</td><td>' + $(this).closest('tr').find('#Designation').val() + '</td><td>' + $(this).closest('tr').find('#CompanyName').val() + '</td><td>' + $('#ContactNo').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter1++;
-                    var preEmpDetail = {
-                        PersonName: $('#PersonName').val(),
-                        Designation: $('#PersonName').val(),
-                        CompanyName: $('#PersonName').val(),
-                        PersonName: $('#PersonName').val(),
-                        PersonName: $('#PersonName').val(),
-                        PersonName: $('#PersonName').val(),
-                    }
+                    $('#frmReference')[0].reset();
 
-                    $(this).closest('tr').find('#PersonName').val('');
-                    $(this).closest('tr').find('#Designation').val('');
-                    $(this).closest('tr').find('#CompanyName').val('');
-                    $(this).closest('tr').find('#ContactNo').val('');
+                    //$(this).closest('tr').find('#PersonName').val('');
+                    //$(this).closest('tr').find('#Designation').val('');
+                    //$(this).closest('tr').find('#CompanyName').val('');
+                    //$(this).closest('tr').find('#ContactNo').val('');
+                    $("form#frmReference :input").each(function () {
+                        $(this).removeClass('is-valid').addClass('is-invalid');
+                    });
                 }
 
                 break;
             case "educationalBackground":
+                var edu = $('#frmEducationalBackground').valid();
                 if ($('#frmEducationalBackground').valid()) {
-                    cols += '<td><label name="EducationalId" id="EducationalId" value=' + counter2 + '>' + counter2 + '</label><input type="hidden" class="form-control" id="CandidateId" name="CandidateId' + counter2 + '"/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" value=' + $('#BoardUniversityName').val() + '  id="BoardUniversityName" name="BoardUniversityName' + counter2 + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" value=' + $('#CourseDegreeName').val() + ' id="CourseDegreeName" name="CourseDegreeName' + counter2 + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control only-number minwidth" value=' + $('#PassingYear').val() + '  id="PassingYear" name="PassingYear' + counter2 + '" required/></td>';
-                    cols += '<td><input type="text" class="form-control minwidth" value=' + $('#GradePercentage').val() + ' id="GradePercentage" name="GradePercentage' + counter2 + '" required/></td>';
-
-                    cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
-                    newRow.append(cols);
-                    $("table.table-educational-background").append(newRow);
+                    $('#educationalBackground tbody').append('<tr><td>' + counter2 + '</td><td>' + $('#BoardUniversityName').val() + '</td><td>' + $('#CourseDegreeName').val() + '</td><td>' + $('#PassingYear').val() + '</td><td>' + $('#GradePercentage').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter2++;
-                    $(this).closest('tr').find('#BoardUniversityName').val('');
-                    $(this).closest('tr').find('#CourseDegreeName').val('');
-                    $(this).closest('tr').find('#PassingYear').val('');
-                    $(this).closest('tr').find('#GradePercentage').val('');
+                    $('#frmEducationalBackground')[0].reset();
+                    $("form#frmEducationalBackground :input").each(function () {
+                        $(this).removeClass('is-valid').addClass('is-invalid');
+                    });
                 }
 
+                break;
+            case "language":
+                if ($('#Language option:selected').text() != '--Select Language--') {
+                    var read = "No", speak = "No", write = "No";
+                    if ($('#Read').is(":checked")) {
+                        read = "Yes"
+                    }
+                    if ($('#Speak').is(":checked")) {
+                        speak = 'Yes';
+                    }
+                    if ($('#Write').is(":checked")) {
+                        write = 'Yes';
+                    }
+                    cols += '<td></td>';
+                    cols += '<td>' + $('#Language option:selected').text() + '</td>';
+                    cols += '<td>' + read + '</td>';
+                    cols += '<td>' + speak + '</td>';
+                    cols += '<td>' + write + '</td>';
+                    cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
+                    $('#Read').prop('checked', false);
+                    $('#Speak').prop('checked', false);
+                    $('#Write').prop('checked', false);
+                }
+                else {
+                    cols += "";
+                }
+                newRow.append(cols);
+                $("table.table-language").append(newRow);
+                counter3++;
                 break;
             default:
         }
@@ -188,7 +180,10 @@
         $(this).closest("tr").remove();
         counter -= 1;
     });
-
+    $("table.table-language").on("click", ".ibtn-Del", function (event) {
+        $(this).closest("tr").remove();
+        counter -= 1;
+    });
     $('input[type=radio][id=PersonalInfo_IsReference]').change(function () {
         if (this.value == 'True') {
             $('.divrefernce').show();
@@ -204,7 +199,7 @@
         }
     });
 
-    $('#asAboveCheck').change(function () {        
+    $('#asAboveCheck').change(function () {
         var Address = $('#PersonalInfo_AddressPresent').val();
         var pincode = $('#PersonalInfo_PincodePresent').val();
         var state = $("select#PersonalInfo_StatePresent").val();
@@ -216,11 +211,11 @@
             $('#PersonalInfo_PinCodePast').val(pincode);
             $('#PersonalInfo_StatePast').empty();
             $("#PersonalInfo_StatePast").append('<option value="' + state + '">' +
-                selectedStateText + '</option>');    
+                selectedStateText + '</option>');
 
             $("#CityListPast").empty();
             $("#CityListPast").append('<option value="' + city + '">' +
-                selectedCityText + '</option>');       
+                selectedCityText + '</option>');
         }
         else {
             $('#PersonalInfo_AddressPast').val('');
@@ -235,7 +230,7 @@
 
 
     $("#PersonalInfo_StatePresent").change(function () {
-        $('#pre-loader').show();    
+        $('#pre-loader').show();
         $("#PersonalInfo_CityPresent").empty();
         $("#PersonalInfo_CityPresent").append('<option value="">--Select City--</option>');
         var sId = $("select#PersonalInfo_StatePresent").val();
@@ -262,7 +257,7 @@
 
     });
 
-    $("#PersonalInfo_StatePast").change(function () {     
+    $("#PersonalInfo_StatePast").change(function () {
         $('#pre-loader').show();
         $("#CityListPast").empty();
         $("#CityListPast").append('<option value="">--Select City--</option>');
@@ -321,13 +316,6 @@
         return moment().diff(d, 'years', true);
     }
 
-
-    //function calculate_age(dob) {
-    //    var diff_ms = Date.now() - moment.getTime(dob); // dob.getTime();
-    //    var age_dt = new Date(diff_ms);
-    //    return Math.abs(age_dt.getUTCFullYear() - 1970);
-    //}
-
 });
 var addSerialNumber = function () {
     $('table tr').each(function (index) {
@@ -369,32 +357,16 @@ $('button.validateAll').click(function () {
 function SaveAll() {
     if ($('#frmdetail').valid()) {
         $('#pre-loader').show();
-        //var valuesEng = [];
-        //$("input[name='English']:checked").each(function () {
-        //    valuesEng.push($(this).val());
-        //});
-        //var valuesHindi = [];
-        //$("input[name='Hindi']:checked").each(function () {
-        //    valuesHindi.push($(this).val());
-        //});
-        ////AddPersonalInformationItems.Hindi = valuesHindi.join(",");
-
-        //var valuesGuj = [];
-        //$("input[name='Gujarati']:checked").each(function () {
-        //    valuesGuj.push($(this).val());
-        //});
-        //    AddPersonalInformationItems.Gujarati = valuesGuj.join(",");
-
 
         var objj = {
             PersonalInfo: {},
             PreviousEmploymentDetail: [],
             Reference: [],
-            EducationBackground: []
-
+            EducationBackground: [],
+            Languages: []
         };
 
-        objj.PersonalInfo =
+       
             objj.PersonalInfo = {
                 FirstName: $("#PersonalInfo_FirstName").val(),
                 LastName: $("#PersonalInfo_LastName").val(),
@@ -443,48 +415,45 @@ function SaveAll() {
                 //Gujarati: valuesGuj.join(",")
             };
 
-        $("#previousEmploymentDetails TBODY TR").each(function () {
+        $("#previousEmploymentDetails tbody tr").each(function () {
             var row = $(this);
-            if (row.find("#CompanyName").val() != "" && row.find("#City").val() != "" && row.find("#Designation").val() != "" && row.find("#CtcMonth").val() != "") {
                 objj.PreviousEmploymentDetail.push({
-                    EmploymentId: row.find("#EmploymentId").text(),
-                    CandidateId: row.find("#CandidateId").val(),
-                    CompanyName: row.find("#CompanyName").val(),
-                    City: row.find("#City").val(),
-                    Designation: row.find("#Designation").val(),
-                    WorkFrom: row.find("#WorkFrom").val(),
-                    WorkTo: row.find("#WorkTo").val(),
-                    CtcMonth: row.find("#CtcMonth").val()
+                    CompanyName: row.find("td:eq(1)").text(),
+                    City: row.find("td:eq(2)").text(),
+                    Designation: row.find("td:eq(3)").text(),
+                    WorkFrom: row.find("td:eq(4)").text(),
+                    WorkTo: row.find("td:eq(5)").text(),
+                    CtcMonth: row.find("td:eq(6)").text()
                 });
-            }
         });
 
-        $("#reference TBODY TR").each(function () {
+        $("#reference tbody tr").each(function () {
             var row = $(this);
-            if (row.find("#PersonName").val() != "" && row.find("#CompanyName").val() != "" && row.find("#ContactNo").val() != "" && row.find("#Designation").val() != "") {
                 objj.Reference.push({
-                    CandidateId: row.find("#CandidateId").val(),
-                    ReferenceId: row.find("#ReferenceId").text(),
-                    PersonName: row.find("#PersonName").val(),
-                    CompanyName: row.find("#CompanyName").val(),
-                    Designation: row.find("#Designation").val(),
-                    ContactNo: row.find("#ContactNo").val(),
+                    PersonName: row.find("td:eq(1)").text(),
+                    CompanyName: row.find("td:eq(2)").text(),
+                    Designation: row.find("td:eq(3)").text(),
+                    ContactNo: row.find("td:eq(4)").text(),
                 });
-            }
+        });
+        $("#educationalBackground tbody tr").each(function () {
+            var row = $(this);
+                objj.EducationBackground.push({
+                    BoardUniversityName: row.find("td:eq(1)").text(),
+                    CourseDegreeName: row.find("td:eq(2)").text(),
+                    PassingYear: row.find("td:eq(3)").text(),
+                    GradePercentage: row.find("td:eq(4)").text(),
+                });
         });
 
-        $("#educationalBackground TBODY TR").each(function () {
+        $("#language tbody tr").each(function () {
             var row = $(this);
-            if (row.find("#BoardUniversityName").val() != "" && row.find("#CourseDegreeName").val() != "" && row.find("#PassingYear").val() != "" && row.find("#GradePercentage").val() != "") {
-                objj.EducationBackground.push({
-                    EducationalId: row.find("#EducationalId").text(),
-                    CandidateId: row.find("#CandidateId").val(),
-                    BoardUniversityName: row.find("#BoardUniversityName").val(),
-                    CourseDegreeName: row.find("#CourseDegreeName").val(),
-                    PassingYear: row.find("#PassingYear").val(),
-                    GradePercentage: row.find("#GradePercentage").val(),
+            objj.Languages.push({
+                LanguageType: row.find("td:eq(1)").text(),
+                Read: row.find("td:eq(2)").text(),
+                Speak: row.find("td:eq(3)").text(),
+                Write: row.find("td:eq(4)").text()
                 });
-            }
         });
 
         $.ajax({

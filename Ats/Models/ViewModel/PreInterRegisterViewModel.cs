@@ -12,6 +12,7 @@ namespace Ats.Models.ViewModel
         public List<InterPreEmpDetail> PreviousEmploymentDetail { get; set; }
         public List<InterReference> Reference { get; set; }
         public List<InterEducBackground> EducationBackground { get; set; }
+        public List<InterLanguage> Languages { get; set; }
         
     }
 }

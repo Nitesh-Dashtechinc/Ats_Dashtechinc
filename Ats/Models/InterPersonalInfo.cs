@@ -148,31 +148,6 @@ namespace Ats.Models
         [StringLength(50)]
         public string ReferenceDesignation { get; set; }
 
-
-        //[Column(TypeName = "VARCHAR")]
-        //[StringLength(50)]
-        //public string English { get; set; }
-        //[Column(TypeName = "VARCHAR")]
-        //[StringLength(50)]
-        //public string Hindi { get; set; }
-        //[Column(TypeName = "VARCHAR")]
-        //[StringLength(50)]
-        //public string Gujarati { get; set; }
-
-        //Enter Language English
-        public bool IsEnglishRead { get; set; }
-        public bool IsEnglishSpeak { get; set; }
-        public bool IsEnglishWrite { get; set; }
-        //Enter Language Hindi
-        public bool IsHindiRead { get; set; }
-        public bool IsHindiSpeak { get; set; }
-        public bool IsHindiWrite { get; set; }
-        //Enter Language Gujarati
-        public bool IsGujaratiRead { get; set; }
-        public bool IsGujaratiSpeak { get; set; }
-        public bool IsGujaratiWrite { get; set; }
-
-
         [Column(TypeName = "DATETIME")]
         public DateTime CreatedDate { get; set; }
 

@@ -163,41 +163,36 @@
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
-                            <label class="control-label">Language Known</label>
-                        </div>
-                        <div class="col-lg-8 col-md-12">
-                            <table>
+            <div class="row">
+                <div class="table-responsive">
+                    <table id="language" class="table table-language col-md-12">
+                        <thead>
+                            <tr>
+                                <th><label class="control-label">Language Known</label></th>
+                                <th>
+                                    <label>Read</label>
+                                </th>
+                                <th>
+                                    <label>Speak</label>
+                                </th>
+                                <th>
+                                    <label>Write</label>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in Model.Language)
+                            {
                                 <tr>
-                                    <td>English</td>
-                                    <td>
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsEnglishRead, new { @class = "control-label" }) Read
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsEnglishSpeak, new { @class = "control-label" }) Speak
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsEnglishWrite, new { @class = "control-label" }) Write
-                                    </td>
+                                    <td>@a.LanguageType</td>
+                                    <td>@a.Read</td>
+                                    <td>@a.Write</td>
+                                    <td>@a.Speak</td>
                                 </tr>
-                                <tr>
-                                    <td>Hindi</td>
-                                    <td>
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsHindiRead, new { @class = "control-label" }) Read
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsHindiSpeak, new { @class = "control-label" }) Speak
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsHindiWrite, new { @class = "control-label" }) Write
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Gujarati</td>
-                                    <td>
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsGujaratiRead, new { @class = "control-label" }) Read
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsGujaratiSpeak, new { @class = "control-label" }) Speak
-                                        @Html.CheckBoxFor(Model => Model.PersonalInfo.IsGujaratiWrite, new { @class = "control-label" }) Write
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

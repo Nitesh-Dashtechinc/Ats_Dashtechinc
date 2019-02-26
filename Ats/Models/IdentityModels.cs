@@ -39,7 +39,7 @@ namespace Ats.Models
         public DbSet<InterPreEmpDetail> InterPreEmpDetail { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<State> State { get; set; }
-
+        public DbSet<InterLanguage> InterLanguages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
