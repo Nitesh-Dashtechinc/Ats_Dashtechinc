@@ -320,6 +320,8 @@
     function setAge(d) {
         return moment().diff(d, 'years', true);
     }
+
+
     //function calculate_age(dob) {
     //    var diff_ms = Date.now() - moment.getTime(dob); // dob.getTime();
     //    var age_dt = new Date(diff_ms);
@@ -355,6 +357,13 @@ $('#PersonalInfo_ReferenceMobileNo').blur(function () {
         }
         else { document.getElementById("errRefMobileNo").innerHTML = ""; }
     }
+});
+
+
+$('button.validateAll').click(function () {
+    $('form').each(function () {
+        $(this).valid();
+    });
 });
 
 function SaveAll() {

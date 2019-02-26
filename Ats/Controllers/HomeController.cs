@@ -180,7 +180,6 @@ namespace Ats.Controllers
 
                 Candidate.PersonalInfo = perSonalInfo;
                 preEmployementDetail = (from p in db.InterPreEmpDetail
-                                            //from p in getData.GetAllPreviousEmplpoyementDetails()
                                         where (p.CandidateId == id)
                                         select new InterPreEmpDetailViewModel
                                         {
@@ -193,12 +192,8 @@ namespace Ats.Controllers
                                             WorkTo = p.WorkTo,
                                             CtcMonth = p.CtcMonth
                                         }).ToList();
-                //preEmployementDetail = (
-                //    from p in getData.GetAllPreviousEmplpoyementDetails()
-                //    where (p.CandidateId == id)
-                //    select p
-                //    ).ToList();
-                //Candidate.PreviousEmploymentDetail = preEmployementDetail == null ? null : preEmployementDetail;
+
+                Candidate.PreviousEmploymentDetail = preEmployementDetail;
 
                 eduBackGround = (from p in db.InterEducBackground
                                  where (p.CandidateId == id)
@@ -213,13 +208,6 @@ namespace Ats.Controllers
                                  }).ToList();
                 Candidate.EducationBackground = eduBackGround;
 
-                //eduBackGround = (
-                //     from p in getData.GetAllEducationBackground()
-                //     where (p.CandidateId == id)
-                //     select p
-                //    ).ToList();
-                //Candidate.EducationBackground = eduBackGround;
-
                 reference = (from p in db.InterReference
                              where (p.CandidateId == id)
                              select new InterReferenceViewModel() {
@@ -231,15 +219,6 @@ namespace Ats.Controllers
                                  ContactNo   = p.ContactNo                                   
                              }).ToList();
                 Candidate.Reference = reference;
-
-
-                //reference = (
-                //     from p in getData.GetReferenceInfo()
-                //     where (p.CandidateId == id)
-                //     select p
-                //    ).ToList();
-                //Candidate.Reference = reference;
-     
                 return View(Candidate);
             }
             catch (Exception ex)
@@ -247,7 +226,6 @@ namespace Ats.Controllers
                 ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException)) ? ex.Message.ToString() : ex.InnerException.ToString();
                 return View();
             }
-
         }
 
         //home/GetCity

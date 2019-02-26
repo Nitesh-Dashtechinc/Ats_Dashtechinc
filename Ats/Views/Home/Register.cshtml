@@ -790,8 +790,7 @@
     </div>
     <div style="text-align:center;margin-top:10px;">
         <input type="button" class="btn btn-primary" name="submit" onclick="SaveAll()" value="Submit" />
-    </div>
-
+    </div> 
 
 <div class="modal fade success-popup" id="myModal" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -817,31 +816,7 @@
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <script src="~/Content/toastr/js/toastr.min.js"></script>
 <script type="text/javascript">
-    $(function () {
-        //document.getElementById("PersonalInfo_NoOfChildren").value = 0;
-        //debugger;
-        //if ($("input[name='PersonalInfo.IsReference']:checked").val() == "Yes")
-        //{
-        //    $('#frmdetail').validate({
-        //        onfocusout: false,
-        //        invalidHandler: function (form, validator) {
-        //            var errors = validator.numberOfInvalids();
-        //            if (errors) {
-        //                validator.errorList[0].element.focus();
-        //            }
-        //        },
-        //        rules: {
-        //            PersonalInfo_ReferenceName: 'required',
-        //            PersonalInfo_ReferenceDesignation: 'required',
-        //            PersonalInfo_ReferenceMobileNo: 'required',
-        //        },
-        //        messages: {
-        //            PersonalInfo_ReferenceName: 'Please Enter Reference Name',
-        //            PersonalInfo_ReferenceDesignation: 'Please Enter Reference Mobile No',
-        //            PersonalInfo_ReferenceMobileNo: 'Please Enter Reference Designation',
-        //        },
-        //    });
-        //}
+    $(function () {    
         $('#frmpredetail').validate({
             onfocusout: false,
             invalidHandler: function (form, validator) {
