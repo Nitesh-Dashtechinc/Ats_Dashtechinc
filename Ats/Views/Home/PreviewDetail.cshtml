@@ -667,7 +667,14 @@
                     <label class="control-label">Other Certification And Achievement</label>
                 </div>
                 <div class="col-lg-6 col-md-12">
-                    @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })
+                    @if (Model.PersonalInfo.OtherCertification != "")
+                    {
+                        @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })
+                    }
+                    else
+                    {
+                        <label class="control-label font-weight-bold">No Details Available</label>
+                    }
                 </div>
             </div>
         </div>
