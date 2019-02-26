@@ -407,6 +407,7 @@
     <Compile Include="Models\ViewModel\ManageViewModels.cs" />
     <Compile Include="Models\ViewModel\PreInterRegisterViewModel.cs" />
     <Compile Include="Models\ViewModel\StateViewModel.cs" />
+    <Compile Include="Models\ViewModel\WorkFromWorkTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -615,7 +616,6 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\Home\ViewDetail.cshtml" />
     <Content Include="Views\Home\PreviewDetail.cshtml" />
-    <Content Include="Views\Home\RegisterList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
