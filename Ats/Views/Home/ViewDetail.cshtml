@@ -481,45 +481,18 @@
                         var count = Model.PreviousEmploymentDetail.Count;
                         if (count > 0)
                         {
+                            int sno = 0;
                             foreach (var item in Model.PreviousEmploymentDetail)
                             {
-                                int sno = 0;
-                                <tr>
-                                    <td>
-                                        @{ sno++; }
-                                        @sno
-                                        @*<label name="EmploymentId" id="EmploymentId">@item.EmploymentId</label>*@
-                                        <input type="hidden" name="CandidateId" id="CandidateId" class="form-control" required />
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.CompanyName, new { @class = "control-label" })
-                                        @*<label class="control-label" name="CompanyName" id="CompanyName">@item.CompanyName</label>
-                                            <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth" value="@item.CompanyName" required />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.City, new { @class = "control-label" })
-                                        @*<input type="text" name="City" id="City" class="form-control minwidth" value="@item.City" required />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.Designation, new { @class = "control-label" })
-                                        @*<input type="text" name="Designation" id="Designation" class="form-control minwidth" value="@item.Designation" required />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.WorkFrom, new { @class = "control-label" })
-                                        @*<div style="display:inline-flex">
-                                                <input type="text" name="WorkFrom" id="WorkFrom" class="form-control datepicker minwidth" readonly required value="@item.WorkFrom" />
-                                            </div>*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.WorkTo, new { @class = "control-label" })
-                                        @*<div style="display:inline-flex">
-                                                <input type="text" name="WorkTo" id="WorkTo" class="form-control datepicker minwidth" readonly value="@item.WorkTo" />
-                                            </div>*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.CtcMonth, new { @class = "control-label" })
-                                    </td>
 
+                                <tr>
+                                    <td>@{ sno++; } @sno</td>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.City</td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.WorkFrom</td>
+                                    <td>@item.WorkTo</td>
+                                    <td>@item.CtcMonth</td>
                                 </tr>
                             }
                         }
@@ -557,31 +530,18 @@
                         var count = Model.Reference.Count;
                         if (count > 0)
                         {
+
                             int sno1 = 0;
                             foreach (var item in Model.Reference)
                             {
                                 <tr>
-                                    <td>
-                                        @{ sno1++; }
-                                        @sno1
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.PersonName, new { @class = "control-label" })
-                                        @*<input type="text" name="PersonName" id="PersonName" class="form-control minwidth" value="@item.PersonName" required />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.CompanyName, new { @class = "control-label" })
-                                        @*<input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth" required value="@item.CompanyName" />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.Designation, new { @class = "control-label" })
-                                        @*<input type="text" name="Designation" id="Designation" class="form-control minwidth" required value="@item.Designation" />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.ContactNo, new { @class = "control-label" })
-                                        @*<input type="text" name="ContactNo" id="ContactNo" class="form-control only-number minwidth" maxlength="10" required value="@item.ContactNo" />*@
-                                    </td>
+                                    <td>@{ sno1++;}@sno1</td>
+                                    <td>@item.PersonName</td>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.ContactNo</td>
                                 </tr>
+                            
                             }
                         }
                         else
@@ -622,26 +582,11 @@
                             foreach (var item in Model.EducationBackground)
                             {
                                 <tr>
-                                    <td>
-                                        @{ sno2++; }
-                                        @sno2
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.BoardUniversityName, new { @class = "control-label" })
-                                        @*<input type="text" name="BoardUniversityName" id="BoardUniversityName" class="form-control minwidth" required value="@item.BoardUniversityName" />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.CourseDegreeName, new { @class = "control-label" })
-                                        @*<input type="text" name="CourseDegreeName" id="CourseDegreeName" class="form-control minwidth" required value="@item.CourseDegreeName" />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.PassingYear, new { @class = "control-label" })
-                                        @*<input type="text" name="PassingYear" id="PassingYear" class="form-control only-number minwidth" maxlength="4" required value="@item.PassingYear" />*@
-                                    </td>
-                                    <td>
-                                        @Html.Label(item.GradePercentage, new { @class = "control-label" })
-                                        @*<input type="text" name="GradePercentage" id="GradePercentage" class="form-control minwidth" required value="@item.GradePercentage" />*@
-                                    </td>
+                                    <td>@{ sno2++; }@sno2</td>
+                                    <td>@item.BoardUniversityName</td>
+                                    <td>@item.CourseDegreeName</td>
+                                    <td>@item.PassingYear</td>
+                                    <td>@item.GradePercentage</td>
                                 </tr>
                             }
                         }
@@ -667,7 +612,14 @@
                     <label class="control-label">Other Certification And Achievement</label>
                 </div>
                 <div class="col-lg-6 col-md-12">
-                    @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })
+                    @if (Model.PersonalInfo.OtherCertification != null)
+                    {
+                        @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })
+                    }
+                    else
+                    {
+                        <label class="control-label font-weight-bold">No Details Available</label>
+                    }
                 </div>
             </div>
         </div>
