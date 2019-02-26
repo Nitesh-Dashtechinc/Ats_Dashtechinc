@@ -262,7 +262,7 @@
 
     });
 
-    $("#PersonalInfo_StatePast").change(function () {
+    $("#PersonalInfo_StatePast").change(function () {     
         $('#pre-loader').show();
         $("#CityListPast").empty();
         $("#CityListPast").append('<option value="">--Select City--</option>');
@@ -280,7 +280,8 @@
                     });
                     $('#pre-loader').hide();
                 },
-                error: function (ex) {
+                error: function (error) {
+                    //toastr.error(responce.Data);
                     alert('Failed to retrieve states city.' + ex);
                     $('#pre-loader').hide();
                 }

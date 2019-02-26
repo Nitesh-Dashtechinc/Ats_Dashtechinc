@@ -6,12 +6,13 @@
     <title>@ViewBag.Title-DashAts</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
+    <link href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Content/toastr/css/toastr.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-	<script src="~/Scripts/bootstrap.min.js"></script>
-    <link href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
-    <link href="~/Content/toastr/css/toastr.css" rel="stylesheet" />
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script>*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @Scripts.Render("~/bundles/modernizr")
     <style>
         .container {
@@ -25,6 +26,75 @@
 
         .bg-black {
             background-color: #1e1f21 !important;
+        }
+
+        .mt-0 {
+            margin-top: 3% !important;
+        }
+
+
+        .loader {
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        #loader-6 {
+            top: 50%;
+            left: -2.5px;
+        }
+
+            #loader-6 span {
+                display: inline-block;
+                width: 5px;
+                height: 20px;
+                background-color: #3498db;
+            }
+
+                #loader-6 span:nth-child(1) {
+                    animation: grow 1s ease-in-out infinite;
+                }
+
+                #loader-6 span:nth-child(2) {
+                    animation: grow 1s ease-in-out 0.15s infinite;
+                }
+
+                #loader-6 span:nth-child(3) {
+                    animation: grow 1s ease-in-out 0.30s infinite;
+                }
+
+                #loader-6 span:nth-child(4) {
+                    animation: grow 1s ease-in-out 0.45s infinite;
+                }
+
+        @@keyframes grow {
+            0%, 100% {
+                -webkit-transform: scaleY(1);
+                -ms-transform: scaleY(1);
+                -o-transform: scaleY(1);
+                transform: scaleY(1);
+            }
+
+            50% {
+                -webkit-transform: scaleY(1.8);
+                -ms-transform: scaleY(1.8);
+                -o-transform: scaleY(1.8);
+                transform: scaleY(1.8);
+            }
+        }
+
+        .pre-loader {
+            float: left;
+            margin: 1% 0 1% 1.6%;
+            background-color: #eee;
+            padding: 50px 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            position: fixed;
+            margin: 0px 0px;
         }
     </style>
 </head>
@@ -48,11 +118,26 @@
 
         </div>
     </nav>
+    <div class="pre-loader" id="pre-loader">
+        <div class="loader" id="loader-6">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Danger!</strong>@ViewBag.Message;
+    </div>
     <div class="container">
         @RenderBody()
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $('#pre-loader').hide();
+    </script>
 </body>
 </html>

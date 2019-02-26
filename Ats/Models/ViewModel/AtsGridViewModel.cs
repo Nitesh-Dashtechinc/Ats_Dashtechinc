@@ -10,13 +10,12 @@ namespace Ats.Models.ViewModel
         public int CandidateId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string CompanyName { get; set; }
-        public string City { get; set; }
+        public string EmailId { get; set; }
         public string Department { get; set; }
         public string Designation { get; set; }
-        public string WorkFrom { get; set; }
-        public string WorkTo { get; set; }
-        public string CtcMonth { get; set; }
-        public string EmailId { get; set; }
+        public string EarliestJoinDate { get; set; }
+        public string TotalExperienceInYear { get; set; }
+        public string CityPresent { get; set; }
+        public string SalaryExpectation { get; set; }
     }
 }

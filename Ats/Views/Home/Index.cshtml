@@ -1,33 +1,42 @@
-﻿@*@model IEnumerable<Ats.Models.ViewModel.GridPreInterRegisterViewModel>*@
-@model List<Ats.Models.ViewModel.AtsGridViewModel>
+﻿@model List<Ats.Models.ViewModel.AtsGridViewModel>
 @using GridMvc.Html
 @{
+    /**/
+
     ViewBag.Title = "Home Page";
 }
 <link rel="stylesheet" href="@Url.Content("~/Content/Gridmvc.css")">
 <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="@Url.Content("~/Content/gridmvc.min.js")"></script>
+@{
+    if (ViewBag.errormessage != null)
+    {
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error! </strong>@ViewBag.errormessage
+        </div>
+    }
+    if (Model != null)
+    {
+        <div class="row table-responsive">
+            @Html.Grid(Model).Columns(columns =>
+                    {
 
-<div class="row">
-    @Html.Grid(Model).Columns(columns =>
-       {
-       columns.Add(c => c.FirstName).Titled("First Name").Filterable(true);
-       columns.Add(c => c.LastName).Titled("Last Name").Filterable(true);
-       columns.Add(c => c.CompanyName).Titled("Company Name").Filterable(true);
-       columns.Add(c => c.CtcMonth).Titled("Current Ctc").SetWidth(100).Filterable(true);
-       columns.Add(c => c.Designation).Titled("Designation").Filterable(true);
-       columns.Add(c => c.WorkFrom).Filterable(true);
-       columns.Add(c => c.WorkTo).Filterable(true);
-       columns.Add(c => c.City).Filterable(true);
-       columns.Add().Encoded(false)
-          .Sanitized(false)
-          .SetWidth(60)
-          .RenderValueAs(o => Html.ActionLink("View", "ViewDetail", new { id = o.CandidateId}));
-           }).WithPaging(10).Sortable(false)
-</div>
- new { id = o.CandidateId}));
-               }).WithPaging(10).Sortable(false)       
-
-    </div>
-</div>
+                        columns.Add(c => c.FirstName).Titled("First Name").Filterable(true);
+                        columns.Add(c => c.LastName).Titled("Last Name").Filterable(true);
+                        columns.Add(c => c.EmailId).Titled("Email").Filterable(true);
+                        columns.Add(c => c.Designation).Titled("Designation").Filterable(true);
+                        columns.Add(c => c.Department).Titled("Department").Filterable(true);
+                        columns.Add(c => c.EarliestJoinDate).Titled("Earliest JoinDate").Filterable(true);
+                        columns.Add(c => c.SalaryExpectation).Titled("Salary Expectation").Filterable(true);
+                        columns.Add(c => c.TotalExperienceInYear).Titled("Total Experience").Filterable(true);
+                        columns.Add(c => c.CityPresent).Titled("City").Filterable(true);
+                        columns.Add().Encoded(false)
+                           .Sanitized(false)
+                           .SetWidth(60)
+                           .RenderValueAs(o => Html.ActionLink("View", "ViewDetail", new { id = o.CandidateId }));
+                    }).WithPaging(10).Sortable(false)
+        </div>
+    }
+}
