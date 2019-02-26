@@ -40,23 +40,6 @@ namespace Ats.Models.ViewModels
         public string ReferenceMobileNo { get; set; }
         public string ReferenceDesignation { get; set; }
 
-        //public string English { get; set; }
-        public bool IsEnglishRead { get; set; }
-        public bool IsEnglishSpeak { get; set; }
-        public bool IsEnglishWrite { get; set; }
-
-        //public string Hindi { get; set; }
-        public bool IsHindiRead { get; set; }
-        public bool IsHindiSpeak { get; set; }
-        public bool IsHindiWrite { get; set; }
-
-        //public string Gujarati { get; set; }
-
-        public bool IsGujaratiRead { get; set; }
-        public bool IsGujaratiSpeak { get; set; }
-        public bool IsGujaratiWrite { get; set; }
-
-
         public string EmailId { get; set; }
         public string OtherCertification { get; set; }
 

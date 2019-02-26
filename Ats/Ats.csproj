@@ -391,6 +391,7 @@
     <Compile Include="Models\InterPersonalInfo.cs" />
     <Compile Include="Models\InterPreEmpDetail.cs" />
     <Compile Include="Models\InterReference.cs" />
+    <Compile Include="Models\InterLanguage.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\ViewModel\AtsGridViewModel.cs" />
     <Compile Include="Models\ViewModel\CityViewModel.cs" />
@@ -404,10 +405,10 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ViewModel\InterPreEmpDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\InterReferenceViewModel.cs" />
+    <Compile Include="Models\ViewModel\LanguageViewModel.cs" />
     <Compile Include="Models\ViewModel\ManageViewModels.cs" />
     <Compile Include="Models\ViewModel\PreInterRegisterViewModel.cs" />
     <Compile Include="Models\ViewModel\StateViewModel.cs" />
-    <Compile Include="Models\ViewModel\WorkFromWorkTo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -546,6 +547,7 @@
     <Content Include="Scripts\gridmvc.js" />
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
+    <Content Include="Scripts\inputmaskJs.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -619,7 +621,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="DataModel\" />
     <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>

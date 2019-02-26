@@ -87,6 +87,15 @@ namespace Ats.Controllers
                                                           }).ToList();
                 getDepartmentList.Insert(0, new SelectListItem { Text = "--Select Department--", Value = "" });
                 ViewBag.departmentList = getDepartmentList;
+
+                List<SelectListItem> getLanguage = (from p in db.InterLanguages.AsEnumerable()
+                                                     select new SelectListItem
+                                                     {
+                                                         Text = p.LanguageType,
+                                                         Value = p.LanguageId.ToString()
+                                                     }).ToList();
+                getLanguage.Insert(0, new SelectListItem { Text = "--Select Language--", Value = "" });
+                ViewBag.language = getLanguage;
                 return View();
 
             }
@@ -137,7 +146,15 @@ namespace Ats.Controllers
                             db.InterEducBackground.Add(c);
                             db.SaveChanges();
                         }
-
+                    }
+                    if (obj.Languages != null)
+                    {
+                        foreach (InterLanguage l in obj.Languages)
+                        {
+                            l.CandidateId = id;
+                            db.InterLanguages.Add(l);
+                            db.SaveChanges();
+                        }
                     }
                     res.ContentType = "success";
                     res.Data = "Your Form Submited Successfully";
@@ -219,6 +236,16 @@ namespace Ats.Controllers
                                  ContactNo   = p.ContactNo                                   
                              }).ToList();
                 Candidate.Reference = reference;
+                Candidate.Language = new  List<LanguageViewModel>();
+                Candidate.Language = (from l in db.InterLanguages
+                                where l.CandidateId == id
+                                select new LanguageViewModel
+                                {
+                                    LanguageType = l.LanguageType,
+                                    Read = l.Read,
+                                    Write = l.Write,
+                                    Speak = l.Speak
+                                }).ToList();
                 return View(Candidate);
             }
             catch (Exception ex)
@@ -274,9 +301,9 @@ namespace Ats.Controllers
             JsonResult res = new JsonResult();
             try
             {
+                
                 if (TempData.ContainsKey("candidateId"))
                 {
-                    
                     int id = int.Parse(TempData["candidateId"].ToString());
                     GridPreInterRegisterViewModel Candidate = new GridPreInterRegisterViewModel();
                     InterPersonalInfoViewModel perSonalInfo = new InterPersonalInfoViewModel();
@@ -351,12 +378,16 @@ namespace Ats.Controllers
                                      ContactNo = p.ContactNo
                                  }).ToList();
                     Candidate.Reference = reference;
-                    //reference = (
-                    //     from p in getData.GetReferenceInfo()
-                    //     where (p.CandidateId == id)
-                    //     select p
-                    //    ).ToList();
-                    //Candidate.Reference = reference;
+                    Candidate.Language = new List<LanguageViewModel>();
+                    Candidate.Language = (from l in db.InterLanguages
+                                          where l.CandidateId == id
+                                          select new LanguageViewModel
+                                          {
+                                              LanguageType = l.LanguageType,
+                                              Read = l.Read,
+                                              Write = l.Write,
+                                              Speak = l.Speak
+                                          }).ToList();
 
                     return View(Candidate);
 
