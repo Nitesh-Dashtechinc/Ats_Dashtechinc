@@ -23,7 +23,7 @@ namespace Ats.Controllers
         {
             JsonResult res = new JsonResult();
             try
-            {                
+            {
                 List<AtsGridViewModel> list = (from e in db.InterPersonalInfo
                                                join p in db.InterPreEmpDetail on e.CandidateId equals p.CandidateId into ps
                                                from p in ps.DefaultIfEmpty()
@@ -50,7 +50,7 @@ namespace Ats.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException))? ex.Message.ToString() : ex.InnerException.ToString();
+                ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException)) ? ex.Message.ToString() : ex.InnerException.ToString();
                 return View();
             }
 
@@ -59,7 +59,7 @@ namespace Ats.Controllers
         {
             JsonResult res = new JsonResult();
             try
-            {              
+            {
 
                 TempData.Remove("candidateId"); // Remove Particular TempData i.e. candidateId.
                 TempData.Clear();
@@ -89,11 +89,11 @@ namespace Ats.Controllers
                 ViewBag.departmentList = getDepartmentList;
 
                 List<SelectListItem> getLanguage = (from p in db.InterLanguages.AsEnumerable()
-                                                     select new SelectListItem
-                                                     {
-                                                         Text = p.LanguageType,
-                                                         Value = p.LanguageId.ToString()
-                                                     }).ToList();
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = p.LanguageType,
+                                                        Value = p.LanguageId.ToString()
+                                                    }).ToList();
                 getLanguage.Insert(0, new SelectListItem { Text = "--Select Language--", Value = "" });
                 ViewBag.language = getLanguage;
                 return View();
@@ -162,7 +162,7 @@ namespace Ats.Controllers
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 res.ContentType = "error";
                 res.Data = "Some thing went rong please try agnain";
@@ -187,13 +187,8 @@ namespace Ats.Controllers
                 StateViewModel states = new StateViewModel();
                 DepartmentViewModel departments = new DepartmentViewModel();
                 DesignationViewModel designations = new DesignationViewModel();
-                GetData getData = new GetData();
-                perSonalInfo =
-                (
-                    from p in getData.GetAllPersonalInfo()
-                    where (p.CandidateId == id)
-                    select p
-                ).FirstOrDefault();
+                perSonalInfo =                (                    from p in db.InterPersonalInfo                    where (p.CandidateId == id)                    select new InterPersonalInfoViewModel()
+                    {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.Gender,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        OtherComments=p.OtherComments                    }).FirstOrDefault();
 
                 Candidate.PersonalInfo = perSonalInfo;
                 preEmployementDetail = (from p in db.InterPreEmpDetail
@@ -227,25 +222,26 @@ namespace Ats.Controllers
 
                 reference = (from p in db.InterReference
                              where (p.CandidateId == id)
-                             select new InterReferenceViewModel() {
+                             select new InterReferenceViewModel()
+                             {
                                  ReferenceId = p.ReferenceId,
                                  CandidateId = p.CandidateId,
-                                 PersonName  = p.PersonName,
+                                 PersonName = p.PersonName,
                                  CompanyName = p.CompanyName,
                                  Designation = p.Designation,
-                                 ContactNo   = p.ContactNo                                   
+                                 ContactNo = p.ContactNo
                              }).ToList();
                 Candidate.Reference = reference;
-                Candidate.Language = new  List<LanguageViewModel>();
+                Candidate.Language = new List<LanguageViewModel>();
                 Candidate.Language = (from l in db.InterLanguages
-                                where l.CandidateId == id
-                                select new LanguageViewModel
-                                {
-                                    LanguageType = l.LanguageType,
-                                    Read = l.Read,
-                                    Write = l.Write,
-                                    Speak = l.Speak
-                                }).ToList();
+                                      where l.CandidateId == id
+                                      select new LanguageViewModel
+                                      {
+                                          LanguageType = l.LanguageType,
+                                          Read = l.Read,
+                                          Write = l.Write,
+                                          Speak = l.Speak
+                                      }).ToList();
                 return View(Candidate);
             }
             catch (Exception ex)
@@ -262,7 +258,7 @@ namespace Ats.Controllers
         {
             JsonResult res = new JsonResult();
             try
-            {                
+            {
                 res.Data = db.City.Select(s => new { s.CityId, s.CityName, s.StateId }).Where(city => city.StateId == id).OrderBy(city => city.CityName).ToList();
                 res.ContentType = "Succeess";
                 return Json(res.Data, JsonRequestBehavior.AllowGet);
@@ -301,7 +297,7 @@ namespace Ats.Controllers
             JsonResult res = new JsonResult();
             try
             {
-                
+
                 if (TempData.ContainsKey("candidateId"))
                 {
                     int id = int.Parse(TempData["candidateId"].ToString());
@@ -314,15 +310,44 @@ namespace Ats.Controllers
                     StateViewModel states = new StateViewModel();
                     DepartmentViewModel departments = new DepartmentViewModel();
                     DesignationViewModel designations = new DesignationViewModel();
-                    GetData getData = new GetData();
-                    perSonalInfo =
-                    (
-                        from p in getData.GetAllPersonalInfo()
-                        where (p.CandidateId == id)
-                        select p
-                    ).FirstOrDefault();
-
-
+                    //Get PersonalInformation of candidate
+                    perSonalInfo =(from p in db.InterPersonalInfo
+                                    where (p.CandidateId == id)
+                                    select new InterPersonalInfoViewModel()
+                                    {
+                                        CandidateId = p.CandidateId,
+                                        FirstName = p.FirstName,
+                                        LastName = p.LastName,
+                                        MobileNo1 = p.MobileNo1,
+                                        MobileNo2 = p.MobileNo2,
+                                        DateOfBirth = p.DateOfBirth,
+                                        Age = p.Age,
+                                        Gender = p.Gender,
+                                        MaritalStaus = p.Gender,
+                                        NoOfChildren = p.NoOfChildren,
+                                        AddressPresent = p.AddressPresent,
+                                        StatePresent = p.StatePresent,
+                                        CityPresent = p.CityPresent,
+                                        PincodePresent = p.PincodePresent,
+                                        AddressPast = p.AddressPast,
+                                        StatePast = p.StatePast,
+                                        CityPast = p.CityPast,
+                                        PinCodePast = p.PinCodePast,
+                                        AppliedForDepartment = p.AppliedForDepartment,
+                                        AppliedForDesignation = p.AppliedForDesignation,
+                                        TotalExperienceInYear = p.TotalExperienceInYear,
+                                        EarliestJoinDate = p.EarliestJoinDate,
+                                        SalaryExpectation = p.SalaryExpectation,
+                                        Vehicle = p.Vehicle,
+                                        JobSource = p.JobSource,
+                                        NightShift = p.NightShift,
+                                        IsReference = p.IsReference,
+                                        ReferenceName = p.ReferenceName,
+                                        ReferenceDesignation = p.ReferenceDesignation,
+                                        ReferenceMobileNo = p.ReferenceMobileNo,
+                                        EmailId = p.EmailId,
+                                        OtherCertification = p.OtherCertification
+                                    }).FirstOrDefault();
                     Candidate.PersonalInfo = perSonalInfo;
 
                     preEmployementDetail = (from p in db.InterPreEmpDetail
@@ -401,6 +426,30 @@ namespace Ats.Controllers
             {
                 ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException)) ? ex.Message.ToString() : ex.InnerException.ToString();
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public JsonResult SaveComnets(int id,string txtcommnet)
+        {
+            JsonResult result = new JsonResult();
+            try
+            {
+                InterPersonalInfo comment = db.InterPersonalInfo.Where(w => w.CandidateId == id).FirstOrDefault();
+                comment.OtherComments = txtcommnet;
+                db.SaveChanges();
+
+                result.ContentType = "success";
+                TempData["Success"] = "record saved successfully";
+                result.Data = "record saved successfully";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                TempData["Error"] = "Ooops! something wrong try again";
+                result.ContentType = "error";
+                result.Data = "Ooops! something wrong try again";
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
 

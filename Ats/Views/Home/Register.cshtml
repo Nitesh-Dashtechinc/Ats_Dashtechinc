@@ -1,6 +1,6 @@
 ﻿@model Ats.Models.ViewModel.PreInterRegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Applicant Tracking System";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript" src="~/Scripts/inputmaskJs.js"></script>
@@ -26,6 +26,14 @@
         transition: .3s ease all;
         font-family: 'Roboto', sans-serif;
     }
+    .css-serial {
+        counter-reset: serial-number; /* Set the serial number counter to 0 */
+    }
+
+        .css-serial td:first-child:before {
+            counter-increment: serial-number; /* Increment the serial number counter */
+            content: counter(serial-number); /* Display the counter */
+        }
 </style>
 @if (ViewBag.errormessage != null)
 {
@@ -221,14 +229,14 @@
                 </div>
             </div>
             <div class="row">
-                @*<div class="col-lg-3 col-md-12">
+                <div class="col-lg-3 col-md-12">
                         <label class="control-label">Language Known</label>
-                    </div>*@
-                <div class="table-responsive">
+                    </div>
+                <div class="table-responsive col-lg-9">
                     <table id="language" class="table table-language col-md-12">
                         <thead>
                             <tr>
-                                <th><label class="control-label">Language Known</label></th>
+                                @*<th><label class="control-label">Language Known</label></th>*@
                                 <th>
                                     @*@Html.DropDownList("Language", new SelectList(ViewBag.language, "Value", "Text"), new { @class = "form-control" })*@
                                     @Html.DropDownList("Language", new List<SelectListItem>
@@ -238,18 +246,18 @@
                                         new SelectListItem{ Text="Hindi", Value = "3" },
                                         new SelectListItem{ Text="SPANISH", Value = "4" },
                                         new SelectListItem{ Text="ARABIC", Value = "5" }
-                                     },new { @class = "form-control" })
+                                     },new { @class = "form-control col-md-10 col-12" })
                                 </th>
-                                <th>
-                                    @Html.CheckBox("Read", new { @class = "form-check-input" })<label>Read</label>
+                                <th class="text-center">
+                                    @Html.CheckBox("Read", new { @class = "form-check-input", @checked = "checked"})<label>Read</label>
                                 </th>
-                                <th>
-                                    @Html.CheckBox("Speak", new { @class = "form-check-input" })<label>Speak</label>
+                                <th class="text-center">
+                                    @Html.CheckBox("Speak", new { @class = "form-check-input", @checked = "checked" })<label>Speak</label>
                                 </th>
-                                <th>
-                                    @Html.CheckBox("Write", new { @class = "form-check-input" })<label>Write</label>
+                                <th class="text-center">
+                                    @Html.CheckBox("Write", new { @class = "form-check-input", @checked = "checked" })<label>Write</label>
                                 </th>
-                                <th><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row" data-toggle="tooltip" data-placement="top" title="Click To Add"></button></th>
+                                <th><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row"></button></th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -447,7 +455,7 @@
                         </div>
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group input-group">
-                                @Html.TextBoxFor(Model => Model.PersonalInfo.SalaryExpectation, new { @class = "form-control only-number col-8", @maxlength = "7", @required = true })
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.SalaryExpectation, new { @class = "form-control only-number col-8", @type = "number", @maxlength = "7", @required = true })
                                 <div class="col-4 mr-3"><label>/Month</label></div>
                             </div>
                             @Html.ValidationMessageFor(Model => Model.PersonalInfo.SalaryExpectation)
@@ -612,10 +620,10 @@
         </div>
         <div class="card-body">
             <div class="table-responsive table-striped">
-                <table id="previousEmploymentDetails" class="table table-striped table-responsive table-pre-employeement" cellpadding="20%">
+                <table id="previousEmploymentDetails" class="table table-striped table-responsive table-pre-employeement css-serial" cellpadding="20%">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>#</th>
                             <th>Company Name</th>
                             <th>City</th>
                             <th>Designation</th>
@@ -626,35 +634,36 @@
                         </tr>
                         <tr>
                             <th>
-                                <label name="EmploymentId" id="EmploymentId" value="1">1</label>
-                                <input type="hidden" name="CandidateId" id="CandidateId" class="form-control minwidth"  />
+                                <label name="EmploymentId" id="EmploymentId" value="1"></label>
+                                <input type="hidden" name="CandidateId" id="CandidateId" class="form-control minwidth" />
                             </th>
                             <th>
-                                <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth "  />
+                                <input type="text" name="CompanyName" id="CompanyName" class="form-control minwidth " />
                             </th>
                             <th>
-                                <input type="text" name="City" id="City" class="form-control minwidth "  />
+                                <input type="text" name="City" id="City" class="form-control minwidth " />
                             </th>
                             <th>
-                                <input type="text" name="Designation" id="Designation" class="form-control minwidth "  />
+                                <input type="text" name="Designation" id="Designation" class="form-control minwidth " />
                             </th>
                             <th>
                                 <div style="display:inline-flex">
-                                    <input type="text" name="WorkFrom" id="WorkFrom" class="form-control minwidth datepicker" readonly  /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
+                                    <input type="text" name="WorkFrom" id="WorkFrom" class="form-control minwidth datepicker" readonly /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
                                 </div>
                             </th>
                             <th>
                                 <div style="display:inline-flex">
-                                    <input type="text" name="WorkTo" id="WorkTo" class="form-control  minwidth datepicker" readonly  /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
+                                    <input type="text" name="WorkTo" id="WorkTo" class="form-control  minwidth datepicker" readonly /><span class="input-group-text"><i class="fas fa-calendar-week"></i></span>
                                 </div>
                             </th>
                             <th>
-                                <input type="text" name="CtcMonth" id="CtcMonth" class="form-control only-number minwidth" maxlength="7"  />
+                                <input type="text" name="CtcMonth" id="CtcMonth" class="form-control only-number minwidth" maxlength="7" />
                             </th>
                             <th style="text-align:left"><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row" data-toggle="tooltip" data-placement="top" title="Click To Add"></button></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
+                    <tfoot class="thead-light"><tr><th valign="top" class="text-center" colspan="8">No records added</th></tr></tfoot>
                 </table>
             </div>
         </div>
@@ -671,10 +680,10 @@
         </div>
         <div class="card-body">
             <div class="table-responsive table-striped">
-                <table id="reference" class="table table-striped table-responsive table-refernce">
+                <table id="reference" class="table table-striped table-responsive table-refernce css-serial">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>#</th>
                             <th>Person Name</th>
                             <th>Company Name</th>
                             <th>Designation</th>
@@ -683,7 +692,7 @@
                         </tr>
                         <tr>
                             <th>
-                                <label name="ReferenceId" id="ReferenceId" value="1">1 </label>
+                                <label name="ReferenceId" id="ReferenceId" value="1"> </label>
                                 <input type="hidden" name="CandidateId" class="form-control" id="CandidateId" />
                             </th>
                             <th>
@@ -705,6 +714,7 @@
                         </tr>
                     </thead>
                     <tbody></tbody>
+                    <tfoot class="thead-light"><tr><th valign="top" class="text-center" colspan="6">No records added</th></tr></tfoot>
                 </table>
             </div>
         </div>
@@ -721,10 +731,10 @@
         </div>
         <div class="card-body">
             <div class="table-responsive table-striped">
-                <table id="educationalBackground" class="table table-striped table-responsive table-educational-background">
+                <table id="educationalBackground" class="table table-striped table-responsive table-educational-background css-serial">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th>#</th>
                             <th>Board/University</th>
                             <th>Course/Degree</th>
                             <th>Passing Year</th>
@@ -733,28 +743,29 @@
                         </tr>
                         <tr>
                             <th>
-                                <label name="EducationalId" id="EducationalId" value="1">1</label>
+                                <label name="EducationalId" id="EducationalId" value="1"></label>
                                 <input type="hidden" name="CandidateId" class="form-control" id="CandidateId" />
                             </th>
                             <th>
-                                <input type="text" name="BoardUniversityName" id="BoardUniversityName" class="form-control minwidth"  />
+                                <input type="text" name="BoardUniversityName" id="BoardUniversityName" class="form-control minwidth" />
                             </th>
                             <th>
-                                <input type="text" name="CourseDegreeName" id="CourseDegreeName" class="form-control minwidth"  />
+                                <input type="text" name="CourseDegreeName" id="CourseDegreeName" class="form-control minwidth" />
                             </th>
                             <th>
-                                <input type="text" name="PassingYear" id="PassingYear" class="form-control only-number minwidth" maxlength="4"  />
+                                <input type="text" name="PassingYear" id="PassingYear" class="form-control only-number minwidth" maxlength="4" />
                             </th>
                             <th>
-                                <input type="text" name="GradePercentage" id="GradePercentage" class="form-control minwidth "/>
+                                <input type="text" name="GradePercentage" id="GradePercentage" class="form-control minwidth " />
                             </th>
                             <th colspan="5" style="text-align:left;">
                                 <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow" data-toggle="tooltip" data-placement="top" title="Click To Add"></button>
                             </th>
-                            
+
                         </tr>
                     </thead>
                     <tbody></tbody>
+                    <tfoot class="thead-light"><tr><th valign="top" class="text-center" colspan="6">No records added</th></tr></tfoot>
                 </table>
             </div>
         </div>
@@ -803,6 +814,7 @@
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <script src="~/Content/toastr/js/toastr.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $('#frmpredetail').validate({

@@ -52,7 +52,7 @@ namespace Ats.Models.ViewModel
                                 obj11.EmailId = list1[i].EmailId;
                                 obj11.OtherCertification = list1[i].OtherCertification;
                                 obj11.Gender = list1[i].Gender;
-                                
+                                obj11.NoOfChildren =Convert.ToInt32(list1[i].NoOfChildren);
                                 obj11.AppliedForDepartment = list1[i].AppliedForDepartment;
                                 obj11.AppliedForDesignation = list1[i].AppliedForDesignation;
                                 obj11.AddressPast = list1[i].AddressPast;

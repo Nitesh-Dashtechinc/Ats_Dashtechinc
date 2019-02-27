@@ -160,5 +160,9 @@ namespace Ats.Models
         [Column(TypeName = "VARCHAR")]
         //[StringLength(250)]
         public string OtherCertification { get; set; }
+
+        [Column(TypeName = "VARCHAR")]
+        //[StringLength(250)]
+        public string OtherComments { get; set; }
     }
 }

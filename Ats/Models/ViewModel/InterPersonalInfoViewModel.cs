@@ -16,7 +16,7 @@ namespace Ats.Models.ViewModels
         public int Age { get; set; }
         public string Gender { get; set; }
         public string MaritalStaus { get; set; }
-        public int NoOfChildren { get; set; }
+        public int? NoOfChildren { get; set; }
         public string AddressPresent { get; set; }
         public string StatePresent { get; set; }
         public string CityPresent { get; set; }
@@ -42,10 +42,6 @@ namespace Ats.Models.ViewModels
 
         public string EmailId { get; set; }
         public string OtherCertification { get; set; }
-
-        public string StateNamePresent { get; set; }
-        public string CityNamePresent { get; set; }
-        public string StateNamePast { get; set; }
-        public string CityNamePast { get; set; }
+        public string OtherComments { get; set; }
     }
 }

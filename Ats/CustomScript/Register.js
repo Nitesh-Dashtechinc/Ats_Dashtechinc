@@ -89,8 +89,9 @@
             case "previousEmploymentDetails":
                 var te1 = $('#frmpredetail').valid();
                 if ($('#frmpredetail').valid()) {
-                    debugger
-                    $('#previousEmploymentDetails tbody').append('<tr><td>' + counter + '</td><td>' + $('#CompanyName').val() + '</td><td>' + $('#City').val() + '</td><td>' + $('#Designation').val() + '</td><td>' + $('#WorkFrom').val() + '</td><td>' + $('#WorkTo').val() + '</td><td>' + $('#CtcMonth').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
+                    if (counter==2)
+                        $('#previousEmploymentDetails tfoot').empty();
+                    $('#previousEmploymentDetails tbody').append('<tr><td></td><td>' + $('#CompanyName').val() + '</td><td>' + $('#City').val() + '</td><td>' + $('#Designation').val() + '</td><td>' + $('#WorkFrom').val() + '</td><td>' + $('#WorkTo').val() + '</td><td>' + $('#CtcMonth').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter++;
                     //$(this).closest('tr').find('#CompanyName').val('');
                     //$(this).closest('tr').find('#City').val('');
@@ -107,7 +108,9 @@
             case "reference":
                 var reg = $('#frmReference').valid();
                 if ($('#frmReference').valid()) {
-                    $('#reference tbody').append('<tr><td>' + counter1 + '</td><td>' + $('#PersonName').val() + '</td><td>' + $(this).closest('tr').find('#Designation').val() + '</td><td>' + $(this).closest('tr').find('#CompanyName').val() + '</td><td>' + $('#ContactNo').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
+                    if (counter1 == 2)
+                        $('#reference tfoot').empty();
+                    $('#reference tbody').append('<tr><td></td><td>' + $('#PersonName').val() + '</td><td>' + $(this).closest('tr').find('#Designation').val() + '</td><td>' + $(this).closest('tr').find('#CompanyName').val() + '</td><td>' + $('#ContactNo').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter1++;
                     $('#frmReference')[0].reset();
 
@@ -124,7 +127,9 @@
             case "educationalBackground":
                 var edu = $('#frmEducationalBackground').valid();
                 if ($('#frmEducationalBackground').valid()) {
-                    $('#educationalBackground tbody').append('<tr><td>' + counter2 + '</td><td>' + $('#BoardUniversityName').val() + '</td><td>' + $('#CourseDegreeName').val() + '</td><td>' + $('#PassingYear').val() + '</td><td>' + $('#GradePercentage').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
+                    if (counter2 == 2)
+                        $('#educationalBackground tfoot').empty();
+                    $('#educationalBackground tbody').append('<tr><td></td><td>' + $('#BoardUniversityName').val() + '</td><td>' + $('#CourseDegreeName').val() + '</td><td>' + $('#PassingYear').val() + '</td><td>' + $('#GradePercentage').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter2++;
                     $('#frmEducationalBackground')[0].reset();
                     $("form#frmEducationalBackground :input").each(function () {
@@ -134,7 +139,7 @@
 
                 break;
             case "language":
-                if ($('#Language option:selected').text() != '--Select Language--') {
+                if ($('#Language option:selected').text() != '--Select Language--' && canadd()) {
                     var read = "No", speak = "No", write = "No";
                     if ($('#Read').is(":checked")) {
                         read = "Yes"
@@ -145,17 +150,17 @@
                     if ($('#Write').is(":checked")) {
                         write = 'Yes';
                     }
-                    cols += '<td></td>';
                     cols += '<td>' + $('#Language option:selected').text() + '</td>';
                     cols += '<td>' + read + '</td>';
                     cols += '<td>' + speak + '</td>';
                     cols += '<td>' + write + '</td>';
                     cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
-                    $('#Read').prop('checked', false);
-                    $('#Speak').prop('checked', false);
-                    $('#Write').prop('checked', false);
+                    $('#Read').prop('checked', true);
+                    $('#Speak').prop('checked', true);
+                    $('#Write').prop('checked', true);
                 }
                 else {
+                    toastr.warning($('#Language option:selected').text() +" all ready exist");
                     cols += "";
                 }
                 newRow.append(cols);
@@ -168,21 +173,80 @@
 
 
     $("table.table-pre-employeement").on("click", ".ibtn-Del", function (event) {
-
-        $(this).closest("tr").remove();
-        counter -= 1;
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(this).closest("tr").remove();
+                    counter -= 1;
+                    swal("Done! Your record has been deleted!", {
+                        icon: "success",
+                    });
+                }
+            });
+        
     });
     $("table.table-refernce").on("click", ".ibtn-Del", function (event) {
-        $(this).closest("tr").remove();
-        counter -= 1;
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(this).closest("tr").remove();
+                    counter -= 1;
+                    swal("Done! Your record has been deleted!", {
+                        icon: "success",
+                    });
+                }
+            });
+        
     });
     $("table.table-educational-background").on("click", ".ibtn-Del", function (event) {
-        $(this).closest("tr").remove();
-        counter -= 1;
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(this).closest("tr").remove();
+                    counter -= 1;
+                    swal("Done! Your record has been deleted!", {
+                        icon: "success",
+                    });
+                }
+            });
+        
     });
     $("table.table-language").on("click", ".ibtn-Del", function (event) {
-        $(this).closest("tr").remove();
-        counter -= 1;
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(this).closest("tr").remove();
+                    counter -= 1;
+                    swal("Done! Your record has been deleted!", {
+                        icon: "success",
+                    });
+                }
+            });
+        
     });
     $('input[type=radio][id=PersonalInfo_IsReference]').change(function () {
         if (this.value == 'True') {
@@ -449,10 +513,10 @@ function SaveAll() {
         $("#language tbody tr").each(function () {
             var row = $(this);
             objj.Languages.push({
-                LanguageType: row.find("td:eq(1)").text(),
-                Read: row.find("td:eq(2)").text(),
-                Speak: row.find("td:eq(3)").text(),
-                Write: row.find("td:eq(4)").text()
+                LanguageType: row.find("td:eq(0)").text(),
+                Read: row.find("td:eq(1)").text(),
+                Speak: row.find("td:eq(2)").text(),
+                Write: row.find("td:eq(3)").text()
                 });
         });
 
@@ -485,4 +549,14 @@ function SaveAll() {
     else {
         $('#frmdetail').find("input.input-validation-error")[0].focus();
     }
+}
+function canadd() {
+    var is = true;
+    $("#language tbody tr").each(function () {
+        if ($('#Language option:selected').text() == $(this).find("td:eq(0)").text()) {
+            is = false;
+            return is;
+        }
+    });
+    return is;
 }
