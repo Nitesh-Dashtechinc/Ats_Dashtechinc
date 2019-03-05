@@ -17,5 +17,7 @@ namespace Ats.Models.ViewModel
         public string TotalExperienceInYear { get; set; }
         public string CityPresent { get; set; }
         public string SalaryExpectation { get; set; }
+        public DateTime? InterviewDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

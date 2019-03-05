@@ -19,24 +19,25 @@
     }
     if (Model != null)
     {
-        <div class="row table-responsive">
+        <div class="row table-responsive" style="height:500px;">
             @Html.Grid(Model).Columns(columns =>
-                    {
+       {
 
-                        columns.Add(c => c.FirstName).Titled("First Name").Filterable(true);
-                        columns.Add(c => c.LastName).Titled("Last Name").Filterable(true);
-                        columns.Add(c => c.EmailId).Titled("Email").Filterable(true);
-                        columns.Add(c => c.Designation).Titled("Designation").Filterable(true);
-                        columns.Add(c => c.Department).Titled("Department").Filterable(true);
-                        columns.Add(c => c.EarliestJoinDate).Titled("Earliest JoinDate").Filterable(true);
-                        columns.Add(c => c.SalaryExpectation).Titled("Salary Expectation").Filterable(true);
-                        columns.Add(c => c.TotalExperienceInYear).Titled("Total Experience").Filterable(true);
-                        columns.Add(c => c.CityPresent).Titled("City").Filterable(true);
-                        columns.Add().Encoded(false)
-                           .Sanitized(false)
-                           .SetWidth(60)
-                           .RenderValueAs(o => Html.ActionLink("View", "ViewDetail", new { id = o.CandidateId }));
-                    }).WithPaging(10).Sortable(false)
+           columns.Add(c => c.FirstName).Titled("First Name").Filterable(true);
+           columns.Add(c => c.LastName).Titled("Last Name").Filterable(true);
+           columns.Add(c => c.EmailId).Titled("Email").Filterable(true);
+           columns.Add(c => c.Designation).Titled("Designation").Filterable(true);
+           columns.Add(c => c.Department).Titled("Department").Filterable(true);
+           columns.Add(c => c.EarliestJoinDate).Titled("Earliest JoinDate").Filterable(true);
+           columns.Add(c => c.SalaryExpectation).Titled("Salary Expectation").Filterable(true);
+           columns.Add(c => c.TotalExperienceInYear).Titled("Total Experience").Filterable(true);
+           columns.Add(c => c.CityPresent).Titled("City").Filterable(true);
+           columns.Add(c => c.InterviewDate).Titled("Interview Date").Filterable(true).SetWidth("40px");
+           columns.Add().Encoded(false)
+              .Sanitized(false)
+              .SetWidth(60)
+              .RenderValueAs(o => Html.ActionLink("View", "ViewDetail", new { id = o.CandidateId }));
+       }).WithPaging(10).Sortable(false)
         </div>
     }
 }

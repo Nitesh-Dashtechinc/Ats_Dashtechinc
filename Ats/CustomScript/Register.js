@@ -33,6 +33,7 @@
     $('#WorkFrom').datepicker('setEndDate', 'today');
     $('#WorkTo').datepicker('setDate', 'today');
     $('#WorkTo').datepicker('setEndDate', 'today');
+
     $('#PersonalInfo_DateOfBirth').datepicker({
         format: 'dd/mm/yyyy',
         //startDate: new Date(),
@@ -81,7 +82,6 @@
 
 
     $(".add-row").on("click", function () {
-
         var tableId = $(this).parents('table').attr('id');
         var newRow = $("<tr>");
         var cols = "";
@@ -93,13 +93,11 @@
                         $('#previousEmploymentDetails tfoot').empty();
                     $('#previousEmploymentDetails tbody').append('<tr><td></td><td>' + $('#CompanyName').val() + '</td><td>' + $('#City').val() + '</td><td>' + $('#Designation').val() + '</td><td>' + $('#WorkFrom').val() + '</td><td>' + $('#WorkTo').val() + '</td><td>' + $('#CtcMonth').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter++;
-                    //$(this).closest('tr').find('#CompanyName').val('');
-                    //$(this).closest('tr').find('#City').val('');
-                    //$(this).closest('tr').find('#Designation').val('');
-                    //$(this).closest('tr').find('#WorkFrom').val('');
-                    //$(this).closest('tr').find('#WorkTo').val('');
-                    //$(this).closest('tr').find('#CtcMonth').val('');
                     $('#frmpredetail')[0].reset();
+                    $('#WorkFrom').datepicker('setDate', 'today');
+                    $('#WorkFrom').datepicker('setEndDate', 'today');
+                    $('#WorkTo').datepicker('setDate', 'today');
+                    $('#WorkTo').datepicker('setEndDate', 'today');
                     $("form#frmpredetail :input").each(function () {
                         $(this).removeClass('is-valid').addClass('is-invalid');
                     });
@@ -113,16 +111,10 @@
                     $('#reference tbody').append('<tr><td></td><td>' + $('#PersonName').val() + '</td><td>' + $(this).closest('tr').find('#Designation').val() + '</td><td>' + $(this).closest('tr').find('#CompanyName').val() + '</td><td>' + $('#ContactNo').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter1++;
                     $('#frmReference')[0].reset();
-
-                    //$(this).closest('tr').find('#PersonName').val('');
-                    //$(this).closest('tr').find('#Designation').val('');
-                    //$(this).closest('tr').find('#CompanyName').val('');
-                    //$(this).closest('tr').find('#ContactNo').val('');
                     $("form#frmReference :input").each(function () {
                         $(this).removeClass('is-valid').addClass('is-invalid');
                     });
                 }
-
                 break;
             case "educationalBackground":
                 var edu = $('#frmEducationalBackground').valid();
@@ -136,9 +128,8 @@
                         $(this).removeClass('is-valid').addClass('is-invalid');
                     });
                 }
-
                 break;
-            case "language":
+            case "language":                
                 if ($('#Language option:selected').text() != '--Select Language--' && canadd()) {
                     var read = "No", speak = "No", write = "No";
                     if ($('#Read').is(":checked")) {
@@ -155,9 +146,9 @@
                     cols += '<td>' + speak + '</td>';
                     cols += '<td>' + write + '</td>';
                     cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
-                    $('#Read').prop('checked', true);
-                    $('#Speak').prop('checked', true);
-                    $('#Write').prop('checked', true);
+                    $('#Read').prop('checked', false);
+                    $('#Speak').prop('checked', false);
+                    $('#Write').prop('checked', false);
                 }
                 else {
                     toastr.warning($('#Language option:selected').text() +" all ready exist");
@@ -421,7 +412,6 @@ $('button.validateAll').click(function () {
 function SaveAll() {
     if ($('#frmdetail').valid()) {
         $('#pre-loader').show();
-
         var objj = {
             PersonalInfo: {},
             PreviousEmploymentDetail: [],
@@ -431,7 +421,7 @@ function SaveAll() {
         };
 
        
-            objj.PersonalInfo = {
+       objj.PersonalInfo = {
                 FirstName: $("#PersonalInfo_FirstName").val(),
                 LastName: $("#PersonalInfo_LastName").val(),
                 MobileNo1: $("#PersonalInfo_MobileNo1").val(),
@@ -462,21 +452,7 @@ function SaveAll() {
                 ReferenceName: $("#PersonalInfo_ReferenceName").val(),
                 ReferenceMobileNo: $("#PersonalInfo_ReferenceMobileNo").val(),
                 ReferenceDesignation: $("#PersonalInfo_ReferenceDesignation").val(),
-                OtherCertification: $("#PersonalInfo_OtherCertification").val(),
-                IsEnglishRead: $('#PersonalInfo_IsEnglishRead').is(":checked"),
-                IsEnglishSpeak: $('#PersonalInfo_IsEnglishSpeak').is(":checked"),
-                IsEnglishWrite: $('#PersonalInfo_IsEnglishWrite').is(":checked"),
-
-                IsHindiRead: $('#PersonalInfo_IsHindiRead').is(":checked"),
-                IsHindiSpeak: $('#PersonalInfo_IsHindiSpeak').is(":checked"),
-                IsHindiWrite: $('#PersonalInfo_IsHindiWrite').is(":checked"),
-
-                IsGujaratiRead: $('#PersonalInfo_IsGujaratiRead').is(":checked"),
-                IsGujaratiSpeak: $('#PersonalInfo_IsGujaratiSpeak').is(":checked"),
-                IsGujaratiWrite: $('#PersonalInfo_IsGujaratiWrite').is(":checked")
-                //English: valuesEng.join(","),
-                //Hindi: valuesHindi.join(","),
-                //Gujarati: valuesGuj.join(",")
+                OtherCertification: $("#PersonalInfo_OtherCertification").val()
             };
 
         $("#previousEmploymentDetails tbody tr").each(function () {
@@ -512,12 +488,14 @@ function SaveAll() {
 
         $("#language tbody tr").each(function () {
             var row = $(this);
-            objj.Languages.push({
-                LanguageType: row.find("td:eq(0)").text(),
-                Read: row.find("td:eq(1)").text(),
-                Speak: row.find("td:eq(2)").text(),
-                Write: row.find("td:eq(3)").text()
+            if (row.find("td:eq(0)").text() != "") {
+                objj.Languages.push({
+                    LanguageType: row.find("td:eq(0)").text(),
+                    Read: row.find("td:eq(1)").text(),
+                    Speak: row.find("td:eq(2)").text(),
+                    Write: row.find("td:eq(3)").text()
                 });
+            }
         });
 
         $.ajax({

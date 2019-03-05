@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<script src="~/Scripts/print.js"></script>
 <style>
     label.error {
         color: red;
@@ -25,644 +26,666 @@
     </div>
 }
 @Html.HiddenFor(x => x.PersonalInfo.CandidateId, new { @id = "CandidateId" })
-<div style="text-align:center">
-    <h2>
-        <b>PRE-INTERVIEW DETAIL FORM</b>
-    </h2>
-
-</div>
-<div class="card shadow">
-    <div class="card-header">
-        <h5 class="text-primary">
-            Personal Information
-            <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#commentModal">
-               <i class="fa fa-plus"></i> Add Comments
-            </button>
-        </h5>
+<div class="text-right"><button type="button" class="btn btn-primary" id="clikPrint"><i class="fa fa-print"></i> Print</button></div>
+<div id="printableArea">
+    <div style="text-align:center">
+        <h2>
+            <b>PRE-INTERVIEW DETAIL FORM</b>
+        </h2>
     </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">First Name</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.FirstName, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Last Name</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.LastName, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <h5 class="text-primary">
+                Personal Information
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#commentModal" id="btnCommentModel">
+                    <i class="fa fa-plus"></i> FeedBack
+                </button>
+            </h5>
         </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Mobile No 1</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Mobile No 2</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @if (Model.PersonalInfo.MobileNo2 != null)
-                        {
-                            @Html.DisplayFor(Model => Model.PersonalInfo.MobileNo2, new { @class = "control-label" })
-                        }
-                        else
-                        {
-                            @Html.Label("-", new { @class = "control-label" })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Email</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.EmailId, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Date of Birth</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="form-group input-group">
-                            @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8" })
-                            <div class="col-4"><label class="control-label" id="Age">Age</label> @Html.DisplayFor(M => Model.PersonalInfo.Age)</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Marital Status</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.MaritalStaus, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">No Of Children</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @if (Model.PersonalInfo.NoOfChildren > 0)
-                        {
-                            @Html.DisplayFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "control-label", @placeholder = "Unmarried Enter 0" })
-                        }
-                        else
-                        {
-                            @Html.Label("-", new { @class = "control-label" })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Gender</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.Gender, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Vehicle</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.Vehicle, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="table-responsive">
-                <table id="language" class="table table-language col-md-12">
-                    <thead>
-                        <tr>
-                            <th>
-                                Language Known
-                                @*@Html.DropDownList("Language", new List<SelectListItem>
-                                    {
-                                        new SelectListItem{ Text="English", Value = "1" },
-                                        new SelectListItem{ Text="Gujarat", Value = "2" },
-                                        new SelectListItem{ Text="Hindi", Value = "3" },
-                                     },new { @class = "form-control" })*@
-                            </th>
-                            <th>
-                                <label>Read</label>
-                            </th>
-                            <th>
-                                <label>Speak</label>
-                            </th>
-                            <th>
-                                <label>Write</label>
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var a in Model.Language)
-                        {
-                            <tr>
-                                <td>@a.LanguageType</td>
-                                <td>@a.Read</td>
-                                <td>@a.Write</td>
-                                <td>@a.Speak</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">Present Address Information</h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Address</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.AddressPresent, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Pin code</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">State</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">City</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">
-            Permanent Address Information
-        </h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">
-                            Address
-                        </label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.AddressPast, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Pin code</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.PinCodePast, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">State</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.StatePast, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">City</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => Model.PersonalInfo.CityPast, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">Applied for Position</h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Select Department</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.AppliedForDepartment, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Select Designation</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.AppliedForDesignation, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Total Experience</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.TotalExperienceInYear, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Salary Expectation</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        <div class="form-group input-group">
-                            @Html.DisplayFor(model => model.PersonalInfo.SalaryExpectation, new { @class = "control-label" })<label>/Month</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Early Joining Date</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(model => model.PersonalInfo.EarliestJoinDate, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12 text-nowrap">
-                        <label class="control-label">Comfortable Night Shift</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @if (Model.PersonalInfo.NightShift)
-                        {
-                            @Html.Label("Yes", new { @class = "control-label" })
-                        }
-                        else
-                        {
-                            @Html.Label("No", new { @class = "control-label" })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12">
-                        <label class="control-label">Job Source</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @Html.DisplayFor(Model => Model.PersonalInfo.JobSource, new { @class = "control-label" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row">
-                    <div class="col-lg-4 col-md-12 text-nowrap">
-                        <label class="control-label">Reference In DashTech</label>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
-                        @if (Model.PersonalInfo.IsReference)
-                        {
-                            @Html.Label("Yes", new { @class = "control-label" })
-                        }
-                        else
-                        {
-                            @Html.Label("No", new { @class = "control-label" })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-        @if (Model.PersonalInfo.IsReference)
-        {
+        <div class="card-body">
             <div class="form-row">
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
-                            <label class="control-label">Reference Name</label>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">First Name</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
-                            @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceName, new { @class = "control-label" })
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.FirstName, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-lg-4 col-md-12 text-nowrap">
-                            <label class="control-label">Reference Designation</label>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Last Name</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
-                            @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceDesignation, new { @class = "control-label" })
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.LastName, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
-                            <label class="control-label">Reference Mobile No</label>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label txt-nowrap">Mobile No 1</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
-                            @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "control-label" })
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label txt-nowrap">Mobile No 2</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @if (Model.PersonalInfo.MobileNo2 != null)
+                            {
+                                @Html.DisplayFor(Model => Model.PersonalInfo.MobileNo2, new { @class = "control-label" })
+                            }
+                            else
+                            {
+                                @Html.Label("-", new { @class = "control-label" })
+                            }
                         </div>
                     </div>
                 </div>
             </div>
-        }
-    </div>
-</div>
-<div class="card shadow">
-    <div class="card-header">
-        <h4 class="text-primary">
-            Previous Employment Details
-        </h4>
-    </div>
-    <div class="card-body">
-        <table id="previousEmploymentDetails" class="table table-striped responsive-table table-pre-employeement">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>CompanyName</th>
-                    <th>City</th>
-                    <th>Designation</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>CTC/Month</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.PreviousEmploymentDetail != null)
-                {
-                    var count = Model.PreviousEmploymentDetail.Count;
-                    if (count > 0)
-                    {
-                        int sno = 0;
-                        foreach (var item in Model.PreviousEmploymentDetail)
-                        {
-
-                            <tr>
-                                <td>@{ sno++; } @sno</td>
-                                <td>@item.CompanyName</td>
-                                <td>@item.City</td>
-                                <td>@item.Designation</td>
-                                <td>@item.WorkFrom</td>
-                                <td>@item.WorkTo</td>
-                                <td>@item.CtcMonth</td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr class="grid-empty-text">
-                            <td colspan="7"><lable class="control-label font-weight-bold">No Details Available</lable></td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="card shadow">
-    <div class="card-header">
-        <h4 class="text-primary">
-            Reference
-        </h4>
-    </div>
-    <div class="card-body">
-        <table id="reference" class="table table-striped responsive-table table-refernce">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Person Name</th>
-                    <th>Company Name</th>
-                    <th>Designation</th>
-                    <th>Contact Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Reference != null)
-                {
-                    var count = Model.Reference.Count;
-                    if (count > 0)
-                    {
-
-                        int sno1 = 0;
-                        foreach (var item in Model.Reference)
-                        {
-                            <tr>
-                                <td>@{ sno1++;}@sno1</td>
-                                <td>@item.PersonName</td>
-                                <td>@item.CompanyName</td>
-                                <td>@item.Designation</td>
-                                <td>@item.ContactNo</td>
-                            </tr>
-
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5"><lable class="control-label font-weight-bold">No Details Available</lable></td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="card shadow">
-    <div class="card-header">
-        <h4 class="text-primary">
-            Educational Background
-        </h4>
-    </div>
-    <div class="card-body">
-        <table id="educationalBackground" class="table table-striped responsive-table table-educational-background">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Board/University</th>
-                    <th>Course/Degree</th>
-                    <th>PassingYear</th>
-                    <th>Grade/Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.EducationBackground != null)
-                {
-                    var count = Model.Reference.Count;
-                    if (count > 0)
-                    {
-                        int sno2 = 0;
-                        foreach (var item in Model.EducationBackground)
-                        {
-                            <tr>
-                                <td>@{ sno2++; }@sno2</td>
-                                <td>@item.BoardUniversityName</td>
-                                <td>@item.CourseDegreeName</td>
-                                <td>@item.PassingYear</td>
-                                <td>@item.GradePercentage</td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr class="grid-empty-text">
-                            <td colspan="5"><lable class="control-label font-weight-bold">No Details Available</lable></td>
-                        </tr>
-                    }
-
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="card shadow mt-2">
-    <div class="card-header">
-        <h5 class="text-primary">Other Information</h5>
-    </div>
-    <div class="card-body">
-        <div class="form-row">
-            <div class="col-lg-6 col-md-12 text-nowrap">
-                <label class="control-label">Other Certification And Achievement</label>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Email</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-nowrap">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.EmailId, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label txt-nowrap">Date of Birth</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            <div class="form-group txt-nowrap">
+                                @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8" })
+                                <div class="col-4 pcol-4"><label class="control-label" id="Age">Age</label> @Html.DisplayFor(M => Model.PersonalInfo.Age)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6 col-md-12">
-                @if (Model.PersonalInfo.OtherCertification != null)
-                {
-                    @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })
-                }
-                else
-                {
-                    <label class="control-label font-weight-bold">No Details Available</label>
-                }
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label txt-nowrap">Marital Status</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.MaritalStaus, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 ">
+                            <label class="control-label txt-nowrap">No Of Children</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 ">
+                            @if (Model.PersonalInfo.NoOfChildren > 0)
+                            {
+                                @Html.DisplayFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "control-label", @placeholder = "Unmarried Enter 0" })
+                            }
+                            else
+                            {
+                                @Html.Label("-", new { @class = "control-label" })
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="col-lg-6 col-md-12 text-nowrap">
-                <label class="control-label">Other Comments</label>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Gender</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.Gender, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 ">
+                            <label class="control-label">Vehicle</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 ">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.Vehicle, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6 col-md-12">
-                @if (Model.PersonalInfo.OtherComments != null)
-                {
-                    @Html.DisplayFor(Model => Model.PersonalInfo.OtherComments, new { @class = "control-label", rows = "2", cols = "100" })
-                }
-                else
-                {
-                    <label class="control-label font-weight-bold">No Details Available</label>
-                }
+            <div class="row">
+                <div class="table-responsive">
+                    <table id="language" class="table table-language col-md-12">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Language Known
+                                </th>
+                                <th>
+                                    <label>Read</label>
+                                </th>
+                                <th>
+                                    <label>Speak</label>
+                                </th>
+                                <th>
+                                    <label>Write</label>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in Model.Language)
+                            {
+                                <tr>
+                                    <td>@a.LanguageType</td>
+                                    <td>@a.Read</td>
+                                    <td>@a.Speak</td>
+                                    <td>@a.Write</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">Present Address Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Address</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.AddressPresent, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Pin code</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">State</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">City</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">
+                Permanent Address Information
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Address</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(model => model.PersonalInfo.AddressPast, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Pin code</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(model => model.PersonalInfo.PinCodePast, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">State</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(model => model.PersonalInfo.StatePast, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12  col-sm-6 col-xs-6">
+                            <label class="control-label">City</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12  col-sm-6 col-xs-6">
+                            @Html.DisplayFor(model => Model.PersonalInfo.CityPast, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">Applied for Position</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Select Department</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @Html.DisplayFor(model => model.PersonalInfo.AppliedForDepartment, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Select Designation</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @Html.DisplayFor(model => model.PersonalInfo.AppliedForDesignation, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Total Experience</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @Html.DisplayFor(model => model.PersonalInfo.TotalExperienceInYear, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Salary Expectation</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right txt-nowrap">
+                            <div class="form-group">
+                                @Html.DisplayFor(model => model.PersonalInfo.SalaryExpectation, new { @class = "control-label" })<label>/Month</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 txt-left">
+                            <label class="control-label">Early JoiningDate</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @Html.DisplayFor(model => model.PersonalInfo.EarliestJoinDate, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 text-nowrap col-sm-6 col-xs-6 txt-left">
+                            <label class="control-label">Comfortable Night Shift</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @if (Model.PersonalInfo.NightShift)
+                            {
+                                @Html.Label("Yes", new { @class = "control-label" })
+                            }
+                            else
+                            {
+                                @Html.Label("No", new { @class = "control-label" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            <label class="control-label">Job Source</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.JobSource, new { @class = "control-label" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 setwidth">
+                    <div class="form-group row set-formrow">
+                        <div class="col-lg-4 col-md-12 text-nowrap col-sm-6 col-xs-6">
+                            <label class="control-label txt-nowrap">Reference In DashTech</label>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
+                            @if (Model.PersonalInfo.IsReference)
+                            {
+                                @Html.Label("Yes", new { @class = "control-label" })
+                            }
+                            else
+                            {
+                                @Html.Label("No", new { @class = "control-label" })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.PersonalInfo.IsReference)
+            {
+                <div class="form-row">
+                    <div class="col-md-6 setwidth">
+                        <div class="form-group row set-formrow">
+                            <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 txt-left">
+                                <label class="control-label">Reference Name</label>
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
+                                @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceName, new { @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 setwidth">
+                        <div class="form-group row set-formrow">
+                            <div class="col-lg-4 col-md-12 text-nowrap col-sm-6 col-xs-6 txt-left">
+                                <label class="control-label">Reference Designation</label>
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right txt-nowrap">
+                                @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceDesignation, new { @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group row set-formrow">
+                            <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 txt-left">
+                                <label class="control-label">Reference Mobile No</label>
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-nowrap">
+                                @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="text-primary">
+                Previous Employment Details
+            </h4>
+        </div>
+        <div class="card-body">
+            <table id="previousEmploymentDetails" class="table table-striped responsive-table table-pre-employeement">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>CompanyName</th>
+                        <th>City</th>
+                        <th>Designation</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>CTC/Month</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.PreviousEmploymentDetail != null)
+                    {
+                        var count = Model.PreviousEmploymentDetail.Count;
+                        if (count > 0)
+                        {
+                            int sno = 0;
+                            foreach (var item in Model.PreviousEmploymentDetail)
+                            {
+
+                                <tr>
+                                    <td>@{ sno++; } @sno</td>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.City</td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.WorkFrom</td>
+                                    <td>@item.WorkTo</td>
+                                    <td>@item.CtcMonth</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr class="grid-empty-text">
+                                <td colspan="7"><lable class="control-label font-weight-bold">No Details Available</lable></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="text-primary">
+                Reference
+            </h4>
+        </div>
+        <div class="card-body">
+            <table id="reference" class="table table-striped responsive-table table-refernce">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Person Name</th>
+                        <th>Company Name</th>
+                        <th>Designation</th>
+                        <th>Contact Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Reference != null)
+                    {
+                        var count = Model.Reference.Count;
+                        if (count > 0)
+                        {
+
+                            int sno1 = 0;
+                            foreach (var item in Model.Reference)
+                            {
+                                <tr>
+                                    <td>@{ sno1++;}@sno1</td>
+                                    <td>@item.PersonName</td>
+                                    <td>@item.CompanyName</td>
+                                    <td>@item.Designation</td>
+                                    <td>@item.ContactNo</td>
+                                </tr>
+
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5"><lable class="control-label font-weight-bold">No Details Available</lable></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card shadow">
+        <div class="card-header">
+            <h4 class="text-primary">
+                Educational Background
+            </h4>
+        </div>
+        <div class="card-body">
+            <table id="educationalBackground" class="table table-striped responsive-table table-educational-background">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Board/University</th>
+                        <th>Course/Degree</th>
+                        <th>PassingYear</th>
+                        <th>Grade/Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.EducationBackground != null)
+                    {
+                        var count = Model.Reference.Count;
+                        if (count > 0)
+                        {
+                            int sno2 = 0;
+                            foreach (var item in Model.EducationBackground)
+                            {
+                                <tr>
+                                    <td>@{ sno2++; }@sno2</td>
+                                    <td>@item.BoardUniversityName</td>
+                                    <td>@item.CourseDegreeName</td>
+                                    <td>@item.PassingYear</td>
+                                    <td>@item.GradePercentage</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr class="grid-empty-text">
+                                <td colspan="5"><lable class="control-label font-weight-bold">No Details Available</lable></td>
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card shadow mt-2">
+        <div class="card-header">
+            <h5 class="text-primary">Other Information</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-lg-6 col-md-12 text-nowrap setwidth">
+                    <label class="control-label">Other Certification And Achievement</label>
+                </div>
+                <div class="col-lg-6 col-md-12 setwidth">
+                    @if (Model.PersonalInfo.OtherCertification != null)
+                    {
+                        @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })
+                    }
+                    else
+                    {
+                        <label class="control-label font-weight-bold">No Details Available</label>
+                    }
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-6 col-md-12 text-nowrap setwidth">
+                    <label class="control-label">Other Comments</label>
+                </div>
+                <div class="col-lg-6 col-md-12 setwidth">
+                    @if (Model.PersonalInfo.OtherComments != null)
+                    {
+                        @Html.DisplayFor(Model => Model.PersonalInfo.OtherComments, new { @class = "control-label", rows = "2", cols = "100" })
+                    }
+                    else
+                    {
+                        <label class="control-label font-weight-bold">No Details Available</label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 <!-- Modal -->
 <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Comment</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Feedback</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="frmcomment">
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-12">
+                            <label for="interViewDate" class="control-label">Interview Date:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.InterviewDate, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker" })
+                                <div class="input-group-append">
+                                    <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-12">
+                            <label for="status" class="control-label">Status:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <!-- Default inline 1-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.CandidateStatus, "Selected", new { @class = "custom-control-input" })
+                                <label class="custom-control-label" for="PersonalInfo_CandidateStatus">Selected</label>
+                            </div>
+                            <!-- Default inline 2-->
+                            <div class="custom-control custom-radio custom-control-inline">
+                                @Html.RadioButtonFor(Model => Model.PersonalInfo.CandidateStatus, "Rejected", new { @id = "status1", @class = "custom-control-input" })
+                                <label class="custom-control-label" for="status1">Rejected</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="txtcomment">Comment : </label>
+                        <label for="txtcomment">Comment:</label>
                         <textarea class="form-control col-md-12" id="txtcomment"></textarea>
                     </div>
                 </form>
@@ -680,46 +703,79 @@
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script type="text/javascript">
-    $(function () {
-
-        var success = @((TempData["Success"] != null).ToString().ToLower());
-            var Error = @((TempData["Error"] != null).ToString().ToLower());
-            if (success == true) {
-                toastr.success("@TempData["Success"]");
-            }
-           else if (Error == true) {
-                toastr.warning("@TempData["Error"]");
-            }
-
-
-        $('#txtcomment').val('@Model.PersonalInfo.OtherComments');
-        $('#btnsave').on('click', function () {
-            $('#pre-loader').fadeIn(300);
-            var req = { id: $('#CandidateId').val(), txtcommnet: $('#txtcomment').val() };
-            $.ajax({
-                type: 'GET',
-                url: '/home/SaveComnets',
-                data: req,
-                dataType: "json",
-                success: function (succes) {
-                    if (succes.ContentType = "success") {
-                        $('#pre-loader').fadeOut(300);
-                        $('#commentModal').modal('hide');
-                        location.reload();
-                    }
-                    else {
-                        $('#pre-loader').fadeOut(300);
-                        toastr.warning("Ooops! something wrong try again");
-                    }
-                    //$('#frmcomment')[0].reset();
-                    //$('#commentModal').modal('hide');
-                },
-                error: function (xhr) {
-                    toastr.warning("Ooops! something wrong try again");
-                }
-            })
+        $(function () {
+            $('#PersonalInfo_InterviewDate').datepicker('setStartDate', 'today');
+            $('#clikPrint').click(function () {
+                $("#printableArea").print();
+            });          
         });
-        $('#commentModal').on('click', function () {$('#txtcomment').val('@Model.PersonalInfo.OtherComments'); });
-    });
+
     </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#btnCommentModel').click(function () {
+            $('#PersonalInfo_InterviewDate').datepicker({
+                format:'dd/mm/yyyy',
+                autoclose: true
+            }).inputmask('99/99/9999');
+                $('#txtcomment').val('@Model.PersonalInfo.OtherComments');
+                $("input[name='candidateStatus']:checked").prop('checked', '@Model.PersonalInfo.CandidateStatus');
+                $("PersonalInfo_InterviewDate").val('@Model.PersonalInfo.InterviewDate.ToString("dd/MM/yyyy")');
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+            $(function () {
+                var success = @((TempData["Success"] != null).ToString().ToLower());
+                var Error = @((TempData["Error"] != null).ToString().ToLower());
+                if (success == true) {
+                    toastr.success("@TempData["Success"]");
+                }
+                else if (Error == true) {
+                    toastr.warning("@TempData["Error"]");
+                }
+
+                $('#btnsave').on('click', function () {
+                    $('#pre-loader').show();
+                    var objj = {
+                        Feedback: {}
+                    }
+                    objj.Feedback = {
+                        CandidateId: $('#CandidateId').val(),
+                        InterviewDate: $('#PersonalInfo_InterviewDate').val(),
+                        CandidateStatus: $("input[name='PersonalInfo.CandidateStatus']:checked").val(),
+                        OtherComments: $('#txtcomment').val()
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/SaveFeedBack",
+                        data: JSON.stringify(objj),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (responce) {
+                            if (responce.ContentType == "success") {
+                                $('#pre-loader').fadeOut(300);
+                                $('#commentModal').modal('hide');
+                                location.reload();                        
+                            } else {
+                                $('#pre-loader').fadeOut(300);
+                                toastr.warning("Ooops! something wrong try again");
+                            }
+                        },
+                        error: function () {
+                            toastr.warning("Ooops! something wrong try again");
+                            $('#pre-loader').hide();
+                        }
+                    });
+
+
+                });
+            });
+        </script>
+
+
+
+
 }

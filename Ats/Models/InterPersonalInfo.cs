@@ -149,6 +149,7 @@ namespace Ats.Models
         public string ReferenceDesignation { get; set; }
 
         [Column(TypeName = "DATETIME")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreatedDate { get; set; }
 
         [Required(ErrorMessage = "Please Enter EmailId")]
@@ -164,5 +165,15 @@ namespace Ats.Models
         [Column(TypeName = "VARCHAR")]
         //[StringLength(250)]
         public string OtherComments { get; set; }
+
+        [Column(TypeName = "DATETIME")]
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]        
+        public DateTime InterviewDate { get; set; }
+
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(8)]
+        public string CandidateStatus { get; set; }
+
     }
 }

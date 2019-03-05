@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -38,14 +39,9 @@ namespace Ats.Controllers
                                                    EarliestJoinDate = e.EarliestJoinDate,
                                                    SalaryExpectation = e.SalaryExpectation,
                                                    TotalExperienceInYear = e.TotalExperienceInYear,
-                                                   CityPresent = e.CityPresent
-                                                   //CompanyName = p == null ? "-" : p.CompanyName,
-                                                   //Department = e.AppliedForDepartment,
-                                                   //WorkFrom = p == null ? "-" : p.WorkFrom,
-                                                   //WorkTo = string.IsNullOrEmpty(p.WorkTo) ? "-" : p.WorkTo,
+                                                   CityPresent = e.CityPresent,
+                                                   InterviewDate = e.InterviewDate,
                                                }).GroupBy(x => x.CandidateId).Select(x => x.FirstOrDefault()).OrderByDescending(a => a.CandidateId).ToList();
-
-
                 return View(list);
             }
             catch (Exception ex)
@@ -113,7 +109,9 @@ namespace Ats.Controllers
             JsonResult res = new JsonResult();
             try
             {
+                //throw null;
                 DateTime now = DateTime.Now;
+                obj.PersonalInfo.InterviewDate = now;
                 obj.PersonalInfo.CreatedDate = now;
                 db.InterPersonalInfo.Add(obj.PersonalInfo);
                 db.SaveChanges();
@@ -168,7 +166,6 @@ namespace Ats.Controllers
                 res.Data = "Some thing went rong please try agnain";
                 return Json(res);
             }
-
             return Json(res);
         }
 
@@ -183,12 +180,17 @@ namespace Ats.Controllers
                 List<InterPreEmpDetailViewModel> preEmployementDetail = new List<InterPreEmpDetailViewModel>();
                 List<InterEducBackgroundViewModel> eduBackGround = new List<InterEducBackgroundViewModel>();
                 List<InterReferenceViewModel> reference = new List<InterReferenceViewModel>();
+                List<LanguageViewModel> languages = new List<LanguageViewModel>();
                 CityViewModel cities = new CityViewModel();
                 StateViewModel states = new StateViewModel();
                 DepartmentViewModel departments = new DepartmentViewModel();
-                DesignationViewModel designations = new DesignationViewModel();
-                perSonalInfo =                (                    from p in db.InterPersonalInfo                    where (p.CandidateId == id)                    select new InterPersonalInfoViewModel()
-                    {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.Gender,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        OtherComments=p.OtherComments                    }).FirstOrDefault();
+                DesignationViewModel designations = new DesignationViewModel();             
+                
+
+
+                perSonalInfo =                     (                    from p in db.InterPersonalInfo                    where (p.CandidateId == id)                    select new InterPersonalInfoViewModel()
+                    {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.MaritalStaus,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        OtherComments=p.OtherComments,                        CandidateStatus = p.CandidateStatus,                        InterviewDate = p.InterviewDate
+                    }).FirstOrDefault();
 
                 Candidate.PersonalInfo = perSonalInfo;
                 preEmployementDetail = (from p in db.InterPreEmpDetail
@@ -232,8 +234,9 @@ namespace Ats.Controllers
                                  ContactNo = p.ContactNo
                              }).ToList();
                 Candidate.Reference = reference;
-                Candidate.Language = new List<LanguageViewModel>();
-                Candidate.Language = (from l in db.InterLanguages
+                //Candidate.Language = new List<LanguageViewModel>();
+
+                languages = (from l in db.InterLanguages
                                       where l.CandidateId == id
                                       select new LanguageViewModel
                                       {
@@ -242,6 +245,7 @@ namespace Ats.Controllers
                                           Write = l.Write,
                                           Speak = l.Speak
                                       }).ToList();
+                Candidate.Language = languages;
                 return View(Candidate);
             }
             catch (Exception ex)
@@ -267,11 +271,7 @@ namespace Ats.Controllers
             {
                 res.Data = "Unable to get citylist";
                 return Json(res.Data, JsonRequestBehavior.AllowGet);
-                //ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException)) ? ex.Message.ToString() : ex.InnerException.ToString();
-                //return View();
             }
-
-
         }
         //home/GetDesignation
         [HttpGet]
@@ -297,7 +297,6 @@ namespace Ats.Controllers
             JsonResult res = new JsonResult();
             try
             {
-
                 if (TempData.ContainsKey("candidateId"))
                 {
                     int id = int.Parse(TempData["candidateId"].ToString());
@@ -310,6 +309,7 @@ namespace Ats.Controllers
                     StateViewModel states = new StateViewModel();
                     DepartmentViewModel departments = new DepartmentViewModel();
                     DesignationViewModel designations = new DesignationViewModel();
+                    List<LanguageViewModel> languages = new List<LanguageViewModel>();
                     //Get PersonalInformation of candidate
                     perSonalInfo =(from p in db.InterPersonalInfo
                                     where (p.CandidateId == id)
@@ -323,7 +323,7 @@ namespace Ats.Controllers
                                         DateOfBirth = p.DateOfBirth,
                                         Age = p.Age,
                                         Gender = p.Gender,
-                                        MaritalStaus = p.Gender,
+                                        MaritalStaus = p.MaritalStaus,
                                         NoOfChildren = p.NoOfChildren,
                                         AddressPresent = p.AddressPresent,
                                         StatePresent = p.StatePresent,
@@ -366,13 +366,6 @@ namespace Ats.Controllers
                                             }).ToList();
                     Candidate.PreviousEmploymentDetail = preEmployementDetail == null ? null : preEmployementDetail;
 
-
-                    //preEmployementDetail = (
-                    //    from p in getData.GetAllPreviousEmplpoyementDetails()
-                    //    where (p.CandidateId == id)
-                    //    select p
-                    //    ).ToList();
-                    //Candidate.PreviousEmploymentDetail = preEmployementDetail == null ? null : preEmployementDetail;
                     eduBackGround = (from p in db.InterEducBackground
                                      where (p.CandidateId == id)
                                      select new InterEducBackgroundViewModel()
@@ -403,16 +396,16 @@ namespace Ats.Controllers
                                      ContactNo = p.ContactNo
                                  }).ToList();
                     Candidate.Reference = reference;
-                    Candidate.Language = new List<LanguageViewModel>();
-                    Candidate.Language = (from l in db.InterLanguages
-                                          where l.CandidateId == id
-                                          select new LanguageViewModel
-                                          {
-                                              LanguageType = l.LanguageType,
-                                              Read = l.Read,
-                                              Write = l.Write,
-                                              Speak = l.Speak
-                                          }).ToList();
+                    languages = (from l in db.InterLanguages
+                                 where l.CandidateId == id
+                                 select new LanguageViewModel
+                                 {
+                                     LanguageType = l.LanguageType,
+                                     Read = l.Read,
+                                     Write = l.Write,
+                                     Speak = l.Speak
+                                 }).ToList();
+                    Candidate.Language = languages;
 
                     return View(Candidate);
 
@@ -430,13 +423,16 @@ namespace Ats.Controllers
         }
 
         [HttpGet]
-        public JsonResult SaveComnets(int id,string txtcommnet)
+        public JsonResult SaveComnets(int id,string txtcommnet, string interviewDate, string status)
         {
             JsonResult result = new JsonResult();
             try
             {
                 InterPersonalInfo comment = db.InterPersonalInfo.Where(w => w.CandidateId == id).FirstOrDefault();
                 comment.OtherComments = txtcommnet;
+                DateTime iDate = Convert.ToDateTime(interviewDate);
+                comment.InterviewDate = iDate;
+                comment.CandidateStatus = status; 
                 db.SaveChanges();
 
                 result.ContentType = "success";
@@ -444,12 +440,40 @@ namespace Ats.Controllers
                 result.Data = "record saved successfully";
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 TempData["Error"] = "Ooops! something wrong try again";
                 result.ContentType = "error";
                 result.Data = "Ooops! something wrong try again";
                 return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        //Save Hr Feedback on candidate
+        public JsonResult SaveFeedBack(GridPreInterRegisterViewModel obj)
+        {
+            JsonResult result = new JsonResult();
+            try
+            {
+                InterPersonalInfo comment = db.InterPersonalInfo.Where(w => w.CandidateId == obj.Feedback.CandidateId).FirstOrDefault();
+                comment.OtherComments = obj.Feedback.OtherComments;
+                //DateTime iDate = Convert.ToDateTime(obj.Feedback.InterviewDate);
+                comment.InterviewDate = obj.Feedback.InterviewDate;
+                comment.CandidateStatus = obj.Feedback.CandidateStatus;
+                db.SaveChanges();
+
+                result.ContentType = "success";
+                TempData["Success"] = "record saved successfully";
+                result.Data = "record saved successfully";
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Ooops! something wrong try again";
+                result.ContentType = "error";
+                result.Data = "Ooops! something wrong try again";
+                return Json(result, JsonRequestBehavior.AllowGet);                
             }
         }
 

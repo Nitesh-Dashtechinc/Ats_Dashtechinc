@@ -43,5 +43,9 @@ namespace Ats.Models.ViewModels
         public string EmailId { get; set; }
         public string OtherCertification { get; set; }
         public string OtherComments { get; set; }
+
+        public DateTime InterviewDate { get; set; }
+        public string CandidateStatus { get; set; }
+
     }
 }

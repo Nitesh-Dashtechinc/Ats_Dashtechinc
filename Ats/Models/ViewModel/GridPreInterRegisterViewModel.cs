@@ -20,6 +20,6 @@ namespace Ats.Models.ViewModel
         public DepartmentViewModel Departments { get; set; }
         public DesignationViewModel Designation { get; set; }
         public List<LanguageViewModel> Language { get; set; }
-        //public List<DepartmentViewModel> Departments { get; set; }
+        public FeedbackViewModel Feedback { get; set; }
     }
 }
