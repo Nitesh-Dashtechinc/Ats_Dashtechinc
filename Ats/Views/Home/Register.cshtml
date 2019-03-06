@@ -251,13 +251,13 @@
                                      },new { @class = "form-control col-md-10 col-12" })
                                 </th>
                                 <th class="text-center">
-                                    @Html.CheckBox("Read", new { @class = "form-check-input",@checked = "checked"})<label>Read</label>
+                                    @Html.CheckBox("Read", new { @class = "form-check-input"})<label>Read</label>
                                 </th>
                                 <th class="text-center">
-                                    @Html.CheckBox("Speak", new { @class = "form-check-input", @checked = "checked" })<label>Speak</label>
+                                    @Html.CheckBox("Speak", new { @class = "form-check-input"})<label>Speak</label>
                                 </th>
                                 <th class="text-center">
-                                    @Html.CheckBox("Write", new { @class = "form-check-input", @checked = "checked" })<label>Write</label>
+                                    @Html.CheckBox("Write", new { @class = "form-check-input"})<label>Write</label>
                                 </th>
                                 <th><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row"></button></th>
                             </tr>
@@ -845,13 +845,13 @@
             });
             jQuery.validator.addMethod("greaterThan",
                 function (value, element, params) {
-
-                    if (!/Invalid|NaN/.test(new Date(value))) {
-                        return new Date(value) > new Date($(params).val());
+                    debugger
+                    if (!/Invalid|NaN/.test(new Date(moment(value, 'DD/MM/YYYY').toDate()))) {
+                        return new Date(moment(value, 'DD/MM/YYYY').toDate()) > new Date(moment($(params).val(), 'DD/MM/YYYY').toDate());
+                        console.log('in if');
                     }
 
-                    return isNaN(value) && isNaN($(params).val())
-                        || (Number(value) < Number($(params).val()));
+                    return isNaN(value) && isNaN($(params).val()) || (Number(value) < Number($(params).val()));
                 }, 'Must be greater than {0}.');
             $('#frmReference').validate({
                 onfocusout: false,

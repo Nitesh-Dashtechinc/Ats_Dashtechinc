@@ -184,10 +184,7 @@ namespace Ats.Controllers
                 CityViewModel cities = new CityViewModel();
                 StateViewModel states = new StateViewModel();
                 DepartmentViewModel departments = new DepartmentViewModel();
-                DesignationViewModel designations = new DesignationViewModel();             
-                
-
-
+                DesignationViewModel designations = new DesignationViewModel();
                 perSonalInfo =                     (                    from p in db.InterPersonalInfo                    where (p.CandidateId == id)                    select new InterPersonalInfoViewModel()
                     {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.MaritalStaus,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        OtherComments=p.OtherComments,                        CandidateStatus = p.CandidateStatus,                        InterviewDate = p.InterviewDate
                     }).FirstOrDefault();
@@ -431,7 +428,10 @@ namespace Ats.Controllers
                 InterPersonalInfo comment = db.InterPersonalInfo.Where(w => w.CandidateId == id).FirstOrDefault();
                 comment.OtherComments = txtcommnet;
                 DateTime iDate = Convert.ToDateTime(interviewDate);
-                comment.InterviewDate = iDate;
+                //DateTime iDate = DateTime.Parse(interviewDate, CultureInfo.CreateSpecificCulture("en-US"));
+
+
+                comment.InterviewDate = DateTime.ParseExact(interviewDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 comment.CandidateStatus = status; 
                 db.SaveChanges();
 
@@ -476,6 +476,22 @@ namespace Ats.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);                
             }
         }
+
+
+        public JsonResult GetFeedback(int id)
+        {
+            JsonResult result = new JsonResult();
+            try
+            {
+                FeedbackViewModel feedback = new FeedbackViewModel();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
 
         protected override void Dispose(bool disposing)
         {

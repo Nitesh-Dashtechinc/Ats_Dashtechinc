@@ -61,7 +61,7 @@
     }).inputmask('99/99/9999');
 
     $('#WorkFrom').datepicker({
-        //format: 'dd/mm/yyyy',
+        format: 'dd/mm/yyyy',
         datesDisabled: new Date(),
         startDate: new Date(),
         clearBtn: true,
@@ -71,7 +71,7 @@
     });
 
     $('#WorkTo').datepicker({
-        //format: 'dd/mm/yyyy',
+        format: 'dd/mm/yyyy',
         endDate: new Date(),
         datesDisabled: new Date(),
         clearBtn: true,
@@ -419,7 +419,6 @@ function SaveAll() {
             EducationBackground: [],
             Languages: []
         };
-
        
        objj.PersonalInfo = {
                 FirstName: $("#PersonalInfo_FirstName").val(),
