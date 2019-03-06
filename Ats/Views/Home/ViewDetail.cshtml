@@ -725,8 +725,47 @@
             });
         });
     </script>
-
     <script type="text/javascript">
+        var success = @((TempData["Success"] != null).ToString().ToLower());
+        var Error = @((TempData["Error"] != null).ToString().ToLower());
+        if (success == true) {
+            toastr.success("@TempData["Success"]");
+        }
+        else if (Error == true) {
+            toastr.warning("@TempData["Error"]");
+        }
+
+        $('#btnsave').on('click', function () {
+            $('#pre-loader').fadeIn(300);
+            var req = {
+                id: $('#CandidateId').val(),
+                txtcommnet: $('#txtcomment').val(),
+                interviewDate: $('#PersonalInfo_InterviewDate').val(),
+                status: $("input[name='PersonalInfo.CandidateStatus']:checked").val()
+            };
+            $.ajax({
+                type: 'GET',
+                url: '/home/SaveComnets',
+                data: req,
+                dataType: "json",
+                success: function (succes) {
+                    if (succes.ContentType = "success") {
+                        $('#pre-loader').fadeOut(300);
+                        $('#commentModal').modal('hide');
+                        location.reload();
+                    }
+                    else {
+                        $('#pre-loader').fadeOut(300);
+                        toastr.warning("Ooops! something wrong try again");
+                    }
+                },
+                error: function (xhr) {
+                    toastr.warning("Ooops! something wrong try again");
+                }
+            })
+        });
+    </script>
+    @*<script type="text/javascript">
             $(function () {
                 var success = @((TempData["Success"] != null).ToString().ToLower());
                 var Error = @((TempData["Error"] != null).ToString().ToLower());
@@ -773,7 +812,7 @@
 
                 });
             });
-        </script>
+        </script>*@
 
 
 
