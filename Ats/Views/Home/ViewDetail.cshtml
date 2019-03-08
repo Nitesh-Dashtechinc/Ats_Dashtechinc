@@ -132,7 +132,7 @@
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             <div class="form-group txt-nowrap">
-                                @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8" })
+                                @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8 pcol-8" })
                                 <div class="col-4 pcol-4"><label class="control-label" id="Age">Age</label> @Html.DisplayFor(M => Model.PersonalInfo.Age)</div>
                             </div>
                         </div>
@@ -260,17 +260,17 @@
                             <label class="control-label">State</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
-                            @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
+                        @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 setwidth">
                     <div class="form-group row set-formrow">
-                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                        <div class="col-lg-4 col-md-12 col-xs-6">
                             <label class="control-label">City</label>
                         </div>
-                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
-                            @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" })
+                        <div class="col-lg-8 col-md-12 col-xs-6">
+                        @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" }) 
                         </div>
                     </div>
                 </div>
@@ -330,7 +330,7 @@
             </div>
         </div>
     </div>
-    <div class="card shadow mt-2">
+    <div class="card shadow mt-2 mtop">
         <div class="card-header">
             <h5 class="text-primary">Applied for Position</h5>
         </div>
@@ -487,14 +487,14 @@
             }
         </div>
     </div>
-    <div class="card shadow">
+    <div class="card shadow mt-2">
         <div class="card-header">
             <h4 class="text-primary">
                 Previous Employment Details
             </h4>
         </div>
         <div class="card-body">
-            <table id="previousEmploymentDetails" class="table table-striped responsive-table table-pre-employeement">
+            <table id="previousEmploymentDetails" class="table table-striped responsive-table table-pre-employeement set-formrow">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -538,14 +538,14 @@
             </table>
         </div>
     </div>
-    <div class="card shadow">
+    <div class="card shadow mt-2">
         <div class="card-header">
             <h4 class="text-primary">
                 Reference
             </h4>
         </div>
         <div class="card-body">
-            <table id="reference" class="table table-striped responsive-table table-refernce">
+            <table id="reference" class="table table-striped responsive-table table-refernce set-formrow">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -586,14 +586,14 @@
             </table>
         </div>
     </div>
-    <div class="card shadow">
+    <div class="card shadow mt-2">
         <div class="card-header">
             <h4 class="text-primary">
                 Educational Background
             </h4>
         </div>
         <div class="card-body">
-            <table id="educationalBackground" class="table table-striped responsive-table table-educational-background">
+            <table id="educationalBackground" class="table table-striped responsive-table table-educational-background set-formrow">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -677,8 +677,7 @@
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            debugger;
+        $(document).ready(function () {          
             $('#clikPrint').click(function () {
                 $("#printableArea").print();
             });

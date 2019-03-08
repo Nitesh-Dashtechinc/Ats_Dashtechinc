@@ -1,16 +1,25 @@
 ﻿
 @media print {
     body {
+        font-size: 18pt;
+        font-family: 'Arial Rounded MT';
     }
 
     @page {
+        width: 21cm;
         margin-top: 2cm;
         margin-bottom: 3cm;
         size: A4;
-        font-size: 200pt;
-        font-weight: bold;
-        color: red;
     }
+    .mtop {
+        margin-top: 7cm !important;
+    }
+   
+    
+
+    /*.mtop {
+     margin-top:10%;
+    }*/
 
     .txt-nowrap {
         white-space: nowrap !important;
@@ -24,7 +33,9 @@
     }
 
     .pcol-4 {
-         margin-right:2%;
+        -ms-flex: 0 0 33.333333%;
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
     }
 
     .pcol-8 {
@@ -45,7 +56,7 @@
 
     .set-formrow {
         flex: 0 0 50%;
-        max-width: 50%;
+        max-width: 100%;
     }
 
     .col-xs-12 {
