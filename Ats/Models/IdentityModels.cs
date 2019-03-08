@@ -40,7 +40,7 @@ namespace Ats.Models
         public DbSet<City> City { get; set; }
         public DbSet<State> State { get; set; }
         public DbSet<InterLanguage> InterLanguages { get; set; }
-
+        public DbSet<Feedback> Feedbacks { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

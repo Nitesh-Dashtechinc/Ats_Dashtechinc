@@ -1,0 +1,88 @@
+﻿@model Ats.Models.ViewModel.FeedbackViewModel
+@{ 
+    //code block
+    var shortDateLocalFormat = "";
+    if (Model.InterviewDate != null)
+    {
+        shortDateLocalFormat = ((DateTime)ViewBag.InDate).ToString("dd/MM/yyyy");        
+    
+    }
+}
+@using (Html.BeginForm("AddEditFeedBack", "Home", FormMethod.Post, new { id = "form-AddEditFeedBack", enctype = "multipart/form-data" }))
+{
+    <div class="form-row">
+        <div class="col-lg-4 col-md-12">
+            <label for="interViewDate" class="control-label">Interview Date:</label>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="form-group input-group">
+                @Html.TextBox("Interviewdate", shortDateLocalFormat, new { @class = "form-control datepicker" })
+                <div class="input-group-append">
+                    <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-lg-4 col-md-12">
+            <label for="status" class="control-label">Status:</label>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="custom-control custom-radio custom-control-inline">
+                @Html.RadioButtonFor(Model => Model.CandidateStatus, "true", new { @required = true, @class = "custom-control-input" })
+                <label class="custom-control-label" for="CandidateStatus">Selected</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                @Html.RadioButtonFor(Model => Model.CandidateStatus, "false", new { @required = true, @id = "status1", @class = "custom-control-input" })
+                <label class="custom-control-label" for="status1">Rejected</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="txtcomment">Comment:</label>
+        @Html.TextAreaFor(Model => Model.OtherComments, new { @class = "form-control" })
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#Interviewdate').datepicker({
+            format: 'dd/mm/yyyy',
+        }).on('change', function () {
+        });
+    });
+
+    function SaveFeedback() {
+        debugger;
+        $('#pre-loader').fadeIn(300);
+            var feedback = {
+               CandidateId: $('#CandidateId').val(),
+                OtherComments: $('#OtherComments').val(),
+                InterviewDate: $('#Interviewdate').val(),
+                CandidateStatus: $("input[name='CandidateStatus']:checked").val()
+            };
+            $.ajax({
+                type:'POST',
+                url:'@Url.Action("PostFeedback", "Home")',
+                data: JSON.stringify(feedback),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result == "error") {
+                        $('#pre-loader').fadeOut(300);
+                        $('#commentModal').modal('hide');
+                        toastr.warning("Ooops! something wrong try again");
+                    }else {
+                        $('#pre-loader').fadeOut(300);
+                        $('#commentModal').modal('hide');
+                        toastr.success("record saved successfully");
+                    }
+                },
+                error: function (err) {
+                    $('#pre-loader').fadeOut(300);
+                    $('#commentModal').modal('hide');
+                }
+            });
+
+    }
+</script>
+

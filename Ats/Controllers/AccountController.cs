@@ -140,7 +140,7 @@ namespace Ats.Controllers
         public ActionResult Register()
         {
             return RedirectToAction("Login");
-            return View();
+            //return View();
         }
 
         //
