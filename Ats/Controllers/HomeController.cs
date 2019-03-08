@@ -27,6 +27,7 @@ namespace Ats.Controllers
             {
                 List<AtsGridViewModel> list = (from e in db.InterPersonalInfo
                                                join p in db.InterPreEmpDetail on e.CandidateId equals p.CandidateId into ps
+                                               join f in db.Feedbacks on e.CandidateId equals f.CandidateId
                                                from p in ps.DefaultIfEmpty()
                                                select new AtsGridViewModel()
                                                {
@@ -40,7 +41,7 @@ namespace Ats.Controllers
                                                    SalaryExpectation = e.SalaryExpectation,
                                                    TotalExperienceInYear = e.TotalExperienceInYear,
                                                    CityPresent = e.CityPresent,
-                                                   InterviewDate = e.InterviewDate,
+                                                   InterviewDate = f.InterviewDate,
                                                }).GroupBy(x => x.CandidateId).Select(x => x.FirstOrDefault()).OrderByDescending(a => a.CandidateId).ToList();
                 return View(list);
             }
@@ -52,7 +53,7 @@ namespace Ats.Controllers
 
         }
         public ActionResult Register()
-        {
+        {         
             JsonResult res = new JsonResult();
             try
             {
@@ -102,8 +103,7 @@ namespace Ats.Controllers
             }
 
         }
-
-
+        //Add new candidate 
         public JsonResult SavePreInterView(PreInterRegisterViewModel obj)
         {
             JsonResult res = new JsonResult();
@@ -111,7 +111,7 @@ namespace Ats.Controllers
             {
                 //throw null;
                 DateTime now = DateTime.Now;
-                obj.PersonalInfo.InterviewDate = now;
+               // obj.PersonalInfo.InterviewDate = now;
                 obj.PersonalInfo.CreatedDate = now;
                 db.InterPersonalInfo.Add(obj.PersonalInfo);
                 db.SaveChanges();
@@ -154,6 +154,14 @@ namespace Ats.Controllers
                             db.SaveChanges();
                         }
                     }
+                    Feedback feedback = new Feedback();
+                    feedback.CandidateId = id;
+                    feedback.CandidateStatus = false;
+                    feedback.InterviewDate = now;
+                    feedback.OtherComments = "";
+                    db.Feedbacks.Add(feedback);
+                    db.SaveChanges();
+
                     res.ContentType = "success";
                     res.Data = "Your Form Submited Successfully";
                     TempData["candidateId"] = id;
@@ -162,13 +170,13 @@ namespace Ats.Controllers
             }
             catch (Exception ex)
             {
-                res.ContentType = "error";
+                res.ContentType = "error";                
                 res.Data = "Some thing went rong please try agnain";
                 return Json(res);
             }
             return Json(res);
         }
-
+        //Detailview of candidate
         [Authorize]
         public ActionResult ViewDetail(int id)
         {
@@ -186,7 +194,7 @@ namespace Ats.Controllers
                 DepartmentViewModel departments = new DepartmentViewModel();
                 DesignationViewModel designations = new DesignationViewModel();
                 perSonalInfo =                     (                    from p in db.InterPersonalInfo                    where (p.CandidateId == id)                    select new InterPersonalInfoViewModel()
-                    {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.MaritalStaus,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        OtherComments=p.OtherComments,                        CandidateStatus = p.CandidateStatus,                        InterviewDate = p.InterviewDate
+                    {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.MaritalStaus,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        ///OtherComments=p.OtherComments,                        //CandidateStatus = p.CandidateStatus,                        //InterviewDate = p.InterviewDate
                     }).FirstOrDefault();
 
                 Candidate.PersonalInfo = perSonalInfo;
@@ -259,8 +267,8 @@ namespace Ats.Controllers
         {
             JsonResult res = new JsonResult();
             try
-            {
-                res.Data = db.City.Select(s => new { s.CityId, s.CityName, s.StateId }).Where(city => city.StateId == id).OrderBy(city => city.CityName).ToList();
+            {                
+              res.Data = db.City.Select(s => new { s.CityId, s.CityName, s.StateId }).Where(city => city.StateId == id).OrderBy(city => city.CityName).ToList();
                 res.ContentType = "Succeess";
                 return Json(res.Data, JsonRequestBehavior.AllowGet);
             }
@@ -288,7 +296,7 @@ namespace Ats.Controllers
                 return Json(result.Data, JsonRequestBehavior.AllowGet);
             }
         }
-
+        //Preview detail after new candidate added
         public ActionResult PreviewDetail()
         {
             JsonResult res = new JsonResult();
@@ -419,76 +427,47 @@ namespace Ats.Controllers
             }
         }
 
+        //home/GetFeedback
         [HttpGet]
-        public JsonResult SaveComnets(int id,string txtcommnet, string interviewDate, string status)
+        public ActionResult GetFeedback(int Id )
         {
-            JsonResult result = new JsonResult();
             try
-            {
-                InterPersonalInfo comment = db.InterPersonalInfo.Where(w => w.CandidateId == id).FirstOrDefault();
-                comment.OtherComments = txtcommnet;
-                DateTime iDate = Convert.ToDateTime(interviewDate);
-                //DateTime iDate = DateTime.Parse(interviewDate, CultureInfo.CreateSpecificCulture("en-US"));
-
-
-                comment.InterviewDate = DateTime.ParseExact(interviewDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                comment.CandidateStatus = status; 
-                db.SaveChanges();
-
-                result.ContentType = "success";
-                TempData["Success"] = "record saved successfully";
-                result.Data = "record saved successfully";
-                return Json(result, JsonRequestBehavior.AllowGet);
+            {             
+                FeedbackViewModel feedbackView = new FeedbackViewModel();
+                Feedback feedback = db.Feedbacks.Where(f => f.CandidateId == Id).FirstOrDefault();
+                feedbackView.CandidateId = feedback.CandidateId;
+                feedbackView.CandidateStatus = feedback.CandidateStatus;
+                feedbackView.InterviewDate = Convert.ToString(feedback.InterviewDate);                
+                ViewBag.InDate = Convert.ToDateTime(feedback.InterviewDate);
+                feedbackView.OtherComments = feedback.OtherComments;            
+                return PartialView(feedbackView);
             }
             catch (Exception ex)
-            {
-                TempData["Error"] = "Ooops! something wrong try again";
-                result.ContentType = "error";
-                result.Data = "Ooops! something wrong try again";
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-
-        //Save Hr Feedback on candidate
-        public JsonResult SaveFeedBack(GridPreInterRegisterViewModel obj)
-        {
-            JsonResult result = new JsonResult();
-            try
-            {
-                InterPersonalInfo comment = db.InterPersonalInfo.Where(w => w.CandidateId == obj.Feedback.CandidateId).FirstOrDefault();
-                comment.OtherComments = obj.Feedback.OtherComments;
-                //DateTime iDate = Convert.ToDateTime(obj.Feedback.InterviewDate);
-                comment.InterviewDate = obj.Feedback.InterviewDate;
-                comment.CandidateStatus = obj.Feedback.CandidateStatus;
-                db.SaveChanges();
-
-                result.ContentType = "success";
-                TempData["Success"] = "record saved successfully";
-                result.Data = "record saved successfully";
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = "Ooops! something wrong try again";
-                result.ContentType = "error";
-                result.Data = "Ooops! something wrong try again";
-                return Json(result, JsonRequestBehavior.AllowGet);                
-            }
-        }
-
-
-        public JsonResult GetFeedback(int id)
-        {
-            JsonResult result = new JsonResult();
-            try
-            {
-                FeedbackViewModel feedback = new FeedbackViewModel();
+            {              
                 return null;
             }
-            catch (Exception ex)
+        }
+        //home/Postfeedback
+        [HttpPost]
+        public JsonResult PostFeedback(FeedbackViewModel feedbackView)
+        {
+            JsonResult result = new JsonResult();
+            try
             {
-                throw;
+                Feedback feedback = db.Feedbacks.Where(f => f.CandidateId == feedbackView.CandidateId).FirstOrDefault();
+                feedback.CandidateId = feedbackView.CandidateId;
+                feedback.CandidateStatus = feedbackView.CandidateStatus;          
+                feedback.InterviewDate = DateTime.ParseExact(feedbackView.InterviewDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                feedback.OtherComments = feedbackView.OtherComments;
+                db.SaveChanges();
+                result.Data = "record saved successfully";
+                result.ContentType = "success";
+                return result;
+            }
+            catch (Exception)
+            {
+                result.ContentType = "error";                
+                return Json(result.ContentType, JsonRequestBehavior.AllowGet);
             }
         }
 

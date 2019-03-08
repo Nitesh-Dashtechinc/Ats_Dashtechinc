@@ -8,8 +8,8 @@ namespace Ats.Models.ViewModel
     public class FeedbackViewModel
     {
         public int CandidateId { get; set; }
-        public DateTime InterviewDate { get; set; }
-        public string CandidateStatus { get; set; }
+        public string InterviewDate { get; set; }
+        public bool CandidateStatus { get; set; }
         public string OtherComments { get; set; }
     }
 }

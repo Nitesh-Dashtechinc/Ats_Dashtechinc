@@ -162,18 +162,5 @@ namespace Ats.Models
         //[StringLength(250)]
         public string OtherCertification { get; set; }
 
-        [Column(TypeName = "VARCHAR")]
-        //[StringLength(250)]
-        public string OtherComments { get; set; }
-
-        [Column(TypeName = "DATETIME")]
-
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]        
-        public DateTime InterviewDate { get; set; }
-
-        [Column(TypeName = "VARCHAR")]
-        [StringLength(8)]
-        public string CandidateStatus { get; set; }
-
     }
 }

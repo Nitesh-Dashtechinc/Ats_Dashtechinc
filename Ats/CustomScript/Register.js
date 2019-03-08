@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
     var counter = 2;
     var counter1 = 2;
     var counter2 = 2;
@@ -22,7 +22,6 @@
         format: 'dd/mm/yyyy',
         autoclose: true
     }).on('change', function () {
-
     });
 
     $('#PersonalInfo_DateOfBirth').datepicker('setDate', 'today');
@@ -35,15 +34,13 @@
     $('#WorkTo').datepicker('setEndDate', 'today');
 
     $('#PersonalInfo_DateOfBirth').datepicker({
-        format: 'dd/mm/yyyy',
-        //startDate: new Date(),
+        format: 'dd/mm/yyyy',       
         endDate: new Date(),
         autoclose: true,
-        clearBtn: true,
-
+        clearBtn: true
     }).on('change', function (e) {
         var birthDate = $(this).val().toString();
-        var date = moment(birthDate, "DD/MM/YYYY")
+        var date = moment(birthDate, "DD/MM/YYYY");
         var age = setAge(moment(date));
         var age1 = Math.floor(age);
         if (age1 !== null) {
