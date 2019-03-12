@@ -43,7 +43,10 @@
     </div>
 }
 @Html.HiddenFor(x => x.PersonalInfo.CandidateId, new { @id = "CandidateId" })
-<div class="text-right"><button type="button" class="btn btn-primary" id="clikPrint"><i class="fa fa-print"></i>Print</button></div>
+@*<div class="text-right"><a class="btn btn-primary" id="clikPrint" href="@Url.Action("CandidateDetailReport", "Home", new { id = Model.PersonalInfo.CandidateId })"  target="_blank"><i class="fa fa-print"></i>Print</a></div>*@
+<div class="text-right">
+    <a class="btn btn-primary" href="@Url.Action("ViewDetailReport", "Home",new { id = Model.PersonalInfo.CandidateId })" target="_blank"><i class="fa fa-print"></i> Print</a>
+</div>
 <div id="printableArea">
     <div style="text-align:center">
         <h2>
@@ -54,9 +57,6 @@
         <div class="card-header">
             <h5 class="text-primary">
                 Personal Information
-                @*<button type="button" class="btn btn-primary flot-right" data-toggle="modal" data-target="#commentModal" onclick="AddEditFeedback('@Model.PersonalInfo.CandidateId')" style="height:auto;width:auto;">
-                        FeedBack
-                    </button>*@
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#commentModal" onclick="AddEditFeedback('@Model.PersonalInfo.CandidateId')">
                     <i class="fa fa-plus"></i> FeedBack
                 </button>
@@ -226,7 +226,7 @@
             </div>
         </div>
     </div>
-    <div class="card shadow mt-2">
+    <div class="card shadow mt-2 page-break">
         <div class="card-header">
             <h5 class="text-primary">Present Address Information</h5>
         </div>
@@ -260,7 +260,7 @@
                             <label class="control-label">State</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
-                        @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
+                            @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
                             <label class="control-label">City</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-xs-6">
-                        @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" }) 
+                            @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
@@ -399,14 +399,14 @@
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
                             @*<div class="custom-control custom-radio custom-control-inline">
-                                @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "true", new { @required = true, @class = "custom-control-input" })
-                                <label class="custom-control-label" for="PersonalInfo_NightShift">Yes</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "false", new { @required = true, @id = "PersonalInfo_NightShift1", @class = "custom-control-input" })
-                                @Html.ValidationMessageFor(Model => Model.PersonalInfo.NightShift)
-                                <label class="custom-control-label" for="PersonalInfo_NightShift1">No</label>
-                            </div>*@
+                                    @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "true", new { @required = true, @class = "custom-control-input" })
+                                    <label class="custom-control-label" for="PersonalInfo_NightShift">Yes</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "false", new { @required = true, @id = "PersonalInfo_NightShift1", @class = "custom-control-input" })
+                                    @Html.ValidationMessageFor(Model => Model.PersonalInfo.NightShift)
+                                    <label class="custom-control-label" for="PersonalInfo_NightShift1">No</label>
+                                </div>*@
                             @if (Model.PersonalInfo.NightShift)
                             {
                                 @Html.Label("Yes", new { @class = "control-label" })
@@ -515,7 +515,9 @@
                             int sno = 0;
                             foreach (var item in Model.PreviousEmploymentDetail)
                             {
-
+                                //var FromDate = Convert.ToDateTime(item.WorkFrom);
+                                //var ToDate = Convert.ToDateTime(item.WorkTo);
+                                //string frmDateLocalFormat = ((DateTime)FromDate).ToString("yyyy MMMM");
                                 <tr>
                                     <td>@{ sno++; } @sno</td>
                                     <td>@item.CompanyName</td>
@@ -677,15 +679,15 @@
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {          
-            $('#clikPrint').click(function () {
-                $("#printableArea").print();
-            });
+        $(document).ready(function () {
+            //$('#clikPrint').click(function () {
+            //    $("#printableArea").print();
+            //});
             $('#Interviewdate').datepicker('setStartDate', 'today');
         });
         function AddEditFeedback(id) {
             $('#pre-loader').show();
-            $('div.modal-body').empty();       
+            $('div.modal-body').empty();
             $.ajax({
                 type: 'GET',
                 url: '/Home/GetFeedback/' + id,
@@ -707,6 +709,6 @@
                     $('#pre-loader').hide();
                 },
             });
-        }  
-    </script> 
+        }
+    </script>
 }

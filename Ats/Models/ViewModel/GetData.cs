@@ -305,5 +305,101 @@ namespace Ats.Models.ViewModel
                 throw;
             }
         }
+
+        ApplicationDbContext db = new ApplicationDbContext();
+        public GridPreInterRegisterViewModel ReportById(int id)
+        {
+            try
+            {
+                GridPreInterRegisterViewModel Candidate = new GridPreInterRegisterViewModel();
+                InterPersonalInfoViewModel perSonalInfo = new InterPersonalInfoViewModel();
+                List<InterPreEmpDetailViewModel> preEmployementDetail = new List<InterPreEmpDetailViewModel>();
+                List<InterEducBackgroundViewModel> eduBackGround = new List<InterEducBackgroundViewModel>();
+                List<InterReferenceViewModel> reference = new List<InterReferenceViewModel>();
+                List<LanguageViewModel> languages = new List<LanguageViewModel>();
+                List<FeedbackViewModel> feedbacks = new List<FeedbackViewModel>();
+                CityViewModel cities = new CityViewModel();
+                StateViewModel states = new StateViewModel();
+                DepartmentViewModel departments = new DepartmentViewModel();
+                DesignationViewModel designations = new DesignationViewModel();
+                perSonalInfo =                     (                    from p in db.InterPersonalInfo                    where (p.CandidateId == id)                    select new InterPersonalInfoViewModel()
+                    {                        CandidateId = p.CandidateId,                        FirstName = p.FirstName,                        LastName = p.LastName,                        MobileNo1 = p.MobileNo1,                        MobileNo2 = p.MobileNo2,                        DateOfBirth = p.DateOfBirth,                        Age = p.Age,                        Gender = p.Gender,                        MaritalStaus = p.MaritalStaus,                        NoOfChildren = p.NoOfChildren,                        AddressPresent = p.AddressPresent,                        StatePresent = p.StatePresent,                        CityPresent = p.CityPresent,                        PincodePresent = p.PincodePresent,                        AddressPast = p.AddressPast,                        StatePast = p.StatePast,                        CityPast = p.CityPast,                        PinCodePast = p.PinCodePast,                        AppliedForDepartment = p.AppliedForDepartment,                        AppliedForDesignation = p.AppliedForDesignation,                        TotalExperienceInYear = p.TotalExperienceInYear,                        EarliestJoinDate = p.EarliestJoinDate,                        SalaryExpectation = p.SalaryExpectation,                        Vehicle = p.Vehicle,                        JobSource = p.JobSource,                        NightShift = p.NightShift,                        IsReference = p.IsReference,                        ReferenceName = p.ReferenceName,                        ReferenceDesignation = p.ReferenceDesignation,                        ReferenceMobileNo = p.ReferenceMobileNo,                        EmailId = p.EmailId,                        OtherCertification = p.OtherCertification,                        ///OtherComments=p.OtherComments,                        //CandidateStatus = p.CandidateStatus,                        //InterviewDate = p.InterviewDate
+                    }).FirstOrDefault();
+
+                Candidate.PersonalInfo = perSonalInfo;
+                preEmployementDetail = (from p in db.InterPreEmpDetail
+                                        where (p.CandidateId == id)
+                                        select new InterPreEmpDetailViewModel
+                                        {
+                                            EmploymentId = p.EmploymentId,
+                                            CandidateId = p.CandidateId,
+                                            City = p.City,
+                                            CompanyName = p.CompanyName,
+                                            Designation = p.Designation,
+                                            WorkFrom = p.WorkFrom,
+                                            WorkTo = p.WorkTo,
+                                            CtcMonth = p.CtcMonth
+                                        }).ToList();
+
+                Candidate.PreviousEmploymentDetail = preEmployementDetail;
+
+                eduBackGround = (from p in db.InterEducBackground
+                                 where (p.CandidateId == id)
+                                 select new InterEducBackgroundViewModel()
+                                 {
+                                     EducationalId = p.EducationalId,
+                                     CandidateId = p.CandidateId,
+                                     BoardUniversityName = p.BoardUniversityName,
+                                     CourseDegreeName = p.CourseDegreeName,
+                                     PassingYear = p.PassingYear,
+                                     GradePercentage = p.GradePercentage
+                                 }).ToList();
+                Candidate.EducationBackground = eduBackGround;
+
+                reference = (from p in db.InterReference
+                             where (p.CandidateId == id)
+                             select new InterReferenceViewModel()
+                             {
+                                 ReferenceId = p.ReferenceId,
+                                 CandidateId = p.CandidateId,
+                                 PersonName = p.PersonName,
+                                 CompanyName = p.CompanyName,
+                                 Designation = p.Designation,
+                                 ContactNo = p.ContactNo
+                             }).ToList();
+                Candidate.Reference = reference;
+                //Candidate.Language = new List<LanguageViewModel>();
+
+                languages = (from l in db.InterLanguages
+                             where l.CandidateId == id
+                             select new LanguageViewModel
+                             {
+                                 LanguageType = l.LanguageType,
+                                 Read = l.Read,
+                                 Write = l.Write,
+                                 Speak = l.Speak
+                             }).ToList();
+                Candidate.Language = languages;
+                //Get Candidate feedback
+                //feedbacks = (from f in db.Feedbacks
+                //             where f.CandidateId == id
+                //             select new FeedbackViewModel()
+                //             {
+                //                 CandidateId = f.CandidateId,
+                //                 CandidateStatus = f.CandidateStatus,
+                //                 //InterviewDate = Convert.ToDateTime(f.InterviewDate),
+                //                 OtherComments = f.OtherComments
+                //             }).ToList();
+                //Candidate.Feedback = feedbacks;
+                //var iDate = db.Feedbacks.Select(a => a.CandidateId == id).FirstOrDefault();
+                //ViewBag.InterviewDate = Convert.ToDateTime(iDate);
+                return Candidate;
+            }
+            catch (Exception ex)
+            {
+                //ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException)) ? ex.Message.ToString() : ex.InnerException.ToString();
+                return null;
+            }
+        }
     }
 }

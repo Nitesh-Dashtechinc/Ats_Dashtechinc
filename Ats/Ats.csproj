@@ -53,6 +53,9 @@
     <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Authorization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authorization.1.0.0\lib\net451\Microsoft.AspNetCore.Authorization.dll</HintPath>
     </Reference>
@@ -161,6 +164,9 @@
     </Reference>
     <Reference Include="Microsoft.Net.Http.Headers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.1.0.0\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -387,6 +393,8 @@
     <Compile Include="Models\InterPreEmpDetail.cs" />
     <Compile Include="Models\InterReference.cs" />
     <Compile Include="Models\InterLanguage.cs" />
+    <Compile Include="Models\Reports\CandidateReport.cs" />
+    <Compile Include="Models\Reports\CandidateReport1.cs" />
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\ViewModel\AtsGridViewModel.cs" />
     <Compile Include="Models\ViewModel\CityViewModel.cs" />
@@ -508,6 +516,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -539,6 +551,7 @@
     <Content Include="Content\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker\css\bootstrap-datepicker3.standalone.min.css.map" />
     <Content Include="Grid.mvc.readme" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\PublishProfiles\DashAts - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -621,6 +634,8 @@
     <Content Include="Views\Home\ViewDetail.cshtml" />
     <Content Include="Views\Home\PreviewDetail.cshtml" />
     <Content Include="Views\Home\GetFeedback.cshtml" />
+    <Content Include="Views\Home\ReportById.cshtml" />
+    <Content Include="Views\Shared\ReportHeader.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
