@@ -87,7 +87,7 @@
                             <label class="control-label">Mobile No 1</label> <span class="text-danger">*</span>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "form-control only-number", @maxlength = "10", @required = true })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "form-control only-number", @type = "number", @maxlength = "10", @required = true })
                             @Html.ValidationMessageFor(Model => Model.PersonalInfo.MobileNo1)
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                             <label class="control-label">Mobile No 2</label>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo2, new { @class = "form-control only-number", @maxlength = "10" })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo2, new { @class = "form-control only-number", @type = "number", @maxlength = "10" })
 
                         </div>
                     </div>
@@ -123,9 +123,9 @@
                             <label class="control-label">Date of Birth</label> <span class="text-danger">*</span>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            <div class="form-group input-group">
+                            <div class="form-group input-group date">
                                 @Html.TextBoxFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "form-control datepicker  col-8", @required = true })
-                                <div class="input-group-append">
+                                <div class="input-group-addon">
                                     <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
                                 </div>
                                 @Html.ValidationMessageFor(Model => Model.PersonalInfo.DateOfBirth)
@@ -169,7 +169,7 @@
                             <label class="control-label">No Of Children</label>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "form-control only-number", @maxlength = "1" })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "form-control only-number", @type = "number", @maxlength = "1" })
                         </div>
                     </div>
                 </div>
@@ -291,7 +291,7 @@
                             <label class="control-label">Pin code</label><span class="text-danger">*</span>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "form-control only-number", @maxlength = "6", @required = true })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "form-control only-number", @type = "number", @maxlength = "6", @required = true })
                             @Html.ValidationMessageFor(Model => Model.PersonalInfo.PincodePresent)
                         </div>
                     </div>
@@ -362,7 +362,7 @@
                             <label class="control-label">Pin code</label> <span class="text-danger">*</span>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.PinCodePast, new { @class = "form-control only-number", @maxlength = "6", @required = true })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.PinCodePast, new { @class = "form-control only-number", @type = "number", @maxlength = "6", @required = true })
                             @Html.ValidationMessageFor(Model => Model.PersonalInfo.PinCodePast)
                         </div>
                     </div>
@@ -438,7 +438,7 @@
                         </div>
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group input-group">
-                                @Html.TextBoxFor(Model => Model.PersonalInfo.TotalExperienceInYear, new { @class = "form-control number-dot", @maxlength = "5", @required = true, placeholder = "Ex. 11.11 (In Years)" })
+                                @Html.TextBoxFor(Model => Model.PersonalInfo.TotalExperienceInYear, new { @class = "form-control number-dot", @type = "number", @maxlength = "5", @required = true, placeholder = "Ex. 11.11 (In Years)" })
                             </div>
                             @Html.ValidationMessageFor(Model => Model.PersonalInfo.TotalExperienceInYear)
                         </div>
@@ -596,7 +596,7 @@
                             <label class="control-label">Reference Mobile No</label><span class="text-danger">*</span>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "form-control only-number", @maxlength = "10", @required = true })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "form-control only-number", @type = "number", @maxlength = "10", @required = true })
                             <span style="color:red" id="errRefMobileNo"></span>
                         </div>
                     </div>
@@ -653,7 +653,7 @@
                                 </div>
                             </th>
                             <th>
-                                <input type="text" name="CtcMonth" id="CtcMonth" class="form-control only-number minwidth" maxlength="7" />
+                                <input type="number" name="CtcMonth" id="CtcMonth" class="form-control only-number minwidth" maxlength="7" />
                             </th>
                             <th style="text-align:left"><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row" data-toggle="tooltip" data-placement="top" title="Click To Add"></button></th>
                         </tr>
@@ -749,7 +749,7 @@
                                 <input type="text" name="CourseDegreeName" id="CourseDegreeName" class="form-control minwidth" />
                             </th>
                             <th>
-                                <input type="text" name="PassingYear" id="PassingYear" class="form-control only-number minwidth" maxlength="4" />
+                                <input type="number" name="PassingYear" id="PassingYear" class="form-control only-number minwidth" maxlength="4" />
                             </th>
                             <th>
                                 <input type="text" name="GradePercentage" id="GradePercentage" class="form-control minwidth " />
@@ -757,7 +757,6 @@
                             <th colspan="5" style="text-align:left;">
                                 <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow" data-toggle="tooltip" data-placement="top" title="Click To Add"></button>
                             </th>
-
                         </tr>
                     </thead>
                     <tbody></tbody>

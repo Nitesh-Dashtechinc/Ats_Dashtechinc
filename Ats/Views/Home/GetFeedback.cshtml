@@ -4,8 +4,7 @@
     var shortDateLocalFormat = "";
     if (Model.InterviewDate != null)
     {
-        shortDateLocalFormat = ((DateTime)ViewBag.InDate).ToString("dd/MM/yyyy");        
-    
+        shortDateLocalFormat = ((DateTime)ViewBag.InDate).ToString("dd/MM/yyyy");         
     }
 }
 @using (Html.BeginForm("AddEditFeedBack", "Home", FormMethod.Post, new { id = "form-AddEditFeedBack", enctype = "multipart/form-data" }))

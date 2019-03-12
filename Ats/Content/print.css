@@ -4,14 +4,19 @@
         font-size: 18pt;
         font-family: 'Arial Rounded MT';
     }
-
-    @page {
-        width: 21cm;
-        margin-top: 2cm;
-        margin-bottom: 3cm;
-        size: A4;
+    .page-break {
+        display: block;
+        page-break-before: always;
     }
-    .mtop {
+
+        @page {
+            width: 21cm;
+            margin-top: 2cm;
+            margin-bottom: 3cm;
+            size: A4;
+        }
+
+        .mtop {
         margin-top: 7cm !important;
     }
    
