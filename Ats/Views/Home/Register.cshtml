@@ -87,7 +87,7 @@
                             <label class="control-label">Mobile No 1</label> <span class="text-danger">*</span>
                         </div>
                         <div class="col-lg-8 col-md-12">
-                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "form-control only-number", @type = "number", @maxlength = "10", @required = true })
+                            @Html.TextBoxFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "form-control only-number", @type = "number", @maxlength ="10", @required = true })
                             @Html.ValidationMessageFor(Model => Model.PersonalInfo.MobileNo1)
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group input-group date">
                                 @Html.TextBoxFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "form-control datepicker  col-8", @required = true })
-                                <div class="input-group-addon">
+                                <div class="input-group-append">
                                     <span class="input-group-text "><i class="fas fa-calendar-week"></i></span>
                                 </div>
                                 @Html.ValidationMessageFor(Model => Model.PersonalInfo.DateOfBirth)
@@ -238,7 +238,6 @@
                     <table id="language" class="table table-language col-md-12">
                         <thead>
                             <tr>
-                                @*<th><label class="control-label">Language Known</label></th>*@
                                 <th>
                                     @*@Html.DropDownList("Language", new SelectList(ViewBag.language, "Value", "Text"), new { @class = "form-control" })*@
                                     @Html.DropDownList("Language", new List<SelectListItem>
@@ -251,13 +250,13 @@
                                      },new { @class = "form-control col-md-10 col-12" })
                                 </th>
                                 <th class="text-center">
-                                    @Html.CheckBox("Read", new { @class = "form-check-input"})<label>Read</label>
+                                    @Html.CheckBox("Read", new { @class = "form-check-input"})<label for="Read" class="control-label">Read</label>
                                 </th>
                                 <th class="text-center">
-                                    @Html.CheckBox("Speak", new { @class = "form-check-input"})<label>Speak</label>
+                                    @Html.CheckBox("Speak", new { @class = "form-check-input"})<label for="Speak" class="control-label">Speak</label>
                                 </th>
                                 <th class="text-center">
-                                    @Html.CheckBox("Write", new { @class = "form-check-input"})<label>Write</label>
+                                    @Html.CheckBox("Write", new { @class = "form-check-input"})<label for="Write" class="control-label">Write</label>
                                 </th>
                                 <th><button type="button" id="addrow1" class="btn btn-success fa fa-plus add-row"></button></th>
                             </tr>
@@ -701,7 +700,7 @@
                                 <input type="text" name="Designation" id="Designation" class="form-control minwidth " required />
                             </th>
                             <th>
-                                <input type="text" name="ContactNo" id="ContactNo" class="form-control only-number minwidth" maxlength="10" required />
+                                <input type="number" name="ContactNo" id="ContactNo" class="form-control only-number minwidth" maxlength="10" required />
                             </th>
                             <th>
                                 <button type="button" class="btn btn-success fa fa-plus add-row" id="addRow" data-toggle="tooltip" data-placement="top" title="Click To Add"></button>

@@ -39,20 +39,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">First Name</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.FirstName, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Last Name</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.LastName, new { @class = "control-label" })
                         </div>
                     </div>
@@ -61,17 +61,17 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Mobile No 1</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.MobileNo1, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Mobile No 2</label>
                         </div>
                         <div class="col-lg-8 col-md-12">
@@ -90,20 +90,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Email</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.EmailId, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Date of Birth</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             <div class="form-group input-group">
                                 @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8" })
                                 <div class="col-4"><label class="control-label" id="Age">Age</label> @Html.DisplayFor(M => Model.PersonalInfo.Age)</div>
@@ -115,20 +115,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Marital Status</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.MaritalStaus, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">No Of Children</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @if (Model.PersonalInfo.NoOfChildren > 0)
                             {
                                 @Html.DisplayFor(Model => Model.PersonalInfo.NoOfChildren, new { @class = "control-label", @placeholder = "Unmarried Enter 0" })
@@ -144,20 +144,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Gender</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.Gender, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Vehicle</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.Vehicle, new { @class = "control-label" })
                         </div>
                     </div>
@@ -205,20 +205,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Address</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.AddressPresent, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Pin code</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.PincodePresent, new { @class = "control-label" })
                         </div>
                     </div>
@@ -227,20 +227,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">State</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.StatePresent, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">City</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.CityPresent, new { @class = "control-label" })
                         </div>
                     </div>
@@ -258,22 +258,22 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">
                                 Address
                             </label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.AddressPast, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Pin code</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.PinCodePast, new { @class = "control-label" })
                         </div>
                     </div>
@@ -282,20 +282,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">State</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.StatePast, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">City</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => Model.PersonalInfo.CityPast, new { @class = "control-label" })
                         </div>
                     </div>
@@ -311,20 +311,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Select Department</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.AppliedForDepartment, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Select Designation</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.AppliedForDesignation, new { @class = "control-label" })
                         </div>
                     </div>
@@ -333,20 +333,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Total Experience</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.TotalExperienceInYear, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Salary Expectation</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             <div class="form-group input-group">
                                 @Html.DisplayFor(model => model.PersonalInfo.SalaryExpectation, new { @class = "control-label" })<label>/Month</label>
                             </div>
@@ -357,20 +357,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Early Joining Date</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(model => model.PersonalInfo.EarliestJoinDate, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12 text-nowrap">
+                        <div class="col-lg-4 col-md-12 text-nowrap col-sm-6 col-xs-6">
                             <label class="control-label">Comfortable Night Shift</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @if (Model.PersonalInfo.NightShift)
                             {
                                 @Html.Label("Yes", new { @class = "control-label" })
@@ -386,20 +386,20 @@
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label">Job Source</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @Html.DisplayFor(Model => Model.PersonalInfo.JobSource, new { @class = "control-label" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group row">
-                        <div class="col-lg-4 col-md-12 text-nowrap">
+                        <div class="col-lg-4 col-md-12 text-nowrap col-sm-6 col-xs-6">
                             <label class="control-label">Reference In DashTech</label>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                             @if (Model.PersonalInfo.IsReference)
                             {
                                 @Html.Label("Yes", new { @class = "control-label" })
@@ -417,20 +417,20 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <div class="col-lg-4 col-md-12">
+                            <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                                 <label class="control-label">Reference Name</label>
                             </div>
-                            <div class="col-lg-8 col-md-12">
+                            <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                                 @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceName, new { @class = "control-label" })
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <div class="col-lg-4 col-md-12 text-nowrap">
+                            <div class="col-lg-4 col-md-12 text-nowrap col-sm-6 col-xs-6">
                                 <label class="control-label">Reference Designation</label>
                             </div>
-                            <div class="col-lg-8 col-md-12">
+                            <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                                 @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceDesignation, new { @class = "control-label" })
                             </div>
                         </div>
@@ -439,10 +439,10 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group row">
-                            <div class="col-lg-4 col-md-12">
+                            <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                                 <label class="control-label">Reference Mobile No</label>
                             </div>
-                            <div class="col-lg-8 col-md-12">
+                            <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
                                 @Html.DisplayFor(Model => Model.PersonalInfo.ReferenceMobileNo, new { @class = "control-label" })
                             </div>
                         </div>
@@ -451,6 +451,7 @@
             }
         </div>
     </div>
+
     <div class="card shadow">
         <div class="card-header">
             <h4 class="text-primary">
@@ -501,6 +502,7 @@
             </table>
         </div>
     </div>
+
     <div class="card shadow">
         <div class="card-header">
             <h4 class="text-primary">
@@ -600,10 +602,10 @@
         </div>
         <div class="card-body">
             <div class="form-row">
-                <div class="col-lg-6 col-md-12 text-nowrap">
+                <div class="col-lg-6 col-md-12 text-nowrap col-sm-6 col-xs-6">
                     <label class="control-label">Other Certification And Achievement</label>
                 </div>
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-6 col-md-12 col-sm-6 col-xs-6">
                     @if (Model.PersonalInfo.OtherCertification != null)
                     {
                         @Html.DisplayFor(Model => Model.PersonalInfo.OtherCertification, new { @class = "control-label", rows = "2", cols = "100" })

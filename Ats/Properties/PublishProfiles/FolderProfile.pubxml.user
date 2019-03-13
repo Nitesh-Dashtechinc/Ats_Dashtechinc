@@ -9,6 +9,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_PublishTargetUrl>D:\.NET Projects\Ats_Git_Server\Ats_Publish</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="App_Browsers/qt.browser">
+      <publishTime>03/08/2019 17:23:41</publishTime>
+    </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
@@ -16,10 +19,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/Ats.dll">
-      <publishTime>03/06/2019 16:36:35</publishTime>
+      <publishTime>03/13/2019 11:34:49</publishTime>
     </File>
     <File Include="bin/Ats.pdb">
-      <publishTime>03/06/2019 16:36:35</publishTime>
+      <publishTime>03/13/2019 11:34:49</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>11/23/2016 23:51:42</publishTime>
@@ -32,6 +35,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/GridMvc.dll">
       <publishTime>09/25/2013 14:34:54</publishTime>
+    </File>
+    <File Include="bin/itextsharp.dll">
+      <publishTime>01/22/2018 18:40:38</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
       <publishTime>04/24/2018 12:47:38</publishTime>
@@ -329,6 +335,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>05/24/2018 13:38:24</publishTime>
+    </File>
+    <File Include="bin/Rotativa.dll">
+      <publishTime>09/29/2017 14:13:30</publishTime>
     </File>
     <File Include="bin/System.AppContext.dll">
       <publishTime>06/11/2016 23:13:20</publishTime>
@@ -751,7 +760,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
     <File Include="Content/print.css">
-      <publishTime>03/06/2019 10:45:52</publishTime>
+      <publishTime>03/12/2019 17:31:05</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>03/06/2019 10:45:52</publishTime>
@@ -769,7 +778,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
     <File Include="CustomScript/Register.js">
-      <publishTime>03/06/2019 15:36:25</publishTime>
+      <publishTime>03/12/2019 17:03:00</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>03/06/2019 10:45:52</publishTime>
@@ -779,6 +788,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Grid.mvc.readme">
       <publishTime>03/06/2019 10:45:52</publishTime>
+    </File>
+    <File Include="Rotativa/help-wkhtmltoimage.txt">
+      <publishTime>03/08/2019 17:23:41</publishTime>
+    </File>
+    <File Include="Rotativa/help-wkhtmltopdf.txt">
+      <publishTime>03/08/2019 17:23:41</publishTime>
+    </File>
+    <File Include="Rotativa/wkhtmltoimage.exe">
+      <publishTime>03/08/2019 17:23:41</publishTime>
+    </File>
+    <File Include="Rotativa/wkhtmltopdf.exe">
+      <publishTime>03/08/2019 17:23:40</publishTime>
     </File>
     <File Include="Scripts/bootstrap.bundle.js">
       <publishTime>03/06/2019 10:45:52</publishTime>
@@ -857,6 +878,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/jquery-3.3.1.slim.min.map">
       <publishTime>03/06/2019 10:45:52</publishTime>
+    </File>
+    <File Include="Scripts/jquery.inputmask.bundle.js">
+      <publishTime>03/07/2019 11:58:38</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.js">
       <publishTime>03/06/2019 10:45:52</publishTime>
@@ -969,6 +993,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Home/Contact.cshtml">
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
+    <File Include="Views/Home/GetFeedback.cshtml">
+      <publishTime>03/08/2019 16:34:16</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>03/06/2019 16:23:28</publishTime>
     </File>
@@ -976,10 +1003,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
     <File Include="Views/Home/Register.cshtml">
-      <publishTime>03/06/2019 16:26:07</publishTime>
+      <publishTime>03/13/2019 10:36:55</publishTime>
+    </File>
+    <File Include="Views/Home/ReportById.cshtml">
+      <publishTime>03/12/2019 16:22:51</publishTime>
     </File>
     <File Include="Views/Home/ViewDetail.cshtml">
-      <publishTime>03/06/2019 11:15:07</publishTime>
+      <publishTime>03/12/2019 17:32:28</publishTime>
     </File>
     <File Include="Views/Manage/AddPhoneNumber.cshtml">
       <publishTime>03/06/2019 10:45:52</publishTime>
@@ -1005,6 +1035,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/Shared/Lockout.cshtml">
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
+    <File Include="Views/Shared/ReportHeader.cshtml">
+      <publishTime>03/08/2019 18:13:23</publishTime>
+    </File>
     <File Include="Views/Shared/_Grid.cshtml">
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
@@ -1012,7 +1045,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/06/2019 10:45:52</publishTime>
+      <publishTime>03/12/2019 17:27:04</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>03/06/2019 10:45:52</publishTime>
@@ -1024,7 +1057,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2019 10:45:52</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/06/2019 14:27:04</publishTime>
+      <publishTime>03/13/2019 11:34:50</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -411,6 +411,7 @@ namespace Ats.Controllers
             JsonResult res = new JsonResult();
             try
             {
+                //TempData["candidateId"] = 1;
                 if (TempData.ContainsKey("candidateId"))
                 {
                     int id = int.Parse(TempData["candidateId"].ToString());
