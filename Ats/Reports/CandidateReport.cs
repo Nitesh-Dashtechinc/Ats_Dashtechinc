@@ -10,10 +10,10 @@ using System.Web;
 
 namespace Ats.Models.Reports
 {
-    public class CandidateReport
+    public class CandidateReport 
     {
         #region Declaration
-        int _totalColumn = 7;
+        int _totalColumn;
         Document _document;
         Font _fontStyle;
         PdfPTable _pdfPTable = new PdfPTable(7);
@@ -35,7 +35,45 @@ namespace Ats.Models.Reports
             _pdfPTable.HorizontalAlignment = Element.ALIGN_LEFT;
             _fontStyle = FontFactory.GetFont("Arial Rounded MT", 8f, 1);
             PdfWriter.GetInstance(_document, memoryStream);
+            //PdfWriter writer = PdfWriter.GetInstance(_document, new FileStream( + "/candidate.pdf", FileMode.Create));
             _document.Open();
+            //PdfPTable table = new PdfPTable(3);
+            //table.TotalWidth = 144f;
+            //table.LockedWidth = true;
+            //PdfPCell cell = new PdfPCell(new Phrase("This is table 1"));
+            //cell.Colspan = 3;
+            //cell.HorizontalAlignment = 1;
+            //table.AddCell(cell);
+            //table.AddCell("Col 1 Row 1");
+            //table.AddCell("Col 2 Row 1");
+            //table.AddCell("Col 3 Row 1");
+            //table.AddCell("Col 1 Row 2");
+            //table.AddCell("Col 2 Row 2");
+            //table.AddCell("Col 3 Row 2");
+            //table.WriteSelectedRows(0, -1, _document.Left, _document.Top, writer.DirectContent);
+
+
+            //table = new PdfPTable(3);
+            //table.TotalWidth = 144f;
+            //table.LockedWidth = true;
+            //cell = new PdfPCell(new Phrase("This is table 2"));
+            //cell.Colspan = 3;
+            //cell.HorizontalAlignment = 1;
+            //table.AddCell(cell);
+            //table.AddCell("Col 1 Row 1");
+            //table.AddCell("Col 2 Row 1");
+            //table.AddCell("Col 3 Row 1");
+            //table.AddCell("Col 1 Row 2");
+            //table.AddCell("Col 2 Row 2");
+            //table.AddCell("Col 3 Row 2");
+            //table.WriteSelectedRows(0, -1, _document.Left + 200, _document.Top, writer.DirectContent);
+
+
+
+
+
+
+
             _pdfPTable.SetWidths(new float[] { 10f, 20f, 20f, 20f, 20f, 20f, 20f });
             #endregion
             this.ReportHeader();
@@ -70,7 +108,9 @@ namespace Ats.Models.Reports
             _pdfPTable.CompleteRow();
         }
         private void ReportBody()
-        {
+        {          
+
+
             #region Table header
             _fontStyle = FontFactory.GetFont("Arial Rounded MT", 8f, 1);
             _pdfCell = new PdfPCell(new Phrase("#", _fontStyle));

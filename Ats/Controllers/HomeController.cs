@@ -2,6 +2,7 @@
 using Ats.Models.Reports;
 using Ats.Models.ViewModel;
 using Ats.Models.ViewModels;
+using IronPdf;
 using Newtonsoft.Json;
 using Rotativa;
 using System;
@@ -161,6 +162,7 @@ namespace Ats.Controllers
                     feedback.CandidateStatus = false;
                     feedback.InterviewDate = now;
                     feedback.OtherComments = "";
+                    feedback.IsFeddbackAdded = false;
                     db.Feedbacks.Add(feedback);
                     db.SaveChanges();
 
@@ -278,7 +280,7 @@ namespace Ats.Controllers
                 List<InterEducBackgroundViewModel> eduBackGround = new List<InterEducBackgroundViewModel>();
                 List<InterReferenceViewModel> reference = new List<InterReferenceViewModel>();
                 List<LanguageViewModel> languages = new List<LanguageViewModel>();
-                List<FeedbackViewModel> feedbacks = new List<FeedbackViewModel>();
+                FeedbackViewModel feedbacks = new FeedbackViewModel();
                 CityViewModel cities = new CityViewModel();
                 StateViewModel states = new StateViewModel();
                 DepartmentViewModel departments = new DepartmentViewModel();
@@ -342,18 +344,31 @@ namespace Ats.Controllers
                              }).ToList();
                 Candidate.Language = languages;
                 //Get Candidate feedback
+                GetData getData = new GetData();
+                feedbacks = (
+                     from p in getData.GetCandidatefeedback()
+                     where (p.CandidateId == id)
+                     select p
+                    ).FirstOrDefault();
+                DateTime InterDate = Convert.ToDateTime(feedbacks.InterviewDate);
+                string idate = String.Format("{0:dd/MM/yyyy}", InterDate);
+                feedbacks.InterviewDate = idate;
+                Candidate.Feedback = feedbacks;
+
                 //feedbacks = (from f in db.Feedbacks
                 //             where f.CandidateId == id
                 //             select new FeedbackViewModel()
                 //             {
                 //                 CandidateId = f.CandidateId,
                 //                 CandidateStatus = f.CandidateStatus,
-                //                 //InterviewDate = Convert.ToDateTime(f.InterviewDate),
+                //                 InterviewDate = f.InterviewDate,
                 //                 OtherComments = f.OtherComments
                 //             }).ToList();
                 //Candidate.Feedback = feedbacks;
+
                 //var iDate = db.Feedbacks.Select(a => a.CandidateId == id).FirstOrDefault();
                 //ViewBag.InterviewDate = Convert.ToDateTime(iDate);
+
                 return View(Candidate);
             }
             catch (Exception ex)
@@ -362,6 +377,16 @@ namespace Ats.Controllers
                 return View();
             }
         }
+
+        //public ActionResult ViewDetailReport(int id)
+        //{
+        //    var Renderer = new IronPdf.HtmlToPdf();
+        //    Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
+        //    var result = ReportById(1);
+
+        //    var PDF = Renderer.RenderHtmlAsPdf("<td class='text-wrap' style='max-width:25%'>sadasddasddddddddddsadddddddddddsadddddddddddsaddddddddddddsdsasa</td>");
+        //    return File(PDF.BinaryData, "application/pdf;");
+        //}
 
         public ActionResult ViewDetailReport(int id)
         {
@@ -569,6 +594,7 @@ namespace Ats.Controllers
                 feedback.CandidateStatus = feedbackView.CandidateStatus;          
                 feedback.InterviewDate = DateTime.ParseExact(feedbackView.InterviewDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 feedback.OtherComments = feedbackView.OtherComments;
+                feedback.IsFeddbackAdded = true;
                 db.SaveChanges();
                 result.Data = "record saved successfully";
                 result.ContentType = "success";
@@ -581,25 +607,12 @@ namespace Ats.Controllers
             }
         }
 
-        public ActionResult CandidateDetailReport(int id = 0)
+        public ActionResult CandidateDetailReport(int id)
         {
-            try
-            {
-                GetData getData = new GetData();
-                GridPreInterRegisterViewModel Candidate = new GridPreInterRegisterViewModel();
-                Candidate = getData.ReportById(id);
-                //CandidateReport candidateReport = new CandidateReport();
-                //byte[] abytes = candidateReport.PrepateReport(Candidate);
-                CandidateReport candidateReport = new CandidateReport();
-                byte[] abytes = candidateReport.PrepateReport(Candidate);
-                return File(abytes, "application/pdf");
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-
+            Session["candidateId"] = id;
+            return Redirect("/Reports/DashReport.aspx");
         }
+
         public List<InterPreEmpDetail> GetInterPreEmpDetail()
         {
             List<InterPreEmpDetail> preEmpDetails = new List<InterPreEmpDetail>();

@@ -306,6 +306,43 @@ namespace Ats.Models.ViewModel
             }
         }
 
+        public List<FeedbackViewModel> GetCandidatefeedback()
+        {
+            List<FeedbackViewModel> feedbacks = new List<FeedbackViewModel>();
+            try
+            {
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    var feedbackList = db.Feedbacks.ToList();
+                    if (feedbackList != null)
+                    {
+
+                        var count = feedbackList.Count;
+                        if (count > 0)
+                        {
+                            for (int i = 0; i < count; i++)
+                            {
+                                FeedbackViewModel feedback = new FeedbackViewModel();
+                                feedback.CandidateId = feedbackList[i].CandidateId;
+                                 feedback.InterviewDate = Convert.ToString(feedbackList[i].InterviewDate);
+                                feedback.CandidateStatus = feedbackList[i].CandidateStatus;
+                                feedback.OtherComments = feedbackList[i].OtherComments;
+                                feedback.IsFeddbackAdded = feedbackList[i].IsFeddbackAdded;
+                                feedbacks.Add(feedback);
+                            }
+                        }
+                    }
+                    return feedbacks;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         ApplicationDbContext db = new ApplicationDbContext();
         public GridPreInterRegisterViewModel ReportById(int id)
         {
@@ -380,19 +417,7 @@ namespace Ats.Models.ViewModel
                                  Speak = l.Speak
                              }).ToList();
                 Candidate.Language = languages;
-                //Get Candidate feedback
-                //feedbacks = (from f in db.Feedbacks
-                //             where f.CandidateId == id
-                //             select new FeedbackViewModel()
-                //             {
-                //                 CandidateId = f.CandidateId,
-                //                 CandidateStatus = f.CandidateStatus,
-                //                 //InterviewDate = Convert.ToDateTime(f.InterviewDate),
-                //                 OtherComments = f.OtherComments
-                //             }).ToList();
-                //Candidate.Feedback = feedbacks;
-                //var iDate = db.Feedbacks.Select(a => a.CandidateId == id).FirstOrDefault();
-                //ViewBag.InterviewDate = Convert.ToDateTime(iDate);
+
                 return Candidate;
             }
             catch (Exception ex)

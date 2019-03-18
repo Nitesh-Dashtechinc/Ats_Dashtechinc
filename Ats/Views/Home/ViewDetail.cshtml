@@ -130,11 +130,11 @@
                         <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
                             <label class="control-label txt-nowrap">Date of Birth</label>
                         </div>
-                        <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6">
-                            <div class="form-group txt-nowrap">
-                                @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8 pcol-8" })
-                                <div class="col-4 pcol-4"><label class="control-label" id="Age">Age</label> @Html.DisplayFor(M => Model.PersonalInfo.Age)</div>
-                            </div>
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
+                            @Html.DisplayFor(Model => Model.PersonalInfo.DateOfBirth, new { @class = "control-label  col-8 pcol-8" })
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 text-left">
+                            <label class="control-label" id="Age">Age</label> @Html.DisplayFor(M => Model.PersonalInfo.Age)
                         </div>
                     </div>
                 </div>
@@ -339,7 +339,7 @@
                 <div class="col-md-6 setwidth">
                     <div class="form-group row set-formrow">
                         <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
-                            <label class="control-label">Select Department</label>
+                            <label class="control-label">Department</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
                             @Html.DisplayFor(model => model.PersonalInfo.AppliedForDepartment, new { @class = "control-label" })
@@ -349,7 +349,7 @@
                 <div class="col-md-6 setwidth">
                     <div class="form-group row set-formrow">
                         <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6">
-                            <label class="control-label">Select Designation</label>
+                            <label class="control-label">Designation</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
                             @Html.DisplayFor(model => model.PersonalInfo.AppliedForDesignation, new { @class = "control-label" })
@@ -385,7 +385,7 @@
                 <div class="col-md-6 setwidth">
                     <div class="form-group row set-formrow">
                         <div class="col-lg-4 col-md-12 col-sm-6 col-xs-6 txt-left">
-                            <label class="control-label">Early JoiningDate</label>
+                            <label class="control-label">Joining Date</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
                             @Html.DisplayFor(model => model.PersonalInfo.EarliestJoinDate, new { @class = "control-label" })
@@ -398,15 +398,6 @@
                             <label class="control-label">Comfortable Night Shift</label>
                         </div>
                         <div class="col-lg-8 col-md-12 col-sm-6 col-xs-6 txt-right">
-                            @*<div class="custom-control custom-radio custom-control-inline">
-                                    @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "true", new { @required = true, @class = "custom-control-input" })
-                                    <label class="custom-control-label" for="PersonalInfo_NightShift">Yes</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    @Html.RadioButtonFor(Model => Model.PersonalInfo.NightShift, "false", new { @required = true, @id = "PersonalInfo_NightShift1", @class = "custom-control-input" })
-                                    @Html.ValidationMessageFor(Model => Model.PersonalInfo.NightShift)
-                                    <label class="custom-control-label" for="PersonalInfo_NightShift1">No</label>
-                                </div>*@
                             @if (Model.PersonalInfo.NightShift)
                             {
                                 @Html.Label("Yes", new { @class = "control-label" })

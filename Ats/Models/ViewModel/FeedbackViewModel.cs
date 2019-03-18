@@ -11,5 +11,6 @@ namespace Ats.Models.ViewModel
         public string InterviewDate { get; set; }
         public bool CandidateStatus { get; set; }
         public string OtherComments { get; set; }
+        public bool IsFeddbackAdded { get; set; }
     }
 }
