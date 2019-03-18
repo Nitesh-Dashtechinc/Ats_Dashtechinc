@@ -25,17 +25,18 @@ textarea {
 .responsive-pt-5 {
     padding-top: 48px;
 }
+
 .table {
  width:100%;
 }
 @media (max-width: 768px) {
-    .table {
-        width:60%;
+    .responsive-table {
+        width: 60%;
     }
 }
 @media only screen and (max-width: 768px) {
     .responsive-table {
-        width: 50%;
+        width: 60%;
     }
 }
 @media (max-width: 992px) {

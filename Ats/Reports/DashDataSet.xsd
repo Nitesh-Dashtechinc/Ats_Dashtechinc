@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DashDataSet" targetNamespace="http://tempuri.org/DashDataSet.xsd" xmlns:mstns="http://tempuri.org/DashDataSet.xsd" xmlns="http://tempuri.org/DashDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DashDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DashDataSet" msprop:Generator_UserDSName="DashDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="InterPersonalInfoes" msprop:Generator_TableClassName="InterPersonalInfoesDataTable" msprop:Generator_TableVarName="tableInterPersonalInfoes" msprop:Generator_RowChangedName="InterPersonalInfoesRowChanged" msprop:Generator_TablePropName="InterPersonalInfoes" msprop:Generator_RowDeletingName="InterPersonalInfoesRowDeleting" msprop:Generator_RowChangingName="InterPersonalInfoesRowChanging" msprop:Generator_RowEvHandlerName="InterPersonalInfoesRowChangeEventHandler" msprop:Generator_RowDeletedName="InterPersonalInfoesRowDeleted" msprop:Generator_RowClassName="InterPersonalInfoesRow" msprop:Generator_UserTableName="InterPersonalInfoes" msprop:Generator_RowEvArgName="InterPersonalInfoesRowChangeEvent">
+          <xs:complexType>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Language" msprop:Generator_TableClassName="LanguageDataTable" msprop:Generator_TableVarName="tableLanguage" msprop:Generator_TablePropName="Language" msprop:Generator_RowDeletingName="LanguageRowDeleting" msprop:Generator_RowChangingName="LanguageRowChanging" msprop:Generator_RowEvHandlerName="LanguageRowChangeEventHandler" msprop:Generator_RowDeletedName="LanguageRowDeleted" msprop:Generator_UserTableName="Language" msprop:Generator_RowChangedName="LanguageRowChanged" msprop:Generator_RowEvArgName="LanguageRowChangeEvent" msprop:Generator_RowClassName="LanguageRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="LanguageId" msprop:Generator_ColumnVarNameInTable="columnLanguageId" msprop:Generator_ColumnPropNameInRow="LanguageId" msprop:Generator_ColumnPropNameInTable="LanguageIdColumn" msprop:Generator_UserColumnName="LanguageId" type="xs:string" minOccurs="0" />
+              <xs:element name="CandidateId" msprop:Generator_ColumnVarNameInTable="columnCandidateId" msprop:Generator_ColumnPropNameInRow="CandidateId" msprop:Generator_ColumnPropNameInTable="CandidateIdColumn" msprop:Generator_UserColumnName="CandidateId" type="xs:string" minOccurs="0" />
+              <xs:element name="LanguageType" msprop:Generator_ColumnVarNameInTable="columnLanguageType" msprop:Generator_ColumnPropNameInRow="LanguageType" msprop:Generator_ColumnPropNameInTable="LanguageTypeColumn" msprop:Generator_UserColumnName="LanguageType" type="xs:string" minOccurs="0" />
+              <xs:element name="Read" msprop:Generator_ColumnVarNameInTable="columnRead" msprop:Generator_ColumnPropNameInRow="Read" msprop:Generator_ColumnPropNameInTable="ReadColumn" msprop:Generator_UserColumnName="Read" type="xs:string" minOccurs="0" />
+              <xs:element name="Speak" msprop:Generator_ColumnVarNameInTable="columnSpeak" msprop:Generator_ColumnPropNameInRow="Speak" msprop:Generator_ColumnPropNameInTable="SpeakColumn" msprop:Generator_UserColumnName="Speak" type="xs:string" minOccurs="0" />
+              <xs:element name="Write" msprop:Generator_ColumnVarNameInTable="columnWrite" msprop:Generator_ColumnPropNameInRow="Write" msprop:Generator_ColumnPropNameInTable="WriteColumn" msprop:Generator_UserColumnName="Write" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
