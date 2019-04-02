@@ -293,8 +293,8 @@
                         int sno = 0;
                         foreach (var item in Model.PreviousEmploymentDetail)
                         {
-                            DateTime frmDate = DateTime.ParseExact(item.WorkFrom, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                            DateTime toDate = DateTime.ParseExact(item.WorkTo, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                            DateTime frmDate = DateTime.ParseExact(item.WorkFrom.Replace(" ",String.Empty), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                            DateTime toDate = DateTime.ParseExact(item.WorkTo.Replace(" ",String.Empty), "dd/MM/yyyy", CultureInfo.InvariantCulture);
                             <tr>
                                 <td>@{ sno++; } @sno</td>
                                 <td>@item.CompanyName</td>

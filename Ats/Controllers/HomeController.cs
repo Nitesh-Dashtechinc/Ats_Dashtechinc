@@ -1,14 +1,14 @@
 ﻿using Ats.Models;
-using Ats.Models.Reports;
 using Ats.Models.ViewModel;
 using Ats.Models.ViewModels;
-using IronPdf;
-using Newtonsoft.Json;
+using ExcelDataReader;
 using Rotativa;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -56,7 +56,7 @@ namespace Ats.Controllers
 
         }
         public ActionResult Register()
-        {         
+        {
             JsonResult res = new JsonResult();
             try
             {
@@ -114,7 +114,7 @@ namespace Ats.Controllers
             {
                 //throw null;
                 DateTime now = DateTime.Now;
-               // obj.PersonalInfo.InterviewDate = now;
+                // obj.PersonalInfo.InterviewDate = now;
                 obj.PersonalInfo.CreatedDate = now;
                 db.InterPersonalInfo.Add(obj.PersonalInfo);
                 db.SaveChanges();
@@ -174,12 +174,306 @@ namespace Ats.Controllers
             }
             catch (Exception ex)
             {
-                res.ContentType = "error";                
+                res.ContentType = "error";
                 res.Data = "Some thing went rong please try agnain";
                 return Json(res);
             }
             return Json(res);
         }
+
+        #region Bulk register form upload from excel file
+        [HttpPost]
+        public ActionResult BulkRegistration(List<HttpPostedFileBase> postedFiles)
+        {
+            foreach (HttpPostedFileBase postedFile in postedFiles)
+            {
+                Stream stream = postedFile.InputStream;
+
+                IExcelDataReader reader = null;
+
+
+                if (postedFile.FileName.EndsWith(".xls"))
+                {
+                    reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                }
+                else if (postedFile.FileName.EndsWith(".xlsx"))
+                {
+                    reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "This file format is not supported");
+                    return View();
+                }
+
+                //  reader.IsFirstRowAsColumnNames = true;
+
+                DataSet result = reader.AsDataSet();
+                reader.Close();
+
+                List<PreInterRegisterViewModel> lstObj = new List<PreInterRegisterViewModel>();
+                if (result != null && result.Tables.Count > 0)
+                {
+                    if (result.Tables["PersonalInfo"] != null && result.Tables["PersonalInfo"].Rows.Count > 0)
+                    {
+                        List<InterPersonalInfo> lstPer = new List<InterPersonalInfo>();
+                        for (int i = 0; i < result.Tables["PersonalInfo"].Rows.Count; i++)
+                        {
+                            if (i > 0)
+                            {
+                                PreInterRegisterViewModel obj = new PreInterRegisterViewModel();
+                                InterPersonalInfo objPer = new InterPersonalInfo();
+
+                                #region For PersonalInfo
+                                objPer.FirstName = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][0]);
+                                objPer.LastName = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][1]);
+                                objPer.MobileNo1 = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][2]);
+                                objPer.MobileNo2 = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][3]);
+                                objPer.DateOfBirth = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][4]);
+                                if (result.Tables["PersonalInfo"].Rows[i][5] != null && Convert.ToString(result.Tables["PersonalInfo"].Rows[i][5]) != "")
+                                {
+                                    objPer.Age = Convert.ToInt16(result.Tables["PersonalInfo"].Rows[i][5]);
+                                }
+                                objPer.Gender = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][6]);
+                                objPer.MaritalStaus = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][7]);
+                                if (result.Tables["PersonalInfo"].Rows[i][8] != null && Convert.ToString(result.Tables["PersonalInfo"].Rows[i][8]) != "")
+                                {
+                                    objPer.NoOfChildren = Convert.ToInt32(result.Tables["PersonalInfo"].Rows[i][8]);
+                                }
+                                objPer.AddressPresent = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][9]);
+                                objPer.StatePresent = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][10]);
+                                objPer.CityPresent = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][11]);
+                                objPer.PincodePresent = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][12]);
+                                objPer.AddressPast = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][13]);
+                                objPer.StatePast = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][14]);
+                                objPer.CityPast = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][15]);
+                                objPer.PinCodePast = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][16]);
+                                objPer.AppliedForDepartment = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][17]);
+                                objPer.AppliedForDesignation = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][18]);
+                                objPer.TotalExperienceInYear = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][19]);
+                                objPer.EarliestJoinDate = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][20]);
+                                objPer.SalaryExpectation = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][21]);
+                                objPer.Vehicle = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][22]);
+                                objPer.JobSource = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][23]);
+                                if (result.Tables["PersonalInfo"].Rows[i][24] != null && Convert.ToString(result.Tables["PersonalInfo"].Rows[i][24]) != "")
+                                {
+                                    objPer.NightShift = Convert.ToBoolean(result.Tables["PersonalInfo"].Rows[i][24]);
+                                }
+                                if (result.Tables["PersonalInfo"].Rows[i][25] != null && Convert.ToString(result.Tables["PersonalInfo"].Rows[i][25]) != "")
+                                {
+                                    objPer.IsReference = Convert.ToBoolean(result.Tables["PersonalInfo"].Rows[i][25]);
+                                }
+                                objPer.ReferenceName = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][26]);
+                                objPer.ReferenceMobileNo = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][27]);
+                                objPer.ReferenceDesignation = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][28]);
+                                objPer.EmailId = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][29]);
+                                objPer.OtherCertification = Convert.ToString(result.Tables["PersonalInfo"].Rows[i][30]);
+                                if (result.Tables["PersonalInfo"].Rows[i][31] != null && Convert.ToString(result.Tables["PersonalInfo"].Rows[i][31]) != "")
+                                {
+                                    objPer.CreatedDate = Convert.ToDateTime(result.Tables["PersonalInfo"].Rows[i][31]);
+                                }
+                                #endregion
+
+                                obj.PersonalInfo = objPer;
+                                lstObj.Add(obj);
+                            }
+                        }
+
+                        if (lstObj != null && lstObj.Count > 0)
+                        {
+                            foreach (var item in lstObj)
+                            {
+                                #region For Languages
+                                List<InterLanguage> lstLan = new List<InterLanguage>();
+                                for (int i = 0; i < result.Tables["Languages"].Rows.Count; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        if(item.PersonalInfo.FirstName.ToLower() == Convert.ToString(result.Tables["Languages"].Rows[i][0]).ToLower()
+                                            && item.PersonalInfo.LastName.ToLower() == Convert.ToString(result.Tables["Languages"].Rows[i][1]).ToLower())
+                                        {
+                                            InterLanguage objLan = new InterLanguage();
+                                            objLan.LanguageType = Convert.ToString(result.Tables["Languages"].Rows[i][2]);
+                                            objLan.Read = Convert.ToString(result.Tables["Languages"].Rows[i][3]);
+                                            objLan.Speak = Convert.ToString(result.Tables["Languages"].Rows[i][4]);
+                                            objLan.Write = Convert.ToString(result.Tables["Languages"].Rows[i][5]);
+                                            lstLan.Add(objLan);
+                                        }
+                                    }
+                                }
+                                item.Languages = lstLan;
+                                #endregion
+
+                                #region For PreEmpDetail
+                                List<InterPreEmpDetail> lstPreImp = new List<InterPreEmpDetail>();
+                                for (int i = 0; i < result.Tables["PreEmpDetails"].Rows.Count; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        if (item.PersonalInfo.FirstName.ToLower() == Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][0]).ToLower()
+                                            && item.PersonalInfo.LastName.ToLower() == Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][1]).ToLower())
+                                        {
+                                            InterPreEmpDetail objPreImp = new InterPreEmpDetail();
+                                            objPreImp.CompanyName = Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][2]);
+                                            objPreImp.City = Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][3]);
+                                            objPreImp.Designation = Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][4]);
+                                            objPreImp.WorkFrom = Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][5]);
+                                            objPreImp.WorkTo = Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][6]);
+                                            objPreImp.CtcMonth = Convert.ToString(result.Tables["PreEmpDetails"].Rows[i][7]);
+                                            lstPreImp.Add(objPreImp);
+                                        }
+                                    }
+                                }
+                                item.PreviousEmploymentDetail = lstPreImp;
+                                #endregion
+
+                                #region For References
+                                List<InterReference> lstRef = new List<InterReference>();
+                                for (int i = 0; i < result.Tables["References"].Rows.Count; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        if (item.PersonalInfo.FirstName.ToLower() == Convert.ToString(result.Tables["References"].Rows[i][0]).ToLower()
+                                            && item.PersonalInfo.LastName.ToLower() == Convert.ToString(result.Tables["References"].Rows[i][1]).ToLower())
+                                        {
+                                            InterReference objRef = new InterReference();
+                                            objRef.PersonName = Convert.ToString(result.Tables["References"].Rows[i][2]);
+                                            objRef.CompanyName = Convert.ToString(result.Tables["References"].Rows[i][3]);
+                                            objRef.Designation = Convert.ToString(result.Tables["References"].Rows[i][4]);
+                                            objRef.ContactNo = Convert.ToString(result.Tables["References"].Rows[i][5]);
+                                            lstRef.Add(objRef);
+                                        }
+                                    }
+                                }
+                                item.Reference = lstRef;
+                                #endregion
+
+                                #region For EducBackgrounds
+                                List<InterEducBackground> lstEduBac = new List<InterEducBackground>();
+                                for (int i = 0; i < result.Tables["EducBackgrounds"].Rows.Count; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        if (item.PersonalInfo.FirstName.ToLower() == Convert.ToString(result.Tables["EducBackgrounds"].Rows[i][0]).ToLower()
+                                            && item.PersonalInfo.LastName.ToLower() == Convert.ToString(result.Tables["EducBackgrounds"].Rows[i][1]).ToLower())
+                                        {
+                                            InterEducBackground objEduBac = new InterEducBackground();
+                                            objEduBac.BoardUniversityName = Convert.ToString(result.Tables["EducBackgrounds"].Rows[i][2]);
+                                            objEduBac.CourseDegreeName = Convert.ToString(result.Tables["EducBackgrounds"].Rows[i][3]);
+                                            objEduBac.PassingYear = Convert.ToString(result.Tables["EducBackgrounds"].Rows[i][4]);
+                                            objEduBac.GradePercentage = Convert.ToString(result.Tables["EducBackgrounds"].Rows[i][5]);
+                                            lstEduBac.Add(objEduBac);
+                                        }
+                                    }
+                                }
+                                item.EducationBackground = lstEduBac;
+                                #endregion
+
+                                #region For EducBackgrounds
+                                List<Feedback> lstFeedback = new List<Feedback>();
+                                for (int i = 0; i < result.Tables["Feedbacks"].Rows.Count; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        if (item.PersonalInfo.FirstName.ToLower() == Convert.ToString(result.Tables["Feedbacks"].Rows[i][0]).ToLower()
+                                            && item.PersonalInfo.LastName.ToLower() == Convert.ToString(result.Tables["Feedbacks"].Rows[i][1]).ToLower())
+                                        {
+                                            Feedback objFeedback = new Feedback();
+                                            if (Convert.ToString(result.Tables["Feedbacks"].Rows[i][2]) != "")
+                                            {
+                                                objFeedback.InterviewDate = Convert.ToDateTime(result.Tables["Feedbacks"].Rows[i][2]);
+                                            }
+                                            if (Convert.ToString(result.Tables["Feedbacks"].Rows[i][3]) != "")
+                                            {
+                                                objFeedback.CandidateStatus = Convert.ToBoolean(result.Tables["Feedbacks"].Rows[i][3]);
+                                            }
+                                            objFeedback.OtherComments = Convert.ToString(result.Tables["Feedbacks"].Rows[i][4]);
+                                            if (Convert.ToString(result.Tables["Feedbacks"].Rows[i][5]) != "")
+                                            {
+                                                objFeedback.IsFeddbackAdded = Convert.ToBoolean(result.Tables["Feedbacks"].Rows[i][5]);
+                                            }
+                                            lstFeedback.Add(objFeedback);
+                                        }
+                                    }
+                                }
+                                item.Feedbacks = lstFeedback;
+                                #endregion
+                            }
+                        }
+                    }
+                }
+
+                #region Insert In Database
+                if(lstObj !=null && lstObj.Count > 0)
+                {
+                    foreach (var obj in lstObj)
+                    {
+                        db.InterPersonalInfo.Add(obj.PersonalInfo);
+                        db.SaveChanges();
+                        var id = obj.PersonalInfo.CandidateId;
+                        if (id != 0)
+                        {
+                            if (obj.PreviousEmploymentDetail != null)
+                            {
+                                foreach (InterPreEmpDetail a in obj.PreviousEmploymentDetail)
+                                {
+                                    a.CandidateId = id;
+                                    db.InterPreEmpDetail.Add(a);
+                                    db.SaveChanges();
+                                }
+                            }
+                            if (obj.Reference != null)
+                            {
+                                foreach (InterReference b in obj.Reference)
+                                {
+                                    b.CandidateId = id;
+                                    db.InterReference.Add(b);
+                                    db.SaveChanges();
+                                }
+                            }
+                            if (obj.EducationBackground != null)
+                            {
+                                foreach (InterEducBackground c in obj.EducationBackground)
+                                {
+                                    c.CandidateId = id;
+                                    db.InterEducBackground.Add(c);
+                                    db.SaveChanges();
+                                }
+                            }
+                            if (obj.Languages != null)
+                            {
+                                foreach (InterLanguage l in obj.Languages)
+                                {
+                                    l.CandidateId = id;
+                                    db.InterLanguages.Add(l);
+                                    db.SaveChanges();
+                                }
+                            }
+
+                            if (obj.Feedbacks != null)
+                            {
+                                foreach (Feedback l in obj.Feedbacks)
+                                {
+                                    l.CandidateId = id;
+                                    db.Feedbacks.Add(l);
+                                    db.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+
+                    JsonResult res = new JsonResult();
+                    res.ContentType = "success";
+                    res.Data = "Your Form Submited Successfully";
+                    TempData["candidateId"] = 1;
+                }
+                #endregion
+            }
+            ViewBag.Message = "Data Update Successfully!";
+            return RedirectToAction("Index");
+        }
+        #endregion
+
         //Detailview of candidate
         [Authorize]
         public ActionResult ViewDetail(int id)
@@ -246,14 +540,14 @@ namespace Ats.Controllers
                 //Candidate.Language = new List<LanguageViewModel>();
 
                 languages = (from l in db.InterLanguages
-                                      where l.CandidateId == id
-                                      select new LanguageViewModel
-                                      {
-                                          LanguageType = l.LanguageType,
-                                          Read = l.Read,
-                                          Write = l.Write,
-                                          Speak = l.Speak
-                                      }).ToList();
+                             where l.CandidateId == id
+                             select new LanguageViewModel
+                             {
+                                 LanguageType = l.LanguageType,
+                                 Read = l.Read,
+                                 Write = l.Write,
+                                 Speak = l.Speak
+                             }).ToList();
                 Candidate.Language = languages;
                 return View(Candidate);
             }
@@ -378,15 +672,6 @@ namespace Ats.Controllers
             }
         }
 
-        //public ActionResult ViewDetailReport(int id)
-        //{
-        //    var Renderer = new IronPdf.HtmlToPdf();
-        //    Renderer.PrintOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
-        //    var result = ReportById(1);
-
-        //    var PDF = Renderer.RenderHtmlAsPdf("<td class='text-wrap' style='max-width:25%'>sadasddasddddddddddsadddddddddddsadddddddddddsaddddddddddddsdsasa</td>");
-        //    return File(PDF.BinaryData, "application/pdf;");
-        //}
 
         public ActionResult ViewDetailReport(int id)
         {
@@ -401,8 +686,8 @@ namespace Ats.Controllers
         {
             JsonResult res = new JsonResult();
             try
-            {                
-              res.Data = db.City.Select(s => new { s.CityId, s.CityName, s.StateId }).Where(city => city.StateId == id).OrderBy(city => city.CityName).ToList();
+            {
+                res.Data = db.City.Select(s => new { s.CityId, s.CityName, s.StateId }).Where(city => city.StateId == id).OrderBy(city => city.CityName).ToList();
                 res.ContentType = "Succeess";
                 return Json(res.Data, JsonRequestBehavior.AllowGet);
             }
@@ -451,7 +736,7 @@ namespace Ats.Controllers
                     DesignationViewModel designations = new DesignationViewModel();
                     List<LanguageViewModel> languages = new List<LanguageViewModel>();
                     //Get PersonalInformation of candidate
-                    perSonalInfo =(from p in db.InterPersonalInfo
+                    perSonalInfo = (from p in db.InterPersonalInfo
                                     where (p.CandidateId == id)
                                     select new InterPersonalInfoViewModel()
                                     {
@@ -564,21 +849,21 @@ namespace Ats.Controllers
 
         //home/GetFeedback
         [HttpGet]
-        public ActionResult GetFeedback(int Id )
+        public ActionResult GetFeedback(int Id)
         {
             try
-            {             
+            {
                 FeedbackViewModel feedbackView = new FeedbackViewModel();
                 Feedback feedback = db.Feedbacks.Where(f => f.CandidateId == Id).FirstOrDefault();
                 feedbackView.CandidateId = feedback.CandidateId;
                 feedbackView.CandidateStatus = feedback.CandidateStatus;
-                feedbackView.InterviewDate = Convert.ToString(feedback.InterviewDate);                
+                feedbackView.InterviewDate = Convert.ToString(feedback.InterviewDate);
                 ViewBag.InDate = Convert.ToDateTime(feedback.InterviewDate);
-                feedbackView.OtherComments = feedback.OtherComments;            
+                feedbackView.OtherComments = feedback.OtherComments;
                 return PartialView(feedbackView);
             }
             catch (Exception ex)
-            {              
+            {
                 return null;
             }
         }
@@ -591,7 +876,7 @@ namespace Ats.Controllers
             {
                 Feedback feedback = db.Feedbacks.Where(f => f.CandidateId == feedbackView.CandidateId).FirstOrDefault();
                 feedback.CandidateId = feedbackView.CandidateId;
-                feedback.CandidateStatus = feedbackView.CandidateStatus;          
+                feedback.CandidateStatus = feedbackView.CandidateStatus;
                 feedback.InterviewDate = DateTime.ParseExact(feedbackView.InterviewDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 feedback.OtherComments = feedbackView.OtherComments;
                 feedback.IsFeddbackAdded = true;
@@ -602,7 +887,7 @@ namespace Ats.Controllers
             }
             catch (Exception)
             {
-                result.ContentType = "error";                
+                result.ContentType = "error";
                 return Json(result.ContentType, JsonRequestBehavior.AllowGet);
             }
         }

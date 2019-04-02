@@ -137,7 +137,7 @@ namespace Ats.Models
 
 
         [Column(TypeName = "VARCHAR")]
-        [StringLength(10)]
+        [StringLength(40)]
         public string ReferenceName { get; set; }
 
         [Column(TypeName = "VARCHAR")]
