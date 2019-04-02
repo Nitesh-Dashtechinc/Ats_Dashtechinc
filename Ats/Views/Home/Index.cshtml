@@ -17,6 +17,14 @@
             <strong>Error! </strong>@ViewBag.errormessage
         </div>
     }
+    using (Html.BeginForm("BulkRegistration", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <span>Select File:</span>
+        <input type="file" name="postedFiles" multiple="multiple" />
+        <input type="submit" value="Upload" />
+        <hr />
+        <span style="color:green">@Html.Raw(ViewBag.Message)</span>
+    }
     if (Model != null)
     {
         <div class="row table-responsive" style="height:500px;">

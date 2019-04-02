@@ -333,8 +333,7 @@
                     $('#pre-loader').hide();
                 }
             });
-        }
-        else { }
+        }    
     });
 
     //GetDesignation	
@@ -407,7 +406,6 @@ $('button.validateAll').click(function () {
 });
 
 function SaveAll() {
-    debugger;
     if ($('#frmdetail').valid()) {
         $('#pre-loader').show();
         var objj = {
