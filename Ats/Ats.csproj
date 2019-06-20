@@ -411,6 +411,18 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Migrations\201906201432231_Pending.cs" />
+    <Compile Include="Migrations\201906201432231_Pending.Designer.cs">
+      <DependentUpon>201906201432231_Pending.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906201455012_AddFieldHydrabad.cs" />
+    <Compile Include="Migrations\201906201455012_AddFieldHydrabad.Designer.cs">
+      <DependentUpon>201906201455012_AddFieldHydrabad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906201457392_SetStrlen.cs" />
+    <Compile Include="Migrations\201906201457392_SetStrlen.Designer.cs">
+      <DependentUpon>201906201457392_SetStrlen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Department.cs" />
@@ -679,6 +691,7 @@
     <Content Include="Views\Home\GetFeedback.cshtml" />
     <Content Include="Views\Home\ReportById.cshtml" />
     <Content Include="Views\Shared\ReportHeader.cshtml" />
+    <Content Include="Views\Home\WalkIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -698,6 +711,17 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906201432231_Pending.resx">
+      <DependentUpon>201906201432231_Pending.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906201455012_AddFieldHydrabad.resx">
+      <DependentUpon>201906201455012_AddFieldHydrabad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906201457392_SetStrlen.resx">
+      <DependentUpon>201906201457392_SetStrlen.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -719,6 +743,8 @@
           <DevelopmentServerPort>49649</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:49649/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:49649/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

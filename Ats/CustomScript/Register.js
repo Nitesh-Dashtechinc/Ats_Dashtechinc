@@ -1,9 +1,10 @@
-﻿$(document).ready(function () {
+﻿var counter = 2;
+var counter1 = 2;
+var counter2 = 2;
+var counter3 = 2;
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    var counter = 2;
-    var counter1 = 2;
-    var counter2 = 2;
-    var counter3 = 2;
+
     //document.getElementById("PersonalInfo_NoOfChildren").value = 0;
     $('.divrefernce').hide();
 
@@ -24,8 +25,11 @@
     }).on('change', function () {
     });
 
-    $('#PersonalInfo_DateOfBirth').datepicker('setDate', 'today');
-    $('#PersonalInfo_DateOfBirth').datepicker('setEndDate', 'today');
+    dt = new Date()
+    dt.setFullYear(dt.getFullYear() - 18)
+
+    $('#PersonalInfo_DateOfBirth').datepicker('setDate', dt);
+    $('#PersonalInfo_DateOfBirth').datepicker('setEndDate', dt);
     $('#PersonalInfo_EarliestJoinDate').datepicker('setDate', 'today');
     $('#PersonalInfo_EarliestJoinDate').datepicker('setStartDate', 'today');
     $('#WorkFrom').datepicker('setDate', 'today');
@@ -34,10 +38,10 @@
     $('#WorkTo').datepicker('setEndDate', 'today');
 
     $('#PersonalInfo_DateOfBirth').datepicker({
-        format: 'dd/mm/yyyy',       
-        endDate: new Date(),
+        format: 'dd/mm/yyyy',
+        endDate: dt,
         autoclose: true,
-        clearBtn: true
+        clearBtn: true,
     }).on('change', function (e) {
         var birthDate = $(this).val().toString();
         var date = moment(birthDate, "DD/MM/YYYY");
@@ -86,7 +90,7 @@
             case "previousEmploymentDetails":
                 var te1 = $('#frmpredetail').valid();
                 if ($('#frmpredetail').valid()) {
-                    if (counter==2)
+                    if (counter == 2)
                         $('#previousEmploymentDetails tfoot').empty();
                     $('#previousEmploymentDetails tbody').append('<tr><td></td><td>' + $('#CompanyName').val() + '</td><td>' + $('#City').val() + '</td><td>' + $('#Designation').val() + '</td><td>' + $('#WorkFrom').val() + '</td><td>' + $('#WorkTo').val() + '</td><td>' + $('#CtcMonth').val() + '</td><td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td></tr>');
                     counter++;
@@ -111,6 +115,8 @@
                     $("form#frmReference :input").each(function () {
                         $(this).removeClass('is-valid').addClass('is-invalid');
                     });
+                    var eduErr = document.getElementById("errRefmsg");
+                    eduErr.style.display = "none"
                 }
                 break;
             case "educationalBackground":
@@ -124,9 +130,11 @@
                     $("form#frmEducationalBackground :input").each(function () {
                         $(this).removeClass('is-valid').addClass('is-invalid');
                     });
+                    var eduErr = document.getElementById("errEdumsg");
+                    eduErr.style.display = "none"
                 }
                 break;
-            case "language":                
+            case "language":
                 if ($('#Language option:selected').text() != '--Select Language--' && canadd()) {
                     var read = "No", speak = "No", write = "No";
                     if ($('#Read').is(":checked")) {
@@ -143,12 +151,12 @@
                     cols += '<td>' + speak + '</td>';
                     cols += '<td>' + write + '</td>';
                     cols += '<td><button type="button" class="btn btn-md btn-danger fa fa-trash ibtn-Del"></button></td>';
-                    $('#Read').prop('checked', false);
-                    $('#Speak').prop('checked', false);
-                    $('#Write').prop('checked', false);
+                    $('#Read').prop('checked', true);
+                    $('#Speak').prop('checked', true);
+                    $('#Write').prop('checked', true);
                 }
                 else {
-                    toastr.warning($('#Language option:selected').text() +" all ready exist");
+                    toastr.warning($('#Language option:selected').text() + " all ready exist");
                     cols += "";
                 }
                 newRow.append(cols);
@@ -177,7 +185,7 @@
                     });
                 }
             });
-        
+
     });
     $("table.table-refernce").on("click", ".ibtn-Del", function (event) {
         swal({
@@ -190,13 +198,17 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $(this).closest("tr").remove();
-                    counter -= 1;
+                    counter1 -= 1;
                     swal("Done! Your record has been deleted!", {
                         icon: "success",
                     });
+                    if (counter1 == 2) {
+                        var eduErr = document.getElementById("errRefmsg");
+                        eduErr.style.display = "block"
+                    }
                 }
             });
-        
+
     });
     $("table.table-educational-background").on("click", ".ibtn-Del", function (event) {
         swal({
@@ -209,13 +221,17 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $(this).closest("tr").remove();
-                    counter -= 1;
+                    counter2 -= 1;
                     swal("Done! Your record has been deleted!", {
                         icon: "success",
                     });
+                    if (counter2 == 2) {
+                        var eduErr = document.getElementById("errEdumsg");
+                        eduErr.style.display = "block"
+                    }
                 }
             });
-        
+
     });
     $("table.table-language").on("click", ".ibtn-Del", function (event) {
         swal({
@@ -234,7 +250,7 @@
                     });
                 }
             });
-        
+
     });
     $('input[type=radio][id=PersonalInfo_IsReference]').change(function () {
         if (this.value == 'True') {
@@ -279,8 +295,7 @@
         }
         $('#asAboveCheck').val(this.checked);
     });
-
-
+    
     $("#PersonalInfo_StatePresent").change(function () {
         $('#pre-loader').show();
         $("#PersonalInfo_CityPresent").empty();
@@ -333,7 +348,7 @@
                     $('#pre-loader').hide();
                 }
             });
-        }    
+        }
     });
 
     //GetDesignation	
@@ -373,6 +388,7 @@ var addSerialNumber = function () {
         $(this).find('td:nth-child(1)').html(index + 1);
     });
 };
+
 $('#PersonalInfo_ReferenceName').blur(function () {
     if ($("input[name='PersonalInfo.IsReference']:checked").val() == 'True') {
         if ($('#PersonalInfo_ReferenceName').val() == "") {
@@ -381,6 +397,7 @@ $('#PersonalInfo_ReferenceName').blur(function () {
         else { document.getElementById("errRefName").innerHTML = ""; }
     }
 });
+
 $('#PersonalInfo_ReferenceDesignation').blur(function () {
     if ($("input[name='PersonalInfo.IsReference']:checked").val() == 'True') {
         if ($('#PersonalInfo_ReferenceDesignation').val() == "") {
@@ -389,6 +406,7 @@ $('#PersonalInfo_ReferenceDesignation').blur(function () {
         else { document.getElementById("errRefDesignation").innerHTML = ""; }
     }
 });
+
 $('#PersonalInfo_ReferenceMobileNo').blur(function () {
     if ($("input[name='PersonalInfo.IsReference']:checked").val() == 'True') {
         if ($('#PersonalInfo_ReferenceName').val() == "") {
@@ -398,7 +416,6 @@ $('#PersonalInfo_ReferenceMobileNo').blur(function () {
     }
 });
 
-
 $('button.validateAll').click(function () {
     $('form').each(function () {
         $(this).valid();
@@ -406,7 +423,7 @@ $('button.validateAll').click(function () {
 });
 
 function SaveAll() {
-    if ($('#frmdetail').valid()) {
+    if ($('#frmdetail').valid() && counter2 != 2 && counter1 != 2) {
         $('#pre-loader').show();
         var objj = {
             PersonalInfo: {},
@@ -415,71 +432,73 @@ function SaveAll() {
             EducationBackground: [],
             Languages: []
         };
-       
-       objj.PersonalInfo = {
-                FirstName: $("#PersonalInfo_FirstName").val(),
-                LastName: $("#PersonalInfo_LastName").val(),
-                MobileNo1: $("#PersonalInfo_MobileNo1").val(),
-                MobileNo2: $("#PersonalInfo_MobileNo2").val(),
-                EmailId: $("#PersonalInfo_EmailId").val(),
-                DateOfBirth: $("#PersonalInfo_DateOfBirth").val(),
-                Age: $("#Age").text(),
-                Gender: $("input[name='PersonalInfo.Gender']:checked").val(),
-                MaritalStaus: $("input[name='PersonalInfo.MaritalStaus']:checked").val(),
-                NoOfChildren: $("#PersonalInfo_NoOfChildren").val(),
-                AddressPresent: $("#PersonalInfo_AddressPresent").val(),
-                StatePresent: $("#PersonalInfo_StatePresent option:selected").text(),
-                CityPresent: $("#PersonalInfo_CityPresent option:selected").text(),
-                PincodePresent: $("#PersonalInfo_PincodePresent").val(),
-                AddressPast: $("#PersonalInfo_AddressPast").val(),
-                StatePast: $("#PersonalInfo_StatePast option:selected").text(),
-                CityPast: $("#CityListPast option:selected").text(),
-                PinCodePast: $("#PersonalInfo_PinCodePast").val(),
-                AppliedForDepartment: $("#PersonalInfo_AppliedForDepartment option:selected").text(),
-                AppliedForDesignation: $("#PersonalInfo_AppliedForDesignation option:selected").text(),
-                TotalExperienceInYear: $("#PersonalInfo_TotalExperienceInYear").val(),
-                EarliestJoinDate: $("#PersonalInfo_EarliestJoinDate").val(),
-                SalaryExpectation: $("#PersonalInfo_SalaryExpectation").val(),
-                Vehicle: $("input[name='PersonalInfo.Vehicle']:checked").val(),
-                JobSource: $("input[name='PersonalInfo.JobSource']:checked").val(),
-                NightShift: $("input[name='PersonalInfo.NightShift']:checked").val(),
-                IsReference: $("input[name='PersonalInfo.IsReference']:checked").val(),
-                ReferenceName: $("#PersonalInfo_ReferenceName").val(),
-                ReferenceMobileNo: $("#PersonalInfo_ReferenceMobileNo").val(),
-                ReferenceDesignation: $("#PersonalInfo_ReferenceDesignation").val(),
-                OtherCertification: $("#PersonalInfo_OtherCertification").val()
-            };
+
+        objj.PersonalInfo = {
+            FirstName: $("#PersonalInfo_FirstName").val(),
+            LastName: $("#PersonalInfo_LastName").val(),
+            MobileNo1: $("#PersonalInfo_MobileNo1").val(),
+            MobileNo2: $("#PersonalInfo_MobileNo2").val(),
+            EmailId: $("#PersonalInfo_EmailId").val(),
+            DateOfBirth: $("#PersonalInfo_DateOfBirth").val(),
+            Age: $("#Age").text(),
+            Gender: $("input[name='PersonalInfo.Gender']:checked").val(),
+            MaritalStaus: $("input[name='PersonalInfo.MaritalStaus']:checked").val(),
+            NoOfChildren: $("#PersonalInfo_NoOfChildren").val(),
+            AddressPresent: $("#PersonalInfo_AddressPresent").val(),
+            StatePresent: $("#PersonalInfo_StatePresent option:selected").text(),
+            CityPresent: $("#PersonalInfo_CityPresent option:selected").text(),
+            PincodePresent: $("#PersonalInfo_PincodePresent").val(),
+            AddressPast: $("#PersonalInfo_AddressPast").val(),
+            StatePast: $("#PersonalInfo_StatePast option:selected").text(),
+            CityPast: $("#CityListPast option:selected").text(),
+            PinCodePast: $("#PersonalInfo_PinCodePast").val(),
+            AppliedForDepartment: $("#PersonalInfo_AppliedForDepartment option:selected").text(),
+            AppliedForDesignation: $("#PersonalInfo_AppliedForDesignation option:selected").text(),
+            TotalExperienceInYear: $("#PersonalInfo_TotalExperienceInYear").val(),
+            EarliestJoinDate: $("#PersonalInfo_EarliestJoinDate").val(),
+            SalaryExpectation: $("#PersonalInfo_SalaryExpectation").val(),
+            Vehicle: $("input[name='PersonalInfo.Vehicle']:checked").val(),
+            JobSource: $("input[name='PersonalInfo.JobSource']:checked").val(),
+            NightShift: $("input[name='PersonalInfo.NightShift']:checked").val(),
+            IsReference: $("input[name='PersonalInfo.IsReference']:checked").val(),
+            ReferenceName: $("#PersonalInfo_ReferenceName").val(),
+            ReferenceMobileNo: $("#PersonalInfo_ReferenceMobileNo").val(),
+            ReferenceDesignation: $("#PersonalInfo_ReferenceDesignation").val(),
+            OtherCertification: $("#PersonalInfo_OtherCertification").val()
+        };
 
         $("#previousEmploymentDetails tbody tr").each(function () {
             var row = $(this);
-                objj.PreviousEmploymentDetail.push({
-                    CompanyName: row.find("td:eq(1)").text(),
-                    City: row.find("td:eq(2)").text(),
-                    Designation: row.find("td:eq(3)").text(),
-                    WorkFrom: row.find("td:eq(4)").text(),
-                    WorkTo: row.find("td:eq(5)").text(),
-                    CtcMonth: row.find("td:eq(6)").text()
-                });
+            objj.PreviousEmploymentDetail.push({
+                CompanyName: row.find("td:eq(1)").text(),
+                City: row.find("td:eq(2)").text(),
+                Designation: row.find("td:eq(3)").text(),
+                WorkFrom: row.find("td:eq(4)").text(),
+                WorkTo: row.find("td:eq(5)").text(),
+                CtcMonth: row.find("td:eq(6)").text()
+            });
         });
 
         $("#reference tbody tr").each(function () {
             var row = $(this);
-                objj.Reference.push({
-                    PersonName: row.find("td:eq(1)").text(),
-                    CompanyName: row.find("td:eq(2)").text(),
-                    Designation: row.find("td:eq(3)").text(),
-                    ContactNo: row.find("td:eq(4)").text(),
-                });
+            objj.Reference.push({
+                PersonName: row.find("td:eq(1)").text(),
+                CompanyName: row.find("td:eq(2)").text(),
+                Designation: row.find("td:eq(3)").text(),
+                ContactNo: row.find("td:eq(4)").text(),
+            });
         });
         $("#educationalBackground tbody tr").each(function () {
             var row = $(this);
-                objj.EducationBackground.push({
-                    BoardUniversityName: row.find("td:eq(1)").text(),
-                    CourseDegreeName: row.find("td:eq(2)").text(),
-                    PassingYear: row.find("td:eq(3)").text(),
-                    GradePercentage: row.find("td:eq(4)").text(),
-                });
+            objj.EducationBackground.push({
+                BoardUniversityName: row.find("td:eq(1)").text(),
+                CourseDegreeName: row.find("td:eq(2)").text(),
+                PassingYear: row.find("td:eq(3)").text(),
+                GradePercentage: row.find("td:eq(4)").text(),
+            });
         });
+
+        var countLanguage = 0;
 
         $("#language tbody tr").each(function () {
             var row = $(this);
@@ -491,35 +510,194 @@ function SaveAll() {
                     Write: row.find("td:eq(3)").text()
                 });
             }
+
+            countLanguage = countLanguage + 1;
         });
 
-        $.ajax({
-            type: "POST",
-            url: "/Home/SavePreInterView",
-            data: JSON.stringify(objj),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (responce) {
-                if (responce.ContentType == "success") {
-                    $("#myModal").modal('show');
-                    $("#frmdetail").each(function () { this.reset() });
-                    $("#frmpredetail").each(function () { this.reset() });
-                    $("#frmReference").each(function () { this.reset() });
-                    $("#frmEducationalBackground").each(function () { this.reset() });
-                    $("#PersonalInfo_OtherCertification").val('');
-                    $('#pre-loader').hide();
-                } else {
+        if (countLanguage == 0) {
+            toastr.error("At Least One Language Known Required");
+            $('#pre-loader').hide();
+            $('#Language').focus();
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Home/SavePreInterView",
+                data: JSON.stringify(objj),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (responce) {
+                    if (responce.ContentType == "success") {
+                        $("#myModal").modal('show');
+                        $("#frmdetail").each(function () { this.reset() });
+                        $("#frmpredetail").each(function () { this.reset() });
+                        $("#frmReference").each(function () { this.reset() });
+                        $("#frmEducationalBackground").each(function () { this.reset() });
+                        $("#PersonalInfo_OtherCertification").val('');
+                        $('#pre-loader').hide();
+                    } else {
+                        toastr.warning(responce.Data);
+                        $('#pre-loader').hide();
+                    }
+                },
+                error: function () {
                     toastr.warning(responce.Data);
                     $('#pre-loader').hide();
                 }
-            },
-            error: function () {
-                toastr.warning(responce.Data);
-                $('#pre-loader').hide();
-            }
-        });
+            });
+        }
     }
     else {
+        if (counter2 == 2) {
+            var eduErr = document.getElementById("errEdumsg");
+            eduErr.style.display = "block"
+        }
+        if (counter1 == 2) {
+            var eduErr = document.getElementById("errRefmsg");
+            eduErr.style.display = "block"
+        }
+        $('#frmdetail').find("input.input-validation-error")[0].focus();
+    }
+}
+
+
+
+
+
+function SaveAllwalkin() {
+    if ($('#frmdetail').valid() && counter2 != 2 && counter1 != 2) {
+        $('#pre-loader').show();
+        var objj = {
+            PersonalInfo: {},
+            PreviousEmploymentDetail: [],
+            Reference: [],
+            EducationBackground: [],
+            Languages: []
+        };
+
+        objj.PersonalInfo = {
+            FirstName: $("#PersonalInfo_FirstName").val(),
+            LastName: $("#PersonalInfo_LastName").val(),
+            MobileNo1: $("#PersonalInfo_MobileNo1").val(),
+            MobileNo2: $("#PersonalInfo_MobileNo2").val(),
+            EmailId: $("#PersonalInfo_EmailId").val(),
+            DateOfBirth: $("#PersonalInfo_DateOfBirth").val(),
+            Age: $("#Age").text(),
+            Gender: $("input[name='PersonalInfo.Gender']:checked").val(),
+            MaritalStaus: $("input[name='PersonalInfo.MaritalStaus']:checked").val(),
+            NoOfChildren: $("#PersonalInfo_NoOfChildren").val(),
+            AddressPresent: $("#PersonalInfo_AddressPresent").val(),
+            StatePresent: $("#PersonalInfo_StatePresent option:selected").text(),
+            CityPresent: $("#PersonalInfo_CityPresent option:selected").text(),
+            PincodePresent: $("#PersonalInfo_PincodePresent").val(),
+            AddressPast: $("#PersonalInfo_AddressPast").val(),
+            StatePast: $("#PersonalInfo_StatePast option:selected").text(),
+            CityPast: $("#CityListPast option:selected").text(),
+            PinCodePast: $("#PersonalInfo_PinCodePast").val(),
+            AppliedForDepartment: $("#PersonalInfo_AppliedForDepartment option:selected").text(),
+            AppliedForDesignation: $("#PersonalInfo_AppliedForDesignation option:selected").text(),
+            TotalExperienceInYear: $("#PersonalInfo_TotalExperienceInYear").val(),
+            EarliestJoinDate: $("#PersonalInfo_EarliestJoinDate").val(),
+            SalaryExpectation: $("#PersonalInfo_SalaryExpectation").val(),
+            Vehicle: $("input[name='PersonalInfo.Vehicle']:checked").val(),
+            JobSource: $("input[name='PersonalInfo.JobSource']:checked").val(),
+            NightShift: $("input[name='PersonalInfo.NightShift']:checked").val(),
+            IsReference: $("input[name='PersonalInfo.IsReference']:checked").val(),
+            ReferenceName: $("#PersonalInfo_ReferenceName").val(),
+            ReferenceMobileNo: $("#PersonalInfo_ReferenceMobileNo").val(),
+            ReferenceDesignation: $("#PersonalInfo_ReferenceDesignation").val(),
+            OtherCertification: $("#PersonalInfo_OtherCertification").val()
+        };
+
+        $("#previousEmploymentDetails tbody tr").each(function () {
+            var row = $(this);
+            objj.PreviousEmploymentDetail.push({
+                CompanyName: row.find("td:eq(1)").text(),
+                City: row.find("td:eq(2)").text(),
+                Designation: row.find("td:eq(3)").text(),
+                WorkFrom: row.find("td:eq(4)").text(),
+                WorkTo: row.find("td:eq(5)").text(),
+                CtcMonth: row.find("td:eq(6)").text()
+            });
+        });
+
+        $("#reference tbody tr").each(function () {
+            var row = $(this);
+            objj.Reference.push({
+                PersonName: row.find("td:eq(1)").text(),
+                CompanyName: row.find("td:eq(2)").text(),
+                Designation: row.find("td:eq(3)").text(),
+                ContactNo: row.find("td:eq(4)").text(),
+            });
+        });
+        $("#educationalBackground tbody tr").each(function () {
+            var row = $(this);
+            objj.EducationBackground.push({
+                BoardUniversityName: row.find("td:eq(1)").text(),
+                CourseDegreeName: row.find("td:eq(2)").text(),
+                PassingYear: row.find("td:eq(3)").text(),
+                GradePercentage: row.find("td:eq(4)").text(),
+            });
+        });
+
+        var countLanguage = 0;
+
+        $("#language tbody tr").each(function () {
+            var row = $(this);
+            if (row.find("td:eq(0)").text() != "") {
+                objj.Languages.push({
+                    LanguageType: row.find("td:eq(0)").text(),
+                    Read: row.find("td:eq(1)").text(),
+                    Speak: row.find("td:eq(2)").text(),
+                    Write: row.find("td:eq(3)").text()
+                });
+            }
+
+            countLanguage = countLanguage + 1;
+        });
+
+        if (countLanguage == 0) {
+            toastr.error("At Least One Language Known Required");
+            $('#pre-loader').hide();
+            $('#Language').focus();
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Home/SavePreInterViewforWalkin",
+                data: JSON.stringify(objj),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (responce) {
+                    if (responce.ContentType == "success") {
+                        $("#myModal").modal('show');
+                        $("#frmdetail").each(function () { this.reset() });
+                        $("#frmpredetail").each(function () { this.reset() });
+                        $("#frmReference").each(function () { this.reset() });
+                        $("#frmEducationalBackground").each(function () { this.reset() });
+                        $("#PersonalInfo_OtherCertification").val('');
+                        $('#pre-loader').hide();
+                    } else {
+                        toastr.warning(responce.Data);
+                        $('#pre-loader').hide();
+                    }
+                },
+                error: function () {
+                    toastr.warning(responce.Data);
+                    $('#pre-loader').hide();
+                }
+            });
+        }
+    }
+    else {
+        if (counter2 == 2) {
+            var eduErr = document.getElementById("errEdumsg");
+            eduErr.style.display = "block"
+        }
+        if (counter1 == 2) {
+            var eduErr = document.getElementById("errRefmsg");
+            eduErr.style.display = "block"
+        }
         $('#frmdetail').find("input.input-validation-error")[0].focus();
     }
 }

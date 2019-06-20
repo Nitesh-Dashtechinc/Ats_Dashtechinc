@@ -17,17 +17,20 @@
             <strong>Error! </strong>@ViewBag.errormessage
         </div>
     }
-    using (Html.BeginForm("BulkRegistration", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <span>Select File:</span>
-        <input type="file" name="postedFiles" multiple="multiple" />
-        <input type="submit" value="Upload" />
-        <hr />
-        <span style="color:green">@Html.Raw(ViewBag.Message)</span>
-    }
+        <div style="display:none">
+            @using (Html.BeginForm("BulkRegistration", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <span>Select File:</span>
+            <input type="file" name="postedFiles" multiple="multiple" />
+            <input type="submit" value="Upload" />
+            <hr />
+            <span style="color:green">@Html.Raw(ViewBag.Message)</span>
+            }
+        </div>
+
     if (Model != null)
     {
-        <div class="row table-responsive" style="height:500px;">
+        <div class="row table-responsive">
             @Html.Grid(Model).Columns(columns =>
        {
 
@@ -45,7 +48,7 @@
               .Sanitized(false)
               .SetWidth(60)
               .RenderValueAs(o => Html.ActionLink("View", "ViewDetail", new { id = o.CandidateId }));
-       }).WithPaging(10).Sortable(false)
+       }).WithPaging(5).Sortable(false)
         </div>
     }
 }

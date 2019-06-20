@@ -106,6 +106,133 @@ namespace Ats.Controllers
             }
 
         }
+        public ActionResult WalkIn()
+        {
+            JsonResult res = new JsonResult();
+            try
+            {
+
+                TempData.Remove("candidateId"); // Remove Particular TempData i.e. candidateId.
+                TempData.Clear();
+                List<SelectListItem> getStateList = (from p in db.State.AsEnumerable()
+                                                     select new SelectListItem
+                                                     {
+                                                         Text = p.StateName,
+                                                         Value = p.StateId.ToString()
+                                                     }).ToList();
+                getStateList.Insert(0, new SelectListItem { Text = "--Select State--", Value = "" });
+                ViewBag.stateList = getStateList;
+                List<SelectListItem> getPermanentStateList = (from p in db.State.AsEnumerable()
+                                                              select new SelectListItem
+                                                              {
+                                                                  Text = p.StateName,
+                                                                  Value = p.StateId.ToString()
+                                                              }).ToList();
+                getPermanentStateList.Insert(0, new SelectListItem { Text = "--Select State--", Value = "" });
+                ViewBag.PermanentStateList = getPermanentStateList;
+                List<SelectListItem> getDepartmentList = (from p in db.Department.AsEnumerable()
+                                                          select new SelectListItem
+                                                          {
+                                                              Text = p.DepartmentName,
+                                                              Value = p.DepartmentId.ToString()
+                                                          }).ToList();
+                getDepartmentList.Insert(0, new SelectListItem { Text = "--Select Department--", Value = "" });
+                ViewBag.departmentList = getDepartmentList;
+
+                List<SelectListItem> getLanguage = (from p in db.InterLanguages.AsEnumerable()
+                                                    select new SelectListItem
+                                                    {
+                                                        Text = p.LanguageType,
+                                                        Value = p.LanguageId.ToString()
+                                                    }).ToList();
+                getLanguage.Insert(0, new SelectListItem { Text = "--Select Language--", Value = "" });
+                ViewBag.language = getLanguage;
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.errormessage = string.IsNullOrEmpty(Convert.ToString(ex.InnerException)) ? ex.Message.ToString() : ex.InnerException.ToString();
+                return View();
+            }
+
+        }
+
+        //walkin hydrabad
+        public JsonResult SavePreInterViewforWalkin(PreInterRegisterViewModel obj)
+        {
+            JsonResult res = new JsonResult();
+            try
+            {
+                //throw null;
+                DateTime now = DateTime.Now;
+                // obj.PersonalInfo.InterviewDate = now;
+                obj.PersonalInfo.CreatedDate = now;
+                obj.PersonalInfo.ExtCity = "Hyderabad";
+                db.InterPersonalInfo.Add(obj.PersonalInfo);
+                db.SaveChanges();
+                var id = obj.PersonalInfo.CandidateId;
+                if (id != 0)
+                {
+                    if (obj.PreviousEmploymentDetail != null)
+                    {
+                        foreach (InterPreEmpDetail a in obj.PreviousEmploymentDetail)
+                        {
+                            a.CandidateId = id;
+                            db.InterPreEmpDetail.Add(a);
+                            db.SaveChanges();
+                        }
+                    }
+                    if (obj.Reference != null)
+                    {
+                        foreach (InterReference b in obj.Reference)
+                        {
+                            b.CandidateId = id;
+                            db.InterReference.Add(b);
+                            db.SaveChanges();
+                        }
+                    }
+                    if (obj.EducationBackground != null)
+                    {
+                        foreach (InterEducBackground c in obj.EducationBackground)
+                        {
+                            c.CandidateId = id;
+                            db.InterEducBackground.Add(c);
+                            db.SaveChanges();
+                        }
+                    }
+                    if (obj.Languages != null)
+                    {
+                        foreach (InterLanguage l in obj.Languages)
+                        {
+                            l.CandidateId = id;
+                            db.InterLanguages.Add(l);
+                            db.SaveChanges();
+                        }
+                    }
+                    Feedback feedback = new Feedback();
+                    feedback.CandidateId = id;
+                    feedback.CandidateStatus = false;
+                    feedback.InterviewDate = now;
+                    feedback.OtherComments = "";
+                    feedback.IsFeddbackAdded = false;
+                    db.Feedbacks.Add(feedback);
+                    db.SaveChanges();
+
+                    res.ContentType = "success";
+                    res.Data = "Your Form Submited Successfully";
+                    TempData["candidateId"] = id;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                res.ContentType = "error";
+                res.Data = "Some thing went rong please try agnain";
+                return Json(res);
+            }
+            return Json(res);
+        }
         //Add new candidate 
         public JsonResult SavePreInterView(PreInterRegisterViewModel obj)
         {
