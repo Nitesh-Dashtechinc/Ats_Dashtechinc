@@ -44,9 +44,16 @@
 }
 @Html.HiddenFor(x => x.PersonalInfo.CandidateId, new { @id = "CandidateId" })
 @*<div class="text-right"><a class="btn btn-primary" id="clikPrint" href="@Url.Action("CandidateDetailReport", "Home", new { id = Model.PersonalInfo.CandidateId })"  target="_blank"><i class="fa fa-print"></i>Print</a></div>*@
-<div class="text-right">
-    <a class="btn btn-primary" href="@Url.Action("ViewDetailReport", "Home",new { id = Model.PersonalInfo.CandidateId })" target="_blank"><i class="fa fa-print"></i> Print</a>
-</div>
+    <div class="row">
+        <div class="col-6 text-left">
+            <a class="btn btn-primary" href="@Url.Action("Index", "Home")"> Back To List</a>
+        </div>
+        <div class="col-6 text-right">
+            <a class="btn btn-primary" href="@Url.Action("ViewDetailReport", "Home",new { id = Model.PersonalInfo.CandidateId })" target="_blank"><i class="fa fa-print"></i> Print</a>
+        </div>
+    </div>
+
+
 <div id="printableArea">
     <div style="text-align:center">
         <h2>

@@ -14,23 +14,23 @@ namespace Ats.Models
 
         [Required(ErrorMessage = "Please Enter First Name")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
+        [MaxLength(50,ErrorMessage = "FirstName can't be longer than 50 characters")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please Enter Last Name")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(50)]
+        [StringLength(50, ErrorMessage = "LastName can't be longer than 50 characters")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please Enter Mobile NO1")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(15)]
+        [StringLength(15, ErrorMessage = "MobileNo can't be longer than 15 number")]
         [DataType(DataType.PhoneNumber)]
         public string MobileNo1 { get; set; }
 
 
         [Column(TypeName = "VARCHAR")]
-        [StringLength(15)]
+        [StringLength(15, ErrorMessage = "MobileNo can't be longer than 15 number")]
         public string MobileNo2 { get; set; }
         //[Column(TypeName = "date")]
         //public DateTime? DateOfBirth { get; set; }
@@ -57,27 +57,27 @@ namespace Ats.Models
 
         [Required(ErrorMessage = "Please Enter Present Address")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(250)]
+        [StringLength(250, ErrorMessage = "Address can't be longer than 250 characters")]
         public string AddressPresent { get; set; }
 
         [Required(ErrorMessage = "Please Select Present State")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
+        [StringLength(20, ErrorMessage = "state can't be longer than 20 characters")]
         public string StatePresent { get; set; }
 
         [Required(ErrorMessage = "Please Select Present City")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(20)]
+        [StringLength(20, ErrorMessage = "city can't be longer than 20 characters")]
         public string CityPresent { get; set; }
 
         [Required(ErrorMessage = "Please Enter Present Pincode")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "pincode can't be longer than 10 characters")]
         public string PincodePresent { get; set; }
 
         [Required(ErrorMessage = "Please Enter Past Address")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(250)]
+        [StringLength(250, ErrorMessage = "PastAddress can't be longer than 250 characters")]
         public string AddressPast { get; set; }
 
         [Required(ErrorMessage = "Please Select Past State")]
@@ -92,7 +92,7 @@ namespace Ats.Models
 
         [Required(ErrorMessage = "Please Enter Past Pincode")]
         [Column(TypeName = "VARCHAR")]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "PastPincode can't be longer than 10 characters")]
         public string PinCodePast { get; set; }
 
         [Required(ErrorMessage = "Please Enter Applied For Department")]
@@ -161,6 +161,10 @@ namespace Ats.Models
         [Column(TypeName = "VARCHAR")]
         //[StringLength(250)]
         public string OtherCertification { get; set; }
+
+        [Column(TypeName = "VARCHAR")]
+        [StringLength(40)]
+        public string ExtCity { get; set; }
 
     }
 }
