@@ -688,7 +688,7 @@
             $('div.modal-body').empty();
             $.ajax({
                 type: 'GET',
-                url: '/Home/GetFeedback/' + id,
+                url: '@Url.Action("GetFeedback", "Home")' + id,
                 data: { Id: id, },
                 contentType: false,
                 success: function (result) {
