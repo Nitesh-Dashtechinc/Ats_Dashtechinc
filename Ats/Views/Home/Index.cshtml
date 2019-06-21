@@ -48,7 +48,7 @@
               .Sanitized(false)
               .SetWidth(60)
               .RenderValueAs(o => Html.ActionLink("View", "ViewDetail", new { id = o.CandidateId }));
-       }).WithPaging(5).Sortable(false)
+       }).WithPaging(10).Sortable(false)
         </div>
     }
 }
