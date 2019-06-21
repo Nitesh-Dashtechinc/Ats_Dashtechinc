@@ -119,7 +119,7 @@ namespace Ats.Controllers
                                                      {
                                                          Text = p.StateName,
                                                          Value = p.StateId.ToString()
-                                                     }).ToList();
+                                                     }).OrderBy(x => x.Text).ToList();
                 getStateList.Insert(0, new SelectListItem { Text = "--Select State--", Value = "" });
                 ViewBag.stateList = getStateList;
                 List<SelectListItem> getPermanentStateList = (from p in db.State.AsEnumerable()
@@ -127,7 +127,7 @@ namespace Ats.Controllers
                                                               {
                                                                   Text = p.StateName,
                                                                   Value = p.StateId.ToString()
-                                                              }).ToList();
+                                                              }).OrderBy(x => x.Text).ToList();
                 getPermanentStateList.Insert(0, new SelectListItem { Text = "--Select State--", Value = "" });
                 ViewBag.PermanentStateList = getPermanentStateList;
                 List<SelectListItem> getDepartmentList = (from p in db.Department.AsEnumerable()
@@ -135,7 +135,7 @@ namespace Ats.Controllers
                                                           {
                                                               Text = p.DepartmentName,
                                                               Value = p.DepartmentId.ToString()
-                                                          }).ToList();
+                                                          }).OrderBy(x => x.Text).ToList();
                 getDepartmentList.Insert(0, new SelectListItem { Text = "--Select Department--", Value = "" });
                 ViewBag.departmentList = getDepartmentList;
 
