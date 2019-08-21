@@ -565,6 +565,7 @@ function SaveAll() {
 
 
 function SaveAllwalkin() {
+    debugger;
     if ($('#frmdetail').valid() && counter2 != 2 && counter1 != 2) {
         $('#pre-loader').show();
         var objj = {

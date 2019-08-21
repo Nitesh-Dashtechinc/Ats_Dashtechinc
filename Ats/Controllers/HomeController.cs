@@ -168,7 +168,8 @@ namespace Ats.Controllers
                 DateTime now = DateTime.Now;
                 // obj.PersonalInfo.InterviewDate = now;
                 obj.PersonalInfo.CreatedDate = now;
-                obj.PersonalInfo.ExtCity = "Hyderabad";
+                //obj.PersonalInfo.ExtCity = "Hyderabad";
+                obj.PersonalInfo.ExtCity = "Baroda";
                 db.InterPersonalInfo.Add(obj.PersonalInfo);
                 db.SaveChanges();
                 var id = obj.PersonalInfo.CandidateId;
